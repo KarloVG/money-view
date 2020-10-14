@@ -1,3 +1,8 @@
+@use '~src/assets/scss/color';
+@use '~src/assets/scss/order';
+
 :host {
   min-height: 3.75rem;
+  background-color: color.$header-bg-light-base-color;
+  z-index: order.$header-z-idx;
 }
