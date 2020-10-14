@@ -1,3 +1,6 @@
 <h1>Popis izvoda</h1>
 <hr/>
-<mv-account-statement-summary-list-query-form></mv-account-statement-summary-list-query-form>
+<mv-account-statement-summary-list-query-form
+  (FormUpdated)="onQueryFormUpdated($event)"></mv-account-statement-summary-list-query-form>
+<p>Odabrali ste nesto, nesto&hellip;</p>
+<ngx-datatable class="material" [columns]="tableColumns" [rows]="rows" [loadingIndicator]="true"></ngx-datatable>

@@ -5,10 +5,12 @@ import {AppComponent} from './app.component';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
 import {LayoutModule} from './layout/layout.module';
+import { CurrencyTabularDisplayPipePipe } from './shared/pipes/currency-tabular-display-pipe.pipe';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CurrencyTabularDisplayPipePipe
   ],
   imports: [
     BrowserModule,
