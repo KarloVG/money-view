@@ -4,5 +4,35 @@
 :host {
   min-height: 3.75rem;
   background-color: color.$header-bg-light-base-color;
+
   z-index: order.$header-z-idx;
+
+  position: relative;
+}
+
+header {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+header {
+  padding: 0 1.5rem;
+  color: color.$header-clr-light-base-color;
+}
+
+header {
+  display: flex;
+  flex-direction: row-reverse;
+
+  > * {
+    align-self: center;
+  }
+}
+
+.user-info {
+  font-weight: 600;
 }
