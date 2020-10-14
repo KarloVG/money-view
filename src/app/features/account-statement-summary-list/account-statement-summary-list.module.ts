@@ -4,16 +4,20 @@ import {AccountStatementSummaryListRoutingModule} from './account-statement-summ
 import {AccountStatementSummaryListComponent} from './account-statement-summary-list.component';
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AccountStatementSummaryListQueryFormModule} from './account-statement-summary-list-query-form/account-statement-summary-list-query-form.module';
 
 
 @NgModule({
-  declarations: [AccountStatementSummaryListComponent],
+  declarations: [
+    AccountStatementSummaryListComponent
+  ],
   imports: [
     CommonModule,
     AccountStatementSummaryListRoutingModule,
     NgxDatatableModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AccountStatementSummaryListQueryFormModule
   ]
 })
 export class AccountStatementSummaryListModule {
