@@ -1,7 +1,9 @@
+@use 'color';
+
 .required {
   &::after {
-    content: "*";
-    color: red;
+    content: '*';
+    color: color.$form-required-clr-light-base-color;
   }
 }
 
@@ -10,10 +12,16 @@ textarea.form-control,
 select.custom-select {
   &.ng-valid[required],
   &.ng-valid.required {
-    border-left: 0.25rem solid green;
+    border-left: 0.25rem solid color.$form-valid-clr-light-base-color;
   }
 
   &.ng-invalid:not(.ng-untouched) {
-    border-left: 0.25rem solid red;
+    border-left: 0.25rem solid color.$form-invalid-clr-light-base-color;
   }
+}
+
+.form-control,
+.custom-select {
+  height: 2rem;
+  padding: 0.15rem 0.5rem;
 }

@@ -1,7 +1,7 @@
 <mv-sidebar *ngIf="false" id="root-sidebar"></mv-sidebar>
-<mv-header *ngIf="showHeader" id="root-header"></mv-header>
+<mv-header *ngIf="showHeader" id="root-header" role="presentation"></mv-header>
 
-<div id="content-wrapper">
+<div role="presentation" id="content-wrapper">
   <main [ngClass]="mainContentClass" role="main">
     <router-outlet></router-outlet>
   </main>
