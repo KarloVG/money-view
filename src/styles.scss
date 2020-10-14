@@ -1,4 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
-
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
+
+/* Importing Typeface Open Sans font-face index file. */
+@import '~typeface-open-sans/index.css';
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-size: 15px;
+  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
