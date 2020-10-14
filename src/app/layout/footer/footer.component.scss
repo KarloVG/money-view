@@ -1,0 +1,6 @@
+small {
+  *::before {
+    display: inline;
+    content: ' ';
+  }
+}
