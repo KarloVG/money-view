@@ -10,6 +10,8 @@ import {CurrencyTabularDisplayPipe} from '../../shared/pipes/currency-tabular-di
 })
 export class AccountStatementSummaryListComponent implements OnInit {
 
+  private readonly currencyTransformPipe = new CurrencyTabularDisplayPipe();
+
   readonly tableColumns: TableColumn[] = [
     {
       name: 'Banka',
@@ -19,27 +21,41 @@ export class AccountStatementSummaryListComponent implements OnInit {
     {
       name: 'IBAN',
       prop: 'iban',
-      flexGrow: 1
+      flexGrow: 1,
+      cellClass: 'text-right',
+      headerClass: 'text-right'
     },
     {
       name: 'HRK',
       prop: 'hrk',
-      flexGrow: 1
+      flexGrow: 1,
+      cellClass: 'text-right',
+      headerClass: 'text-right',
+      pipe: this.currencyTransformPipe
     },
     {
       name: 'EUR → HRK',
       prop: 'eurAsHrk',
-      flexGrow: 1
+      flexGrow: 1,
+      cellClass: 'text-right',
+      headerClass: 'text-right',
+      pipe: this.currencyTransformPipe
     },
     {
       name: 'USD → HRK',
       prop: 'usdAsHrk',
-      flexGrow: 1
+      flexGrow: 1,
+      cellClass: 'text-right',
+      headerClass: 'text-right',
+      pipe: this.currencyTransformPipe
     },
     {
       name: 'GBP → HRK',
       prop: 'gbpAsHrk',
-      flexGrow: 1
+      flexGrow: 1,
+      cellClass: 'text-right',
+      headerClass: 'text-right',
+      pipe: this.currencyTransformPipe
     },
     {
       name: 'Ukupno',
@@ -47,11 +63,11 @@ export class AccountStatementSummaryListComponent implements OnInit {
       flexGrow: 1,
       cellClass: 'text-right',
       headerClass: 'text-right',
-      pipe: new CurrencyTabularDisplayPipe()
+      pipe: this.currencyTransformPipe
     }
   ];
 
-  readonly rows: AccountStatementSummaryEntry[] = [
+  rows: AccountStatementSummaryEntry[] = [
     {
       bank: 'OTP Banka',
       iban: 'HR4520023664654654',

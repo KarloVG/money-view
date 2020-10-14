@@ -3,4 +3,13 @@
 <mv-account-statement-summary-list-query-form
   (FormUpdated)="onQueryFormUpdated($event)"></mv-account-statement-summary-list-query-form>
 <p>Odabrali ste nesto, nesto&hellip;</p>
-<ngx-datatable class="material" [columns]="tableColumns" [rows]="rows" [loadingIndicator]="true"></ngx-datatable>
+<ngx-datatable class="bootstrap"
+               [columns]="tableColumns"
+               [rows]="rows"
+               [headerHeight]="36"
+               [loadingIndicator]="true"
+               [scrollbarV]="true"
+               [footerHeight]="36"
+               [rowHeight]="36"
+               [count]="10">
+</ngx-datatable>
