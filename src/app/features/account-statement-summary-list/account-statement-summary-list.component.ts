@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {TableColumn} from '@swimlane/ngx-datatable/lib/types/table-column.type';
-import {CurrencyPipe} from '@angular/common';
+import {CurrencyTabularDisplayPipe} from '../../shared/pipes/currency-tabular-display/currency-tabular-display.pipe';
 
 @Component({
   selector: 'mv-account-statement-summary-list',
@@ -47,7 +47,7 @@ export class AccountStatementSummaryListComponent implements OnInit {
       flexGrow: 1,
       cellClass: 'text-right',
       headerClass: 'text-right',
-      pipe: new CurrencyPipe('en', 'HRK')
+      pipe: new CurrencyTabularDisplayPipe()
     }
   ];
 

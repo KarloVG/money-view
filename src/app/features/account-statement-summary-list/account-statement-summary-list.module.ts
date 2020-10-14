@@ -5,6 +5,7 @@ import {AccountStatementSummaryListComponent} from './account-statement-summary-
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AccountStatementSummaryListQueryFormModule} from './account-statement-summary-list-query-form/account-statement-summary-list-query-form.module';
+import {CurrencyTabularDisplayModule} from '../../shared/pipes/currency-tabular-display/currency-tabular-display.module';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import {AccountStatementSummaryListQueryFormModule} from './account-statement-su
     NgxDatatableModule,
     FormsModule,
     ReactiveFormsModule,
-    AccountStatementSummaryListQueryFormModule
+    AccountStatementSummaryListQueryFormModule,
+    CurrencyTabularDisplayModule
   ]
 })
 export class AccountStatementSummaryListModule {
