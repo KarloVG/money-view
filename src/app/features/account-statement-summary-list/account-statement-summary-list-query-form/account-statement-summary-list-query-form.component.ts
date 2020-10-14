@@ -1,6 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {currentDateISOString} from '../../../shared/utility';
+import {Subscription} from 'rxjs';
+import {debounceTime, distinctUntilChanged, filter, tap} from 'rxjs/operators';
+import {QueryFormDebounceTimeMilliseconds} from '../../../shared/app.config';
 
 @Component({
   selector: 'mv-account-statement-summary-list-query-form',
@@ -9,7 +12,10 @@ import {currentDateISOString} from '../../../shared/utility';
 })
 export class AccountStatementSummaryListQueryFormComponent implements OnInit {
 
+  @Output() FormUpdated = new EventEmitter<FormGroup>();
   readonly form!: FormGroup;
+
+  private readonly subscriptions = new Subscription();
 
   constructor() {
     this.form = new FormGroup({
@@ -21,6 +27,15 @@ export class AccountStatementSummaryListQueryFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.subscriptions.add(
+      this.form.valueChanges
+        .pipe(
+          filter(Boolean),
+          debounceTime(QueryFormDebounceTimeMilliseconds),
+          distinctUntilChanged(),
+          tap(() => this.FormUpdated.emit(this.form)))
+        .subscribe()
+    );
   }
 
 }

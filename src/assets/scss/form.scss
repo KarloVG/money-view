@@ -7,9 +7,8 @@
   }
 }
 
-input.form-control,
-textarea.form-control,
-select.custom-select {
+.form-control,
+.custom-select {
   &.ng-valid[required],
   &.ng-valid.required {
     border-left: 0.25rem solid color.$form-valid-clr-light-base-color;
