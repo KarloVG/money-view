@@ -1,9 +1,9 @@
-<mv-sidebar id="root-sidebar" *ngIf="false"></mv-sidebar>
-<mv-header id="root-header"></mv-header>
+<mv-sidebar *ngIf="false" id="root-sidebar"></mv-sidebar>
+<mv-header *ngIf="showHeader" id="root-header"></mv-header>
 
 <div id="content-wrapper">
   <main [ngClass]="mainContentClass" role="main">
     <router-outlet></router-outlet>
   </main>
-  <mv-footer id="root-footer"></mv-footer>
+  <mv-footer *ngIf="showFooter" id="root-footer"></mv-footer>
 </div>
