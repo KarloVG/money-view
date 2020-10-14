@@ -1,0 +1,19 @@
+.required {
+  &::after {
+    content: "*";
+    color: red;
+  }
+}
+
+input.form-control,
+textarea.form-control,
+select.custom-select {
+  &.ng-valid[required],
+  &.ng-valid.required {
+    border-left: 0.25rem solid green;
+  }
+
+  &.ng-invalid:not(.ng-untouched) {
+    border-left: 0.25rem solid red;
+  }
+}
