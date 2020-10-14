@@ -9,11 +9,11 @@
   grid-template-columns: auto 1fr;
 }
 
-aside {
+#root-sidebar {
   grid-area: s;
 }
 
-header {
+#root-header {
   grid-area: h;
 }
 
@@ -30,14 +30,7 @@ header {
     flex-grow: 1;
   }
 
-  footer {
+  #root-footer {
     flex-shrink: 0;
-  }
-}
-
-#content-wrapper {
-  footer {
-    padding: 0.5rem 1rem;
-    text-align: end;
   }
 }

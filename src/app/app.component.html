@@ -1,16 +1,9 @@
-<aside role="complementary">
-  <mv-sidebar></mv-sidebar>
-</aside>
-
-<header role="banner">
-  <mv-header></mv-header>
-</header>
+<mv-sidebar id="root-sidebar" *ngIf="false"></mv-sidebar>
+<mv-header id="root-header"></mv-header>
 
 <div id="content-wrapper">
   <main role="main">
     <router-outlet></router-outlet>
   </main>
-  <footer role="contentinfo">
-    <mv-footer></mv-footer>
-  </footer>
+  <mv-footer id="root-footer"></mv-footer>
 </div>
