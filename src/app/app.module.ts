@@ -1,11 +1,10 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {ServiceWorkerModule} from '@angular/service-worker';
+import {environment} from '../environments/environment';
+import {LayoutModule} from './layout/layout.module';
 
 @NgModule({
   declarations: [
@@ -14,10 +13,11 @@ import { environment } from '../environments/environment';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    LayoutModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production})
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

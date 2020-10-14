@@ -1,0 +1,36 @@
+:host {
+  height: 100vh;
+
+  display: grid;
+  grid-template-areas:
+                "s h"
+                "s c";
+  grid-template-rows: auto 1fr;
+  grid-template-columns: auto 1fr;
+}
+
+aside {
+  grid-area: s;
+}
+
+header {
+  grid-area: h;
+}
+
+#content-wrapper {
+  grid-area: c;
+}
+
+#content-wrapper {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+
+  main {
+    flex-grow: 1;
+  }
+
+  footer {
+    flex-shrink: 0;
+  }
+}
