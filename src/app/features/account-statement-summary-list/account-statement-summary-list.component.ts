@@ -5,6 +5,7 @@ import {CurrencyTabularDisplayPipe} from '../../shared/pipes/currency-tabular-di
 import {ColumnMode} from '@swimlane/ngx-datatable';
 import {BehaviorSubject} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {AccountStatementSummaryService} from '../account-statement-summary/account-statement-summary.service';
 
 @Component({
   selector: 'mv-account-statement-summary-list',
@@ -100,11 +101,14 @@ export class AccountStatementSummaryListComponent {
     }
   ];
 
-  constructor() {
+  constructor(
+    private readonly accountStatementService: AccountStatementSummaryService
+  ) {
   }
 
   onQueryFormUpdated(form: FormGroup): void {
     this.isQueryFormValid.next(form?.valid ?? false);
+    this.accountStatementService.test();
   }
 
 }
