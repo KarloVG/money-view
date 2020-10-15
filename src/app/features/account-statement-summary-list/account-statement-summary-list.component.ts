@@ -1,69 +1,85 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {TableColumn} from '@swimlane/ngx-datatable/lib/types/table-column.type';
 import {CurrencyTabularDisplayPipe} from '../../shared/pipes/currency-tabular-display/currency-tabular-display.pipe';
+import {ColumnMode} from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'mv-account-statement-summary-list',
   templateUrl: './account-statement-summary-list.component.html',
   styleUrls: ['./account-statement-summary-list.component.scss']
 })
-export class AccountStatementSummaryListComponent implements OnInit {
+export class AccountStatementSummaryListComponent {
 
   private readonly currencyTransformPipe = new CurrencyTabularDisplayPipe();
+  readonly columnModeRef = ColumnMode;
 
   readonly tableColumns: TableColumn[] = [
     {
       name: 'Banka',
       prop: 'bank',
+      minWidth: 150,
+      maxWidth: 200,
       flexGrow: 1
     },
     {
       name: 'IBAN',
       prop: 'iban',
-      flexGrow: 1,
       cellClass: 'text-right',
-      headerClass: 'text-right'
+      headerClass: 'text-right',
+      minWidth: 150,
+      maxWidth: 200,
+      flexGrow: 1
     },
     {
       name: 'HRK',
       prop: 'hrk',
-      flexGrow: 1,
       cellClass: 'text-right',
       headerClass: 'text-right',
-      pipe: this.currencyTransformPipe
+      pipe: this.currencyTransformPipe,
+      minWidth: 100,
+      maxWidth: 150,
+      flexGrow: 1
     },
     {
       name: 'EUR → HRK',
       prop: 'eurAsHrk',
-      flexGrow: 1,
       cellClass: 'text-right',
       headerClass: 'text-right',
-      pipe: this.currencyTransformPipe
+      pipe: this.currencyTransformPipe,
+      minWidth: 100,
+      maxWidth: 150,
+      flexGrow: 1
     },
     {
       name: 'USD → HRK',
       prop: 'usdAsHrk',
-      flexGrow: 1,
       cellClass: 'text-right',
       headerClass: 'text-right',
-      pipe: this.currencyTransformPipe
+      pipe: this.currencyTransformPipe,
+      minWidth: 100,
+      maxWidth: 150,
+      flexGrow: 1
     },
     {
       name: 'GBP → HRK',
       prop: 'gbpAsHrk',
-      flexGrow: 1,
       cellClass: 'text-right',
       headerClass: 'text-right',
-      pipe: this.currencyTransformPipe
+      pipe: this.currencyTransformPipe,
+      minWidth: 100,
+      maxWidth: 150,
+      flexGrow: 1
     },
     {
       name: 'Ukupno',
       prop: 'total',
-      flexGrow: 1,
       cellClass: 'text-right',
       headerClass: 'text-right',
-      pipe: this.currencyTransformPipe
+      pipe: this.currencyTransformPipe,
+      minWidth: 100,
+      maxWidth: 150,
+      flexGrow: 1
     }
   ];
 
@@ -82,11 +98,16 @@ export class AccountStatementSummaryListComponent implements OnInit {
   constructor() {
   }
 
-  ngOnInit(): void {
-  }
-
   onQueryFormUpdated(form: FormGroup): void {
     console.log(form.value);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onWindowResize(event: Event): void {
+    const target = event.target as Window;
+    if (target) {
+      console.log(target.innerWidth);
+    }
   }
 
 }

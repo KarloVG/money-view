@@ -2,14 +2,16 @@
 <hr/>
 <mv-account-statement-summary-list-query-form
   (FormUpdated)="onQueryFormUpdated($event)"></mv-account-statement-summary-list-query-form>
-<p>Odabrali ste nesto, nesto&hellip;</p>
+<p class="account-summary-list__selection">Za odabranu firmu <strong>Fleksbit</strong> pregledavate
+  <strong>uplate</strong>.</p>
 <ngx-datatable class="bootstrap"
+               [columnMode]="columnModeRef.flex"
                [columns]="tableColumns"
                [rows]="rows"
                [headerHeight]="36"
                [loadingIndicator]="true"
                [scrollbarV]="true"
                [footerHeight]="36"
-               [rowHeight]="36"
+               [rowHeight]="30"
                [count]="10">
 </ngx-datatable>
