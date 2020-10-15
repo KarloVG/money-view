@@ -1,5 +1,6 @@
 @use '~src/assets/scss/color';
 @use '~src/assets/scss/order';
+@use '~src/assets/scss/icon';
 
 :host {
   min-height: 3.75rem;
@@ -35,4 +36,12 @@ header {
 
 .user-info {
   font-weight: 600;
+}
+
+.user-name {
+  margin-right: 0.5rem;
+}
+
+.material-icons {
+  vertical-align: middle;
 }
