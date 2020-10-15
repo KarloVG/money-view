@@ -3,7 +3,8 @@
 <mv-account-statement-summary-list-query-form
   (FormUpdated)="onQueryFormUpdated($event)"></mv-account-statement-summary-list-query-form>
 <ng-template [ngIf]="isQueryFormInvalid | async">
-  <p class="account-summary-list__selection">Potrebno je odabrati <strong class="text-danger">firmu</strong> i <strong class="text-danger">vrstu
+  <p class="account-summary-list__selection">Potrebno je odabrati <strong class="text-danger">firmu</strong> i <strong
+    class="text-danger">vrstu
     sredstva</strong>.</p>
 </ng-template>
 <ng-template [ngIf]="isQueryFormValid | async">
@@ -18,6 +19,8 @@
                  [scrollbarV]="true"
                  [footerHeight]="36"
                  [rowHeight]="30"
-                 [count]="10">
+                 [count]="10"
+                 [externalPaging]="true"
+                 [externalSorting]="true">
   </ngx-datatable>
 </ng-template>

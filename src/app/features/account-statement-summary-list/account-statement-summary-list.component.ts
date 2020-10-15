@@ -14,7 +14,7 @@ import {map} from 'rxjs/operators';
 export class AccountStatementSummaryListComponent {
 
   readonly isQueryFormValid = new BehaviorSubject<boolean>(false);
-  readonly isQueryFormInvalid = this.isQueryFormValid.asObservable().pipe(map(x => !x));
+  readonly isQueryFormInvalid = this.isQueryFormValid.pipe(map(x => !x));
 
   private readonly currencyTransformPipe = new CurrencyTabularDisplayPipe();
   readonly columnModeRef = ColumnMode;
