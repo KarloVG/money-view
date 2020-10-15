@@ -27,12 +27,15 @@ header {
 
 header {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
+  justify-content: space-between;
 
   > * {
     align-self: center;
   }
 }
+
+
 
 .user-info {
   font-weight: 600;
@@ -44,4 +47,9 @@ header {
 
 .material-icons {
   vertical-align: middle;
+}
+
+.logo-text {
+  font-weight: 600;
+  font-size: 1.5rem;
 }
