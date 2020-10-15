@@ -1,8 +1,10 @@
-import {Component, HostListener} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {TableColumn} from '@swimlane/ngx-datatable/lib/types/table-column.type';
 import {CurrencyTabularDisplayPipe} from '../../shared/pipes/currency-tabular-display/currency-tabular-display.pipe';
 import {ColumnMode} from '@swimlane/ngx-datatable';
+import {BehaviorSubject} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'mv-account-statement-summary-list',
@@ -10,6 +12,9 @@ import {ColumnMode} from '@swimlane/ngx-datatable';
   styleUrls: ['./account-statement-summary-list.component.scss']
 })
 export class AccountStatementSummaryListComponent {
+
+  readonly isQueryFormValid = new BehaviorSubject<boolean>(false);
+  readonly isQueryFormInvalid = this.isQueryFormValid.asObservable().pipe(map(x => !x));
 
   private readonly currencyTransformPipe = new CurrencyTabularDisplayPipe();
   readonly columnModeRef = ColumnMode;
@@ -99,15 +104,7 @@ export class AccountStatementSummaryListComponent {
   }
 
   onQueryFormUpdated(form: FormGroup): void {
-    console.log(form.value);
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onWindowResize(event: Event): void {
-    const target = event.target as Window;
-    if (target) {
-      console.log(target.innerWidth);
-    }
+    this.isQueryFormValid.next(form?.valid ?? false);
   }
 
 }

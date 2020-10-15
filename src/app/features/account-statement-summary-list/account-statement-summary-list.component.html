@@ -2,16 +2,22 @@
 <hr/>
 <mv-account-statement-summary-list-query-form
   (FormUpdated)="onQueryFormUpdated($event)"></mv-account-statement-summary-list-query-form>
-<p class="account-summary-list__selection">Za odabranu firmu <strong>Fleksbit</strong> pregledavate
-  <strong>uplate</strong>.</p>
-<ngx-datatable class="bootstrap datatable"
-               [columnMode]="columnModeRef.flex"
-               [columns]="tableColumns"
-               [rows]="rows"
-               [headerHeight]="36"
-               [loadingIndicator]="true"
-               [scrollbarV]="true"
-               [footerHeight]="36"
-               [rowHeight]="30"
-               [count]="10">
-</ngx-datatable>
+<ng-template [ngIf]="isQueryFormInvalid | async">
+  <p class="account-summary-list__selection">Potrebno je odabrati <strong class="text-danger">firmu</strong> i <strong class="text-danger">vrstu
+    sredstva</strong>.</p>
+</ng-template>
+<ng-template [ngIf]="isQueryFormValid | async">
+  <p class="account-summary-list__selection">Za odabranu firmu <strong class="text-info">Fleksbit</strong> pregledavate
+    <strong class="text-info">uplate</strong>.</p>
+  <ngx-datatable class="bootstrap datatable"
+                 [columnMode]="columnModeRef.flex"
+                 [columns]="tableColumns"
+                 [rows]="rows"
+                 [headerHeight]="36"
+                 [loadingIndicator]="true"
+                 [scrollbarV]="true"
+                 [footerHeight]="36"
+                 [rowHeight]="30"
+                 [count]="10">
+  </ngx-datatable>
+</ng-template>
