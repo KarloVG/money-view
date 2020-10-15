@@ -1,0 +1,15 @@
+@use '~src/assets/scss/color';
+
+footer {
+  padding: 0.5rem 1rem;
+  text-align: end;
+
+  background-color: color.$header-bg-light-base-color;
+}
+
+small {
+  >::before {
+    display: inline;
+    content: ' ';
+  }
+}

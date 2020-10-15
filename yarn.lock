@@ -241,6 +241,13 @@
   dependencies:
     tslib "^2.0.0"
 
+"@angular/service-worker@~10.1.5":
+  version "10.1.5"
+  resolved "https://registry.yarnpkg.com/@angular/service-worker/-/service-worker-10.1.5.tgz#e7108409d9fa65bcba1892c051bb5e01b33118bd"
+  integrity sha512-mZt7yAg1b1Olf6bG4mBVpFSkmEOOJ/uzRqhlU2432ZmLyHrHLFpvTs+IRu72a8tefAVGvAvSylxSq7DJeDph3Q==
+  dependencies:
+    tslib "^2.0.0"
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.8.3":
   version "7.10.4"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.10.4.tgz#168da1a36e90da68ae8d49c0f1b48c7c6249213a"
@@ -1211,6 +1218,13 @@
     pacote "9.5.12"
     semver "7.3.2"
     semver-intersect "1.4.0"
+
+"@swimlane/ngx-datatable@^18.0.0":
+  version "18.0.0"
+  resolved "https://registry.yarnpkg.com/@swimlane/ngx-datatable/-/ngx-datatable-18.0.0.tgz#6736b9711a699d839b236f2c00e8c41db2a9e86b"
+  integrity sha512-secqjzlLpGJqoXjcoCoTf8ClnVlZAENJcXvuBfseGenOD+evGNXc4UTZhwCPDUBlJ4xnMZHUWK6IVk5sXe+WlQ==
+  dependencies:
+    tslib "^2.0.0"
 
 "@types/glob@^7.1.1":
   version "7.1.3"
@@ -5425,6 +5439,11 @@ map-visit@^1.0.0:
   integrity sha1-7Nyo8TFE5mDxtb1B8S80edmN+48=
   dependencies:
     object-visit "^1.0.0"
+
+material-design-icons@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/material-design-icons/-/material-design-icons-3.0.1.tgz#9a71c48747218ebca51e51a66da682038cdcb7bf"
+  integrity sha1-mnHEh0chjrylHlGmbaaCA4zct78=
 
 md5.js@^1.3.4:
   version "1.3.5"
