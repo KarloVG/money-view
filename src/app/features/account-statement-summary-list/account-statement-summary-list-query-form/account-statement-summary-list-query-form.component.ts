@@ -2,7 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {currentDateISOString} from '../../../shared/utility';
 import {Subscription} from 'rxjs';
-import {debounceTime, distinctUntilChanged, filter, tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter} from 'rxjs/operators';
 import {QueryFormDebounceTimeMilliseconds} from '../../../shared/app.config';
 
 @Component({
@@ -32,9 +32,8 @@ export class AccountStatementSummaryListQueryFormComponent implements OnInit {
         .pipe(
           filter(Boolean),
           debounceTime(QueryFormDebounceTimeMilliseconds),
-          distinctUntilChanged(),
-          tap(() => this.FormUpdated.emit(this.form)))
-        .subscribe()
+          distinctUntilChanged()
+        ).subscribe(() => this.FormUpdated.emit(this.form))
     );
   }
 
