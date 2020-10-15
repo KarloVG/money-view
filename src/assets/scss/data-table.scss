@@ -1,0 +1,23 @@
+@use '~@swimlane/ngx-datatable/themes/bootstrap';
+@use 'icon';
+
+.ngx-datatable {
+  .datatable-header {
+    .sort-btn {
+      font-family: 'Material Icons', monospace;
+
+      &.datatable-icon-down::before,
+      &.datatable-icon-up::before {
+        padding-left: 2.5%;
+      }
+
+      &.datatable-icon-up::before {
+        content: 'arrow_upward';
+      }
+
+      &.datatable-icon-down::before {
+        content: 'arrow_downward';
+      }
+    }
+  }
+}

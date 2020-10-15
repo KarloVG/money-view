@@ -1,0 +1,55 @@
+@use '~src/assets/scss/color';
+@use '~src/assets/scss/order';
+@use '~src/assets/scss/icon';
+
+:host {
+  min-height: 3.75rem;
+  z-index: order.$header-z-idx;
+
+  position: relative;
+
+  background: color.$app-theme-primary-linear-gradient;
+}
+
+header {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+header {
+  padding: 0 1.5rem;
+  color: #fff;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  > * {
+    align-self: center;
+  }
+}
+
+
+
+.user-info {
+  font-weight: 600;
+}
+
+.user-name {
+  margin-right: 0.5rem;
+}
+
+.material-icons {
+  vertical-align: middle;
+}
+
+.logo-text {
+  font-weight: 600;
+  font-size: 1.5rem;
+}

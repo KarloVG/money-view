@@ -1,0 +1,17 @@
+<h1>Popis izvoda</h1>
+<hr/>
+<mv-account-statement-summary-list-query-form
+  (FormUpdated)="onQueryFormUpdated($event)"></mv-account-statement-summary-list-query-form>
+<p class="account-summary-list__selection">Za odabranu firmu <strong>Fleksbit</strong> pregledavate
+  <strong>uplate</strong>.</p>
+<ngx-datatable class="bootstrap datatable"
+               [columnMode]="columnModeRef.flex"
+               [columns]="tableColumns"
+               [rows]="rows"
+               [headerHeight]="36"
+               [loadingIndicator]="true"
+               [scrollbarV]="true"
+               [footerHeight]="36"
+               [rowHeight]="30"
+               [count]="10">
+</ngx-datatable>
