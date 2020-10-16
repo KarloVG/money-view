@@ -11,7 +11,7 @@
   <p class="account-summary-list__selection">Za odabranu firmu <strong class="text-info">Fleksbit</strong> pregledavate
     <strong class="text-info">uplate</strong>.</p>
   <ngx-datatable class="bootstrap datatable"
-                 [columnMode]="columnModeRef.flex"
+                 [columnMode]="columnMode"
                  [columns]="tableColumns"
                  [rows]="rows"
                  [headerHeight]="36"
@@ -19,7 +19,8 @@
                  [scrollbarV]="true"
                  [footerHeight]="36"
                  [rowHeight]="30"
-                 [count]="10"
+                 [count]="this.rows.length"
+                 [limit]="10"
                  [externalPaging]="true"
                  [externalSorting]="true">
   </ngx-datatable>

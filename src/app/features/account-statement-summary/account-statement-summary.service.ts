@@ -13,20 +13,16 @@ export class AccountStatementSummaryService {
   }
 
   getQueryForm(): Observable<AccountStatementSummaryForm> {
-    const url = 'https://localhost:5011/api/account-statement-summaries/form';
+    const url = 'https://localhost:5021/api/AccountStatementSummaries/Form?userId=1';
     return this.http.get<AccountStatementSummaryForm>(url);
   }
 
   test(): void {
-    this.http.get('http://localhost:4200').subscribe();
+    this.getQueryForm().subscribe((x) => console.log(x));
   }
 }
 
-export interface WithCsrfToken {
-  xCSRFToken: string;
-}
-
-export interface AccountStatementSummaryForm extends WithCsrfToken {
+export interface AccountStatementSummaryForm {
   firms: [{ id: string | number, name: string }];
   summaryTypes: [{ id: string | number, name: string }];
   banks: [{ id: string | number, name: string }];

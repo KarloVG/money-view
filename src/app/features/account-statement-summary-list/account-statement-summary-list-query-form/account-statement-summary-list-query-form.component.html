@@ -4,8 +4,7 @@
       <label class="required" for="firm">Firma</label>
       <select class="custom-select" required="required" formControlName="firm" id="firm" name="firm">
         <option disabled hidden readonly="readonly" selected value="null">Odaberite&hellip;</option>
-        <option value="1">Fleksbit d.o.o.</option>
-        <option value="2">One tech d.o.o.</option>
+        <option *ngFor="let item of formData?.firms" [value]="item.id">{{item.name}}</option>
       </select>
     </div>
 
@@ -13,8 +12,7 @@
       <label class="required" for="assetType">Vrsta sredstva</label>
       <select class="custom-select" required="required" formControlName="assetType" id="assetType" name="assetType">
         <option disabled hidden readonly="readonly" selected value="null">Odaberite&hellip;</option>
-        <option value="1">Uplate</option>
-        <option value="2">Isplate</option>
+        <option *ngFor="let item of formData?.summaryTypes" [value]="item.id">{{item.name}}</option>
       </select>
     </div>
 
@@ -26,11 +24,10 @@
     <div class="col form-group">
       <label for="bank">Banka</label>
       <input class="form-control" formControlName="bank" id="bank" list="bank-list" maxlength="64"
-             name="bank" placeholder="Filtrirajte banke&hellip;" type="text">
+             name="bank" placeholder="Filtrirajte&hellip;" type="text">
 
       <datalist id="bank-list">
-        <option value="OTP Banka">OTP Banka</option>
-        <option value="Addiko Bank">Addiko Bank</option>
+        <option *ngFor="let item of formData?.banks" [value]="item.name">{{item.name}}</option>
       </datalist>
     </div>
   </section>

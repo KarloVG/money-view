@@ -18,7 +18,7 @@ export class AccountStatementSummaryListComponent {
   readonly isQueryFormInvalid = this.isQueryFormValid.pipe(map(x => !x));
 
   private readonly currencyTransformPipe = new CurrencyTabularDisplayPipe();
-  readonly columnModeRef = ColumnMode;
+  readonly columnMode: ColumnMode = ColumnMode.flex;
 
   readonly tableColumns: TableColumn[] = [
     {
@@ -108,7 +108,6 @@ export class AccountStatementSummaryListComponent {
 
   onQueryFormUpdated(form: FormGroup): void {
     this.isQueryFormValid.next(form?.valid ?? false);
-    this.accountStatementService.test();
   }
 
 }
