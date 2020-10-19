@@ -23,8 +23,8 @@
 
     <div class="col form-group">
       <label for="bank">Banka</label>
-      <input class="form-control" formControlName="bank" id="bank" list="bank-list" maxlength="64"
-             name="bank" placeholder="Filtrirajte&hellip;" type="text">
+      <input class="form-control" formControlName="bank" id="bank" list="bank-list" maxlength="64" name="bank"
+             placeholder="Filtrirajte&hellip;" type="text">
 
       <datalist id="bank-list">
         <option *ngFor="let item of formData?.banks" [value]="item.name">{{item.name}}</option>

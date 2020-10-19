@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {currentDateISOString} from '../../../shared/utility';
 import {Subscription} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter} from 'rxjs/operators';
-import {QueryFormDebounceTimeMilliseconds} from '../../../shared/app.config';
+import {App} from '../../../shared/app.config';
 import {
   AccountStatementSummaryForm,
   AccountStatementSummaryService
@@ -38,7 +38,7 @@ export class AccountStatementSummaryListQueryFormComponent implements OnInit {
       this.form.valueChanges
         .pipe(
           filter(Boolean),
-          debounceTime(QueryFormDebounceTimeMilliseconds),
+          debounceTime(App.DefaultDebounce_ms),
           distinctUntilChanged()
         ).subscribe(() => this.FormUpdated.emit(this.form))
     );
