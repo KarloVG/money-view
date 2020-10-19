@@ -7,7 +7,7 @@ FROM node:lts-alpine as builder
 WORKDIR /ng-app
 COPY . .
 COPY --from=deps /deps/ ./
-RUN yarn run ng build -- --prod --output-path=dist
+RUN yarn run ng build --prod --output-path=dist
 
 FROM nginx:alpine
 COPY ./nginx/ /etc/nginx/
