@@ -1,3 +1,4 @@
+/* tslint:disable:no-any */
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
@@ -23,6 +24,14 @@ export class AccountStatementSummaryService {
     const url = `${App.Api.rootUrl.toString()}/AccountStatementSummaries/Selection`;
     const requestParams = new HttpParams({fromObject: {firmId: firmId.toString(), summaryTypeId: summaryTypeId.toString()}});
     return this.http.get<AccountStatementSummarySelection>(url, {params: requestParams});
+  }
+
+  testHost(): Observable<any>{
+    const url2 = App.Api.rootUrl;
+    url2.pathname += 'user/info';
+    console.log(url2);
+    // @ts-ignore
+    return this.http.get<any>(url2);
   }
 }
 

@@ -6,7 +6,7 @@ interface App {
 }
 
 interface Api {
-  rootUrl: URL | string;
+  rootUrl: URL;
 }
 
 const app: App = {
