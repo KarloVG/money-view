@@ -16,8 +16,7 @@ export class AccountStatementSummaryService {
 
   getQueryForm(): Observable<AccountStatementSummaryForm> {
     const url = `${App.Api.rootUrl.toString()}/AccountStatementSummaries/Form`;
-    const requestParams = new HttpParams({fromObject: {userId: '1'}});
-    return this.http.get<AccountStatementSummaryForm>(url, {params: requestParams});
+    return this.http.get<AccountStatementSummaryForm>(url);
   }
 
   getSelection(firmId: EntityId, summaryTypeId: EntityId): Observable<AccountStatementSummarySelection> {
@@ -26,12 +25,12 @@ export class AccountStatementSummaryService {
     return this.http.get<AccountStatementSummarySelection>(url, {params: requestParams});
   }
 
-  testHost(): Observable<any>{
-    const url2 = App.Api.rootUrl;
-    url2.pathname += 'user/info';
-    console.log(url2);
+  testHost(): Observable<any> {
+    const url = App.Api.rootUrl;
+    url.pathname += '/user/info';
+    console.log(url);
     // @ts-ignore
-    return this.http.get<any>(url2);
+    return this.http.get<any>(url);
   }
 }
 
