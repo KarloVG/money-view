@@ -28,7 +28,6 @@ export class AccountStatementSummaryService {
   testHost(): Observable<any> {
     const url = App.Api.rootUrl;
     url.pathname += '/user/info';
-    console.log(url);
     // @ts-ignore
     return this.http.get<any>(url);
   }
