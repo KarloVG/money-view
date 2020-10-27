@@ -1,13 +1,14 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
-import {debounceTime, distinctUntilChanged, filter} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, tap} from 'rxjs/operators';
 import {App} from '../../../shared/app.config';
 import {
   AccountStatementSummaryForm,
   AccountStatementSummaryService
 } from '../../account-statement-summary/account-statement-summary.service';
-import {NgbDate, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDateNativeAdapter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import {currentDateISOString} from '../../../shared/utility';
 
 @Component({
   selector: 'mv-account-statement-summary-list-query-form',
@@ -16,8 +17,10 @@ import {NgbDate, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 })
 export class AccountStatementSummaryListQueryFormComponent implements OnInit {
 
-  @Output() FormUpdated = new EventEmitter<FormGroup>();
+  @Output() FormUpdated = new EventEmitter<AccountStatementSummaryListQueryRequest>();
   readonly form!: FormGroup;
+
+  private readonly ngbDateNativeAdapter = new NgbDateNativeAdapter();
 
   private readonly subscriptions = new Subscription();
   formData?: AccountStatementSummaryForm;
@@ -38,12 +41,19 @@ export class AccountStatementSummaryListQueryFormComponent implements OnInit {
       this.form.valueChanges
         .pipe(
           filter(Boolean),
+          filter((val, idx) => this.form.valid),
           debounceTime(App.DefaultDebounce_ms),
-          distinctUntilChanged()
-        ).subscribe(() => {
-        const newFormGroup = new FormGroup({});
-        Object.assign(newFormGroup, this.form);
-      })
+          distinctUntilChanged(),
+          tap(() => {
+            const ngbDate = this.form.value.date as NgbDateStruct;
+            const nativeDate = (this.ngbDateNativeAdapter.toModel(ngbDate) ?? new Date()) as Date;
+
+            const queryRequest = new AccountStatementSummaryListQueryRequest(this.form.value.firm,
+              this.form.value.assetType, nativeDate, this.form.value.bank);
+
+            this.FormUpdated.emit(queryRequest);
+          })
+        ).subscribe()
     );
 
     this.accountSummaryService.getQueryForm()
@@ -63,3 +73,25 @@ export class AccountStatementSummaryListQueryFormComponent implements OnInit {
   }
 
 }
+
+// prop: valid: undefined | boolean
+
+export class AccountStatementSummaryListQueryRequest {
+
+  readonly firm: string;
+  readonly assetType: string;
+  readonly date: string = currentDateISOString();
+  readonly bank?: string;
+
+  constructor(firm: string, assetType: string, date: Date, bank?: string) {
+    this.firm = firm;
+    this.assetType = assetType;
+    this.date = date.toISOString();
+    this.bank = bank;
+  }
+
+  get valid(): boolean | undefined {
+    return !!this.firm && !!this.assetType && !!this.date;
+  }
+}
+

@@ -7,6 +7,8 @@ import {environment} from '../environments/environment';
 import {LayoutModule} from './layout/layout.module';
 import {HttpClientModule} from '@angular/common/http';
 import '@angular/common/locales/global/hr';
+import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
+import {CroatianDateParserFormatter} from './shared/croatian-date-parser.formatter';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,10 @@ import '@angular/common/locales/global/hr';
     {
       provide: LOCALE_ID,
       useValue: 'hr'
+    },
+    {
+      provide: NgbDateParserFormatter,
+      useClass: CroatianDateParserFormatter
     }
   ],
   bootstrap: [AppComponent]

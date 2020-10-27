@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {FormGroup} from '@angular/forms';
 import {TableColumn} from '@swimlane/ngx-datatable/lib/types/table-column.type';
 import {CurrencyTabularDisplayPipe} from '../../shared/pipes/currency-tabular-display/currency-tabular-display.pipe';
 import {ColumnMode} from '@swimlane/ngx-datatable';
@@ -9,6 +8,7 @@ import {
   AccountStatementSummarySelection,
   AccountStatementSummaryService
 } from '../account-statement-summary/account-statement-summary.service';
+import {AccountStatementSummaryListQueryRequest} from './account-statement-summary-list-query-form/account-statement-summary-list-query-form.component';
 
 @Component({
   selector: 'mv-account-statement-summary-list',
@@ -111,11 +111,10 @@ export class AccountStatementSummaryListComponent {
   ) {
   }
 
-  onQueryFormUpdated(form: FormGroup): void {
-    console.log(form.value);
+  onQueryFormUpdated(form: AccountStatementSummaryListQueryRequest): void {
     this.isQueryFormValid.next(form?.valid ?? false);
     if (form.valid) {
-      this.accountStatementService.getSelection(form.value.firm, form.value.assetType)
+      this.accountStatementService.getSelection(form.firm, form.assetType)
         .subscribe((x) => {
           this.selectionData = x;
         });
@@ -123,6 +122,9 @@ export class AccountStatementSummaryListComponent {
   }
 
 }
+
+// TODO: The table will support pagination
+// Pagination will be done server-side with search (filter) and sort done server-side
 
 interface AccountStatementSummaryEntry {
   bank: string;
