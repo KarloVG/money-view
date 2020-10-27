@@ -1,9 +1,9 @@
 <form [formGroup]="form">
-  <section class="row">
+  <section class="form-row align-items-center">
     <div class="col form-group">
       <label class="required" for="firm">Firma</label>
       <select class="custom-select" required="required" formControlName="firm" id="firm" name="firm">
-        <option disabled hidden readonly="readonly" selected value="null">Odaberite&hellip;</option>
+        <option disabled hidden readonly="readonly" selected value="null">Odaberite firmu</option>
         <option *ngFor="let item of formData?.firms" [value]="item.id">{{item.name}}</option>
       </select>
     </div>
@@ -11,14 +11,21 @@
     <div class="col form-group">
       <label class="required" for="assetType">Vrsta sredstva</label>
       <select class="custom-select" required="required" formControlName="assetType" id="assetType" name="assetType">
-        <option disabled hidden readonly="readonly" selected value="null">Odaberite&hellip;</option>
+        <option disabled hidden readonly="readonly" selected value="null">Odaberite sredstvo</option>
         <option *ngFor="let item of formData?.summaryTypes" [value]="item.id">{{item.name}}</option>
       </select>
     </div>
 
     <div class="col form-group">
       <label for="date">Datum</label>
-      <input class="form-control" formControlName="date" id="date" name="date" type="date">
+      <div class="input-group">
+        <input #d="ngbDatepicker" class="form-control" formControlName="date" id="date" name="date"
+               ngbDatepicker placeholder="Odaberite datum" type="text" [firstDayOfWeek]="1"
+               [maxDate]="maxDateRestriction"/>
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary p-0 px-1" (click)="d.toggle()" type="button">📅</button>
+        </div>
+      </div>
     </div>
 
     <div class="col form-group">

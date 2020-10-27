@@ -112,6 +112,7 @@ export class AccountStatementSummaryListComponent {
   }
 
   onQueryFormUpdated(form: FormGroup): void {
+    console.log(form.value);
     this.isQueryFormValid.next(form?.valid ?? false);
     if (form.valid) {
       this.accountStatementService.getSelection(form.value.firm, form.value.assetType)

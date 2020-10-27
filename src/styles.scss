@@ -1,8 +1,10 @@
+@forward '~src/assets/scss/icon';
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 
 /* Importing Typeface Open Sans font-face index file. */
 @import '~typeface-open-sans/index.css';
+
 
 html,
 body {
