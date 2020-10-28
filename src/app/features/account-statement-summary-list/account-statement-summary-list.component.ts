@@ -112,7 +112,7 @@ export class AccountStatementSummaryListComponent {
   }
 
   onQueryFormUpdated(form: AccountStatementSummaryListQueryRequest): void {
-    this.isQueryFormValid.next(form?.valid ?? false);
+    this.isQueryFormValid.next(!!form.valid);
     if (form.valid) {
       this.accountStatementService.getSelection(form.firm, form.assetType)
         .subscribe((x) => {
