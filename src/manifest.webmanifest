@@ -5,7 +5,7 @@
   "background_color": "#4baec3",
   "display": "standalone",
   "scope": "./",
-  "start_url": "./",
+  "start_url": "/app/",
   "icons": [
     {
       "src": "assets/icons/mv-72.png",
