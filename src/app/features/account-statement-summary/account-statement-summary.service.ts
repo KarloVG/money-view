@@ -27,7 +27,6 @@ export class AccountStatementSummaryService {
   }
 
   testHost(): Observable<any> {
-    return fromFetch('https://localhost:5021/api/user/info');
     const url = new URL('/api/user/info', App.Api.rootUrl);
     // @ts-ignore
     return this.http.get<any>(url.toString());
