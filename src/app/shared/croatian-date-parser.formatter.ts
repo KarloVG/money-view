@@ -1,20 +1,15 @@
-import {NgbDateNativeAdapter, NgbDateParserFormatter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDateParserFormatter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import {Injectable} from '@angular/core';
 
 @Injectable()
 export class CroatianDateParserFormatter extends NgbDateParserFormatter {
-
-  private readonly nativeAdapter = new NgbDateNativeAdapter();
 
   format(date: NgbDateStruct | null): string {
     if (!date) {
       return '';
     }
 
-    const nativeDate = this.nativeAdapter.toModel(date) as Date;
-    const nativeDateFormatter = new Intl.DateTimeFormat('hr');
-
-    return nativeDateFormatter.format(nativeDate);
+    return `${date.day < 10 ? '0' : ''}${date.day}.${date.month < 10 ? '0' : ''}${date.month}.${date.year}.`;
   }
 
   parse(value: string): NgbDateStruct | null {

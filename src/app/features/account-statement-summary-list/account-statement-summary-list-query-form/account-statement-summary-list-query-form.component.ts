@@ -28,10 +28,12 @@ export class AccountStatementSummaryListQueryFormComponent implements OnInit {
   constructor(
     private readonly accountSummaryService: AccountStatementSummaryService
   ) {
+    const todayNgbDate = new NgbDateNativeAdapter().fromModel(new Date());
+
     this.form = new FormGroup({
       firm: new FormControl(null, [Validators.required]),
       assetType: new FormControl(null, [Validators.required]),
-      date: new FormControl(null, [Validators.required]),
+      date: new FormControl(todayNgbDate, [Validators.required]),
       bank: new FormControl(null)
     });
   }
@@ -70,6 +72,25 @@ export class AccountStatementSummaryListQueryFormComponent implements OnInit {
   get maxDateRestriction(): NgbDateStruct {
     const currDate = new Date();
     return {day: currDate.getDate(), month: currDate.getMonth() + 1, year: currDate.getFullYear()};
+  }
+
+  onDatePickerKeyDown(e: KeyboardEvent): void {
+    const key = e.key || e.code;
+
+    const isDigit = key >= '0' && key <= '9';
+    const isDelimiter = key === '.';
+
+    const keyIsValid = isDigit || isDelimiter;
+
+    if (keyIsValid) {
+      return;
+    }
+
+    if (e.preventDefault) {
+      e.preventDefault();
+    }
+
+    e.returnValue = false;
   }
 
 }

@@ -19,8 +19,8 @@
     <div class="col form-group">
       <label for="date">Datum</label>
       <div class="input-group">
-        <input #d="ngbDatepicker" class="form-control" formControlName="date" id="date" name="date"
-               ngbDatepicker placeholder="Odaberite datum" type="text" [firstDayOfWeek]="1"
+        <input #d="ngbDatepicker" class="form-control bg-white" formControlName="date" id="date" name="date"
+               ngbDatepicker placeholder="Odaberite datum" type="text" [firstDayOfWeek]="1" readonly (keydown)="onDatePickerKeyDown($event);"
                [maxDate]="maxDateRestriction"/>
         <div class="input-group-append">
           <button (click)="d.toggle()" class="btn btn-outline-secondary p-0 px-2 d-flex align-items-center"
