@@ -5,10 +5,12 @@ import {ColumnMode} from '@swimlane/ngx-datatable';
 import {BehaviorSubject} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {
+  AccountStatementSummaryListResponse,
   AccountStatementSummarySelection,
   AccountStatementSummaryService
 } from '../account-statement-summary/account-statement-summary.service';
 import {AccountStatementSummaryListQueryRequest} from './account-statement-summary-list-query-form/account-statement-summary-list-query-form.component';
+import {PageInfo} from '../../shared/page-info';
 
 @Component({
   selector: 'mv-account-statement-summary-list',
@@ -22,11 +24,19 @@ export class AccountStatementSummaryListComponent {
 
   private readonly currencyTransformPipe = new CurrencyTabularDisplayPipe();
   readonly columnMode: ColumnMode = ColumnMode.flex;
+  private currentListRequest?: AccountStatementSummaryListQueryRequest;
+
+  pageInfo: PageInfo = {
+    count: 2000000,
+    limit: 20,
+    offset: 0,
+    pageSize: 20
+  };
 
   readonly tableColumns: TableColumn[] = [
     {
       name: 'Banka',
-      prop: 'bank',
+      prop: 'bankName',
       minWidth: 150,
       maxWidth: 200,
       flexGrow: 1
@@ -42,7 +52,7 @@ export class AccountStatementSummaryListComponent {
     },
     {
       name: 'HRK',
-      prop: 'hrk',
+      prop: 'hrkAmount',
       cellClass: 'text-right',
       headerClass: 'text-right',
       pipe: this.currencyTransformPipe,
@@ -52,7 +62,7 @@ export class AccountStatementSummaryListComponent {
     },
     {
       name: 'EUR → HRK',
-      prop: 'eurAsHrk',
+      prop: 'eurAmountAsHrk',
       cellClass: 'text-right',
       headerClass: 'text-right',
       pipe: this.currencyTransformPipe,
@@ -62,7 +72,7 @@ export class AccountStatementSummaryListComponent {
     },
     {
       name: 'USD → HRK',
-      prop: 'usdAsHrk',
+      prop: 'usdAmountAsHrk',
       cellClass: 'text-right',
       headerClass: 'text-right',
       pipe: this.currencyTransformPipe,
@@ -72,7 +82,7 @@ export class AccountStatementSummaryListComponent {
     },
     {
       name: 'GBP → HRK',
-      prop: 'gbpAsHrk',
+      prop: 'gbpAmountAsHrk',
       cellClass: 'text-right',
       headerClass: 'text-right',
       pipe: this.currencyTransformPipe,
@@ -92,17 +102,7 @@ export class AccountStatementSummaryListComponent {
     }
   ];
 
-  rows: AccountStatementSummaryEntry[] = [
-    {
-      bank: 'OTP Banka',
-      iban: 'HR4520023664654654',
-      hrk: 12345.55,
-      eurAsHrk: 654,
-      gbpAsHrk: 132.2,
-      usdAsHrk: 455.87,
-      total: 31321.44
-    }
-  ];
+  rows: AccountStatementSummaryListResponse = [];
 
   selectionData?: AccountStatementSummarySelection;
 
@@ -112,26 +112,40 @@ export class AccountStatementSummaryListComponent {
   }
 
   onQueryFormUpdated(form: AccountStatementSummaryListQueryRequest): void {
+    this.currentListRequest = form;
+
     this.isQueryFormValid.next(!!form.valid);
-    if (form.valid) {
-      this.accountStatementService.getSelection(form.firm, form.assetType)
-        .subscribe((x) => {
-          this.selectionData = x;
-        });
+    if (!!form.valid) {
+      return;
     }
+
+    this.accountStatementService.getSelection(form.firm, form.assetType)
+      .subscribe((x) => {
+        this.selectionData = x;
+      });
+
+    this.updateList();
+  }
+
+  public setPage(pageInfo: PageInfo): void {
+    this.pageInfo = pageInfo;
+    this.updateList();
+  }
+
+  private updateList(): void {
+    if (!this.currentListRequest) {
+      return;
+    }
+
+    const form = this.currentListRequest;
+    this.accountStatementService.getList(this.pageInfo.offset + 1, this.pageInfo.pageSize, form.firm, form.assetType,
+      new Date(form.date), form.bank)
+      .subscribe((x) => {
+        this.rows = x;
+      });
   }
 
 }
 
 // TODO: The table will support pagination
 // Pagination will be done server-side with search (filter) and sort done server-side
-
-interface AccountStatementSummaryEntry {
-  bank: string;
-  iban: string;
-  hrk: number;
-  eurAsHrk: number;
-  usdAsHrk: number;
-  gbpAsHrk: number;
-  total: number;
-}

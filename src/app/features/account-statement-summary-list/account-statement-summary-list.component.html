@@ -15,13 +15,14 @@
                  [columns]="tableColumns"
                  [rows]="rows"
                  [headerHeight]="36"
-                 [loadingIndicator]="true"
+                 [loadingIndicator]="!!rows?.length"
                  [scrollbarV]="true"
                  [footerHeight]="36"
                  [rowHeight]="30"
-                 [count]="this.rows.length"
-                 [limit]="10"
+                 [count]="pageInfo.count"
+                 [limit]="pageInfo.limit"
+                 [offset]="pageInfo.offset"
                  [externalPaging]="true"
-                 [externalSorting]="true">
+                 (page)="setPage($event)">
   </ngx-datatable>
 </ng-template>

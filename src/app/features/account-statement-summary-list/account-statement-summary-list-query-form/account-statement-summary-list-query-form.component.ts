@@ -115,4 +115,3 @@ export class AccountStatementSummaryListQueryRequest {
     return !!this.firm && !!this.assetType && !!this.date;
   }
 }
-
