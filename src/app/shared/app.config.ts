@@ -11,7 +11,7 @@ interface Api {
 
 const app: App = {
   Api: {
-    rootUrl: new URL(environment.production ? 'https://mv-dev.fleksbit.org/app/api' : 'https://localhost:5021/app/api')
+    rootUrl: new URL(environment.production ? 'https://mv-dev.fleksbit.org/host' : 'https://localhost:5021/host')
   },
   DefaultDebounce_ms: 300
 };
