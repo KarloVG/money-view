@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AuthenticationStatusService} from '../../shared/services/authentication-status/authentication-status.service';
 
 @Component({
   selector: 'mv-header',
@@ -7,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public readonly authStatusService: AuthenticationStatusService
+  ) {
+  }
 
   ngOnInit(): void {
   }
