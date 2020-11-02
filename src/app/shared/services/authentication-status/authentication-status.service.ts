@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {App} from '../../app.config';
 import {map} from 'rxjs/operators';
+import {backoff} from '../../backoff';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,10 @@ export class AuthenticationStatusService {
     const url = `${App.Api.rootUrl}/user/info`;
 
     return this.http.get<boolean>(url.toString(), {observe: 'response', withCredentials: true})
-      .pipe(map((response) => response.ok));
+      .pipe(
+        backoff(3, 250),
+        map((response) => response.ok),
+      );
   }
 
   isNotAuthenticated(): Observable<boolean> {
