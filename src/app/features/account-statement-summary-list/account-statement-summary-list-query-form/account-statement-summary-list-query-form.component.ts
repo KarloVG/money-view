@@ -62,11 +62,6 @@ export class AccountStatementSummaryListQueryFormComponent implements OnInit {
       .subscribe((x) => {
         this.formData = x;
       });
-
-    this.accountSummaryService.testHost()
-      .subscribe((x) => {
-        console.log(x);
-      });
   }
 
   get maxDateRestriction(): NgbDateStruct {

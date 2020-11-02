@@ -1,4 +1,3 @@
-/* tslint:disable:no-any */
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
@@ -15,13 +14,13 @@ export class AccountStatementSummaryService {
   }
 
   getQueryForm(): Observable<AccountStatementSummaryForm> {
-    const url = `${App.Api.rootUrl}/Webapp/AccountSummaryList/Form`;
+    const url = `${App.Api.rootUrl}/api/Webapp/AccountSummaryList/Form`;
 
     return this.http.get<AccountStatementSummaryForm>(url.toString(), {withCredentials: true});
   }
 
   getSelection(firmId: EntityId, summaryTypeId: EntityId): Observable<AccountStatementSummarySelection> {
-    const url = `${App.Api.rootUrl}/Webapp/AccountSummaryList/Selection`;
+    const url = `${App.Api.rootUrl}/api/Webapp/AccountSummaryList/Selection`;
     const requestParams = new HttpParams({fromObject: {firmId: firmId.toString(), assetTypeId: summaryTypeId.toString()}});
 
     return this.http.get<AccountStatementSummarySelection>(url.toString(), {params: requestParams, withCredentials: true});
@@ -29,7 +28,7 @@ export class AccountStatementSummaryService {
 
   getList(page: number, pageSize: number, firmId: EntityId, assetTypeId: EntityId, date: Date, bank?: string):
     Observable<AccountStatementSummaryListResponse> {
-    const url = `${App.Api.rootUrl}/Webapp/AccountSummaryList`;
+    const url = `${App.Api.rootUrl}/api/Webapp/AccountSummaryList`;
     const requestParams = new HttpParams({
       fromObject:
         {
@@ -45,11 +44,6 @@ export class AccountStatementSummaryService {
     return this.http.get<AccountStatementSummaryListResponse>(url.toString(), {params: requestParams, withCredentials: true});
   }
 
-  testHost(): Observable<any> {
-    const url = `${App.Api.rootUrl}/user/info`;
-    // @ts-ignore
-    return this.http.get<any>(url.toString());
-  }
 }
 
 export type EntityId = string | number | bigint;
