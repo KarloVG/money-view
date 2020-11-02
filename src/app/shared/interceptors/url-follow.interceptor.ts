@@ -9,8 +9,8 @@ export class UrlFollowInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (request.url.startsWith('https://mv-dev.fleksbit.org/Account/Login')) {
-      location.replace(request.url);
+    if (request.urlWithParams.startsWith('https://mv-dev.fleksbit.org/Account/Login')) {
+      location.replace(request.urlWithParams);
     }
 
     return next.handle(request);

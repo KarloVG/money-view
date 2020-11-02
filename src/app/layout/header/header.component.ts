@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthenticationStatusService} from '../../shared/services/authentication-status/authentication-status.service';
+import {debounceTime} from 'rxjs/operators';
+import {backoff} from '../../shared/backoff';
 
 @Component({
   selector: 'mv-header',
@@ -8,8 +10,14 @@ import {AuthenticationStatusService} from '../../shared/services/authentication-
 })
 export class HeaderComponent implements OnInit {
 
+  readonly isAuthenticated = this.authStatusService.isAuthenticated()
+    .pipe(
+      debounceTime(250),
+      backoff(3, 250)
+    );
+
   constructor(
-    public readonly authStatusService: AuthenticationStatusService
+    private readonly authStatusService: AuthenticationStatusService
   ) {
   }
 
