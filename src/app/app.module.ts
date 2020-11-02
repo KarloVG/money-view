@@ -9,6 +9,7 @@ import {HttpClientModule} from '@angular/common/http';
 import '@angular/common/locales/global/hr';
 import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 import {CroatianDateParserFormatter} from './shared/croatian-date-parser.formatter';
+import {httpInterceptorProviders} from './shared/interceptors';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {CroatianDateParserFormatter} from './shared/croatian-date-parser.formatt
     {
       provide: NgbDateParserFormatter,
       useClass: CroatianDateParserFormatter
-    }
+    },
+    httpInterceptorProviders
   ],
   bootstrap: [AppComponent]
 })

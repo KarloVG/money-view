@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {App} from '../../app.config';
 import {backoff} from '../../backoff';
+import {debounceTime} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,10 @@ export class UserInfoService {
     const url = `${App.Api.rootUrl}/user/info`;
 
     return this.http.get<object>(url.toString(), {withCredentials: true})
-      .pipe(backoff(3, 250));
+      .pipe(
+        debounceTime(250),
+        backoff(3, 250)
+      );
   }
 
 }
