@@ -5,10 +5,11 @@ RUN yarn install
 
 FROM node:lts-alpine as builder
 ARG baseHref="/app/"
+ARG deployUrl="/app/"
 WORKDIR /ng-app
 COPY . .
 COPY --from=deps /deps/ ./
-RUN yarn run ng build --prod --output-path=dist --base-href=${baseHref}
+RUN yarn run ng build --prod --output-path=dist --base-href=${baseHref} --deploy-url=${deployUrl}
 
 FROM nginx:alpine
 COPY ./nginx/ /etc/nginx/
