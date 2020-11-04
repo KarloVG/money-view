@@ -4,8 +4,8 @@ COPY ./package.json ./yarn.lock ./
 RUN yarn install
 
 FROM node:lts-alpine as builder
-ARG baseHref="/app/"
-ARG deployUrl="/app/"
+ARG baseHref="/"
+ARG deployUrl="/"
 WORKDIR /ng-app
 COPY . .
 COPY --from=deps /deps/ ./
