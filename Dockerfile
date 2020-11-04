@@ -4,13 +4,14 @@ COPY ./package.json ./yarn.lock ./
 RUN yarn install
 
 FROM node:lts-alpine as builder
+ARG baseHref="/app/"
 WORKDIR /ng-app
 COPY . .
 COPY --from=deps /deps/ ./
-RUN yarn run ng build --prod --output-path=dist --base-href=/app/
+RUN yarn run ng build --prod --output-path=dist --base-href=${baseHref}
 
 FROM nginx:alpine
 COPY ./nginx/ /etc/nginx/
 COPY --from=builder /ng-app/dist/ /var/www/ng-app/
 
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
