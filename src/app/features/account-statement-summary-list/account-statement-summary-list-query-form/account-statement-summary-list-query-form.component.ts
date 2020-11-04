@@ -2,7 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, tap} from 'rxjs/operators';
-import {App} from '../../../shared/app.config';
+import {App} from '../../../config/app.config';
 import {
   AccountStatementSummaryForm,
   AccountStatementSummaryService

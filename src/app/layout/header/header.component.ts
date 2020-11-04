@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthenticationStatusService} from '../../shared/services/authentication-status/authentication-status.service';
 import {debounceTime} from 'rxjs/operators';
-import {backoff} from '../../shared/backoff';
+import {backoff} from '../../shared/utility/backoff';
 
 @Component({
   selector: 'mv-header',

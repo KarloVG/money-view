@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {App} from '../../app.config';
-import {map} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
+import {createAppUrl} from '../../utility/create-app-url';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +15,14 @@ export class AuthenticationStatusService {
   }
 
   isAuthenticated(): Observable<boolean> {
-    const url = `${App.Api.rootUrl}/user/info`;
+    const url = createAppUrl(['user', 'info']);
 
-    return this.http.get<boolean>(url.toString(), {observe: 'response', withCredentials: true})
-      .pipe(map((response) => response.ok));
+    return this.http.get<boolean>(url.toString(), {observe: 'response'})
+      .pipe(map((response) => response.ok),
+        catchError((err: HttpErrorResponse) => {
+          throw new Error('Not Authenticated');
+        })
+      );
   }
 
   isNotAuthenticated(): Observable<boolean> {

@@ -1,18 +1,12 @@
 import {environment} from '../../environments/environment';
 
 interface App {
-  readonly Api: Api;
+  readonly Origin: URL;
   readonly DefaultDebounce_ms: number;
 }
 
-interface Api {
-  readonly rootUrl: URL;
-}
-
 const app: App = {
-  Api: {
-    rootUrl: new URL(environment.production ? 'https://mv-dev.fleksbit.org/bff' : 'https://localhost:5021/api')
-  },
+  Origin: new URL(environment.production ? 'https://mv-dev.fleksbit.org/app' : 'http://localhost:4200'),
   DefaultDebounce_ms: 300
 };
 

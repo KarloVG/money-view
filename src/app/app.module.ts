@@ -8,7 +8,7 @@ import {LayoutModule} from './layout/layout.module';
 import {HttpClientModule} from '@angular/common/http';
 import '@angular/common/locales/global/hr';
 import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
-import {CroatianDateParserFormatter} from './shared/croatian-date-parser.formatter';
+import {CroatianDateParserFormatter} from './shared/utility/croatian-date-parser.formatter';
 import {httpInterceptorProviders} from './shared/interceptors';
 
 @NgModule({
