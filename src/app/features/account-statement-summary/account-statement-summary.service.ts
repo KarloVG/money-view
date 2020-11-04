@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {App} from '../../shared/app.config';
+import {createApiUrl} from '../../shared/utility/create-api-url';
 
 @Injectable({
   providedIn: 'root'
@@ -14,21 +14,21 @@ export class AccountStatementSummaryService {
   }
 
   getQueryForm(): Observable<AccountStatementSummaryForm> {
-    const url = `${App.Api.rootUrl}/api/Webapp/AccountSummaryList/Form`;
+    const url = createApiUrl(['Webapp', 'AccountSummaryList', 'Form']);
 
-    return this.http.get<AccountStatementSummaryForm>(url.toString(), {withCredentials: true});
+    return this.http.get<AccountStatementSummaryForm>(url.toString());
   }
 
   getSelection(firmId: EntityId, summaryTypeId: EntityId): Observable<AccountStatementSummarySelection> {
-    const url = `${App.Api.rootUrl}/api/Webapp/AccountSummaryList/Selection`;
+    const url = createApiUrl(['Webapp', 'AccountSummaryList', 'Selection']);
     const requestParams = new HttpParams({fromObject: {firmId: firmId.toString(), assetTypeId: summaryTypeId.toString()}});
 
-    return this.http.get<AccountStatementSummarySelection>(url.toString(), {params: requestParams, withCredentials: true});
+    return this.http.get<AccountStatementSummarySelection>(url.toString(), {params: requestParams});
   }
 
   getList(page: number, pageSize: number, firmId: EntityId, assetTypeId: EntityId, date: Date, bank?: string):
     Observable<AccountStatementSummaryListResponse> {
-    const url = `${App.Api.rootUrl}/api/Webapp/AccountSummaryList`;
+    const url = createApiUrl(['Webapp', 'AccountSummaryList']);
     const requestParams = new HttpParams({
       fromObject:
         {
@@ -41,7 +41,7 @@ export class AccountStatementSummaryService {
         }
     });
 
-    return this.http.get<AccountStatementSummaryListResponse>(url.toString(), {params: requestParams, withCredentials: true});
+    return this.http.get<AccountStatementSummaryListResponse>(url.toString(), {params: requestParams});
   }
 
 }
