@@ -1,11 +1,13 @@
 <header role="banner">
   <span class="logo-text" role="presentation">MV+</span>
 
-  <span class="text-uppercase font-weight-bold"
-        *ngIf="isAuthenticated | async; then auth else noAuth"></span>
-  <ng-template #auth>Authenticated</ng-template>
-  <ng-template #noAuth>Not authenticated</ng-template>
+  <ng-template [ngIf]="isAuthenticated | async" [ngIfElse]="noAuth">
+    <span class="text-uppercase font-weight-bold align-self-center">Authenticated</span>
+  </ng-template>
+  <ng-template #noAuth>
+    <span class="text-uppercase font-weight-bold align-self-center">Not authenticated</span>
+  </ng-template>
 
-  <small class="user-info"><span class="user-name">Ivan Horvat</span><i
+  <small class="user-info"><span class="user-name" *ngIf="isAuthenticated | async">{{(userInfo | async)?.name}}</span><i
     class="material-icons md-18">expand_more</i></small>
 </header>
