@@ -49,9 +49,9 @@ export class AccountStatementSummaryService {
 export type EntityId = string | number | bigint;
 
 export interface AccountStatementSummaryForm {
-  firms: [{ id: EntityId, name: string }];
-  summaryTypes: [{ id: EntityId, name: string }];
-  banks: [{ id: EntityId, name: string }];
+  firms: MVEntityLookup[];
+  assetTypes: MVEntityLookup[];
+  banks: MVEntityLookup[];
 }
 
 export interface AccountStatementSummarySelection {
@@ -72,3 +72,11 @@ export interface AccountStatementSummaryEntry {
   readonly gbpAmountAsHrk: number;
   readonly total: number;
 }
+
+export interface EntityLookup<TKey> {
+  readonly id: TKey;
+  readonly name: string;
+  readonly tag?: string;
+}
+
+export type MVEntityLookup = EntityLookup<number>;

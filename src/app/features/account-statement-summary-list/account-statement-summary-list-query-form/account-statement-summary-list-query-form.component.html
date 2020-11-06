@@ -12,7 +12,7 @@
       <label class="required" for="assetType">Vrsta sredstva</label>
       <select class="custom-select" required="required" formControlName="assetType" id="assetType" name="assetType">
         <option disabled hidden readonly="readonly" selected value="null">Odaberite sredstvo</option>
-        <option *ngFor="let item of formData?.summaryTypes" [value]="item.id">{{item.name}}</option>
+        <option *ngFor="let item of formData?.assetTypes" [value]="item.id">{{item.name}}</option>
       </select>
     </div>
 
