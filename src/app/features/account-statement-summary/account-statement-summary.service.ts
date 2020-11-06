@@ -55,11 +55,17 @@ export interface AccountStatementSummaryForm {
 }
 
 export interface AccountStatementSummarySelection {
-  selectedFirm: { id: EntityId, name: string };
-  selectedSummaryType: { id: EntityId, name: string };
+  firmName: string;
+  assetTypeName: string;
 }
 
 export type AccountStatementSummaryListResponse = AccountStatementSummaryEntry[];
+
+/*
+data
+count
+totalCount -> after filtering
+ */
 
 export interface AccountStatementSummaryEntry {
   readonly bankId: EntityId;
@@ -79,4 +85,4 @@ export interface EntityLookup<TKey> {
   readonly tag?: string;
 }
 
-export type MVEntityLookup = EntityLookup<number>;
+export type MVEntityLookup = EntityLookup<EntityId>;

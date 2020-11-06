@@ -103,7 +103,6 @@ export class AccountStatementSummaryListComponent {
   ];
 
   rows: AccountStatementSummaryListResponse = [];
-
   selectionData?: AccountStatementSummarySelection;
 
   constructor(
@@ -115,7 +114,8 @@ export class AccountStatementSummaryListComponent {
     this.currentListRequest = form;
 
     this.isQueryFormValid.next(!!form.valid);
-    if (!!form.valid) {
+
+    if (!form.valid) {
       return;
     }
 
