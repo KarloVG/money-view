@@ -26,5 +26,16 @@
         ]
       }
     }
+  ],
+  "navigationUrls": [
+    "/**",
+    "!/**/*.*",
+    "!/**/*__*",
+    "!/**/*__*/**",
+    "!/api/**",
+    "!/user/**",
+    "!/signin-oidc",
+    "!/signout-oidc",
+    "!/signout-callback-oidc"
   ]
 }
