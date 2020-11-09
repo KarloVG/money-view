@@ -4,8 +4,8 @@
   "theme_color": "#4baec3",
   "background_color": "#4baec3",
   "display": "standalone",
-  "scope": "/app/",
-  "start_url": "/app/",
+  "scope": "./",
+  "start_url": "./",
   "icons": [
     {
       "src": "assets/icons/mv-72.png",
