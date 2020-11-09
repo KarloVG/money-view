@@ -5,7 +5,7 @@ import {ColumnMode} from '@swimlane/ngx-datatable';
 import {BehaviorSubject} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {
-  AccountStatementSummaryListResponse,
+  AccountStatementSummaryEntry,
   AccountStatementSummarySelection,
   AccountStatementSummaryService
 } from '../account-statement-summary/account-statement-summary.service';
@@ -27,7 +27,7 @@ export class AccountStatementSummaryListComponent {
   private currentListRequest?: AccountStatementSummaryListQueryRequest;
 
   pageInfo: PageInfo = {
-    count: 2000000,
+    count: 20,
     limit: 20,
     offset: 0,
     pageSize: 20
@@ -102,7 +102,7 @@ export class AccountStatementSummaryListComponent {
     }
   ];
 
-  rows: AccountStatementSummaryListResponse = [];
+  rows: AccountStatementSummaryEntry[] = [];
   selectionData?: AccountStatementSummarySelection;
 
   constructor(
@@ -128,8 +128,14 @@ export class AccountStatementSummaryListComponent {
   }
 
   public setPage(pageInfo: PageInfo): void {
-    this.pageInfo = pageInfo;
-    this.updateList();
+    const isPaginationUpdated = this.pageInfo.offset !== pageInfo.offset || this.pageInfo.limit !== pageInfo.limit;
+
+    this.pageInfo.offset = pageInfo.offset;
+    this.pageInfo.pageSize = pageInfo.pageSize;
+
+    if (isPaginationUpdated) {
+      this.updateList();
+    }
   }
 
   private updateList(): void {
@@ -141,7 +147,10 @@ export class AccountStatementSummaryListComponent {
     this.accountStatementService.getList(this.pageInfo.offset + 1, this.pageInfo.pageSize, form.firm, form.assetType,
       new Date(form.date), form.bank)
       .subscribe((x) => {
-        this.rows = x;
+        this.rows = x.data;
+
+        this.pageInfo.count = x.pagination.count;
+        this.pageInfo.limit = x.pagination.length;
       });
   }
 
