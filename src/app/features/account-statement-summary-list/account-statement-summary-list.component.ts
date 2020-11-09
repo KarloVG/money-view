@@ -131,6 +131,7 @@ export class AccountStatementSummaryListComponent {
   }
 
   public setPage(pageInfo: PageInfo): void {
+    console.log(['Set page info', `Offset: ${pageInfo.offset}`, `Limit: ${pageInfo.limit}`, `Page size: ${pageInfo.pageSize}`, `Count: ${pageInfo.count}`]);
     this.desiredPageOffset = pageInfo.offset;
     this.desiredPageSize = pageInfo.limit;
 
