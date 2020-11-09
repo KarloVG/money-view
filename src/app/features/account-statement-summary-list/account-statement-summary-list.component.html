@@ -8,7 +8,8 @@
     sredstva</strong>.</p>
 </ng-template>
 <ng-template [ngIf]="isQueryFormValid | async">
-  <p class="account-summary-list__selection">Za odabranu firmu <strong class="text-info">{{selectionData?.firmName}}</strong> pregledavate
+  <p class="account-summary-list__selection">Za odabranu firmu <strong
+    class="text-info">{{selectionData?.firmName}}</strong> pregledavate
     <strong class="text-info">{{selectionData?.assetTypeName}}</strong>.</p>
   <ngx-datatable class="bootstrap datatable"
                  [columnMode]="columnMode"
@@ -16,7 +17,6 @@
                  [rows]="rows"
                  [headerHeight]="36"
                  [loadingIndicator]="!!rows?.length"
-                 [scrollbarV]="true"
                  [footerHeight]="36"
                  [rowHeight]="30"
                  [count]="pageInfo.count"
