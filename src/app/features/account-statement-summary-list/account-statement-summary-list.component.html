@@ -20,8 +20,8 @@
                  [footerHeight]="36"
                  [rowHeight]="30"
                  [count]="pageInfo.count"
-                 [limit]="pageInfo.limit"
-                 [offset]="pageInfo.offset"
+                 [limit]="desiredPageSize"
+                 [offset]="desiredPageOffset"
                  [externalPaging]="true"
                  (page)="setPage($event)">
   </ngx-datatable>
