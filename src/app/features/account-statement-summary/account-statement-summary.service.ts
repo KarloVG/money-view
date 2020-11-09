@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {createApiUrl} from '../../shared/utility/create-api-url';
+import {BasicPaginatedResponse} from '../../shared/basic-paginated-response';
 
 @Injectable({
   providedIn: 'root'
@@ -59,7 +60,7 @@ export interface AccountStatementSummarySelection {
   assetTypeName: string;
 }
 
-export type AccountStatementSummaryListResponse = AccountStatementSummaryEntry[];
+export type AccountStatementSummaryListResponse = BasicPaginatedResponse<AccountStatementSummaryEntry>;
 
 /*
 data
