@@ -26,6 +26,9 @@ export class AccountStatementSummaryListComponent {
   readonly columnMode: ColumnMode = ColumnMode.flex;
   private currentListRequest?: AccountStatementSummaryListQueryRequest;
 
+  desiredPageOffset = 0;
+  desiredPageSize = 20;
+
   pageInfo: PageInfo = {
     count: 20,
     limit: 20,
@@ -128,14 +131,10 @@ export class AccountStatementSummaryListComponent {
   }
 
   public setPage(pageInfo: PageInfo): void {
-    const isPaginationUpdated = this.pageInfo.offset !== pageInfo.offset || this.pageInfo.limit !== pageInfo.limit;
+    this.desiredPageOffset = pageInfo.offset;
+    this.desiredPageSize = pageInfo.limit;
 
-    this.pageInfo.offset = pageInfo.offset;
-    this.pageInfo.pageSize = pageInfo.pageSize;
-
-    if (isPaginationUpdated) {
-      this.updateList();
-    }
+    this.updateList();
   }
 
   private updateList(): void {
@@ -144,7 +143,7 @@ export class AccountStatementSummaryListComponent {
     }
 
     const form = this.currentListRequest;
-    this.accountStatementService.getList(this.pageInfo.offset + 1, this.pageInfo.pageSize, form.firm, form.assetType,
+    this.accountStatementService.getList(this.desiredPageOffset + 1, this.desiredPageSize, form.firm, form.assetType,
       new Date(form.date), form.bank)
       .subscribe((x) => {
         this.rows = x.data;
