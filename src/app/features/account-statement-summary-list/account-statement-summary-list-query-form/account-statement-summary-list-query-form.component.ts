@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter} from 'rxjs/operators';
@@ -15,7 +15,7 @@ import {currentDateISOString} from '../../../shared/utility';
   templateUrl: './account-statement-summary-list-query-form.component.html',
   styleUrls: ['./account-statement-summary-list-query-form.component.scss']
 })
-export class AccountStatementSummaryListQueryFormComponent implements OnInit {
+export class AccountStatementSummaryListQueryFormComponent implements OnInit, OnDestroy {
 
   @Output() FormUpdated = new EventEmitter<AccountStatementSummaryListQueryRequest>();
   readonly form!: FormGroup;
@@ -52,6 +52,8 @@ export class AccountStatementSummaryListQueryFormComponent implements OnInit {
         const queryRequest = new AccountStatementSummaryListQueryRequest(this.form.value.firm,
           this.form.value.assetType, nativeDate, this.form.value.bank);
 
+        console.log(['Form value changed', 'Emitting new query request']);
+
         this.FormUpdated.emit(queryRequest);
       })
     );
@@ -60,6 +62,10 @@ export class AccountStatementSummaryListQueryFormComponent implements OnInit {
       .subscribe((x) => {
         this.formData = x;
       });
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   get maxDateRestriction(): NgbDateStruct {
