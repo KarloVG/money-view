@@ -9,7 +9,6 @@ import {
 } from '../../account-statement-summary/account-statement-summary.service';
 import {NgbDateNativeAdapter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import {currentDateISOString} from '../../../shared/utility';
-import {isDeepStrictEqual} from 'util';
 
 @Component({
   selector: 'mv-account-statement-summary-list-query-form',
@@ -45,7 +44,12 @@ export class AccountStatementSummaryListQueryFormComponent implements OnInit, On
         .pipe(
           filter((val) => !!val),
           debounceTime(App.DefaultDebounce_ms),
-          distinctUntilChanged((prev, curr) => isDeepStrictEqual(prev, curr)),
+          distinctUntilChanged((prev: AccountStatementSummaryFormValue, curr: AccountStatementSummaryFormValue) => {
+            return prev.assetType === curr.assetType
+              && prev.bank === curr.bank
+              && prev.date === curr.date
+              && prev.firm === curr.firm;
+          }),
           map((formValue: AccountStatementSummaryFormValue) => {
             const ngbDate = formValue.date as NgbDateStruct;
             const nativeDate = (this.ngbDateNativeAdapter.toModel(ngbDate) ?? new Date()) as Date;
