@@ -104,7 +104,7 @@ export class AccountStatementSummaryListQueryRequest {
     this.bank = bank;
   }
 
-  get valid(): boolean | undefined {
+  get valid(): boolean {
     return !!this.firm && !!this.assetType && !!this.date;
   }
 }

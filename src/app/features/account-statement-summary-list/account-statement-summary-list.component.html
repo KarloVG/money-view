@@ -2,12 +2,12 @@
 <hr/>
 <mv-account-statement-summary-list-query-form
   (FormUpdated)="onQueryFormUpdated($event)"></mv-account-statement-summary-list-query-form>
-<ng-template [ngIf]="isQueryFormInvalid | async">
+<ng-template [ngIf]="isQueryFormInvalid">
   <p class="account-summary-list__selection">Potrebno je odabrati <strong class="text-danger">firmu</strong> i <strong
     class="text-danger">vrstu
     sredstva</strong>.</p>
 </ng-template>
-<ng-template [ngIf]="isQueryFormValid | async">
+<ng-template [ngIf]="isQueryFormValid">
   <p class="account-summary-list__selection">Za odabranu firmu <strong
     class="text-info">{{selectionData?.firmName}}</strong> pregledavate
     <strong class="text-info">{{selectionData?.assetTypeName}}</strong>.</p>
