@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {createApiUrl} from '../../shared/utility/create-api-url';
+import {createApiRoute} from '../../shared/utility/create-api-route';
 import {BasicPaginatedResponse} from '../../shared/basic-paginated-response';
 
 @Injectable({
@@ -15,13 +15,13 @@ export class AccountStatementSummaryService {
   }
 
   getQueryForm(): Observable<AccountStatementSummaryForm> {
-    const url = createApiUrl(['Webapp', 'AccountSummaryList', 'Form']);
+    const url = createApiRoute(['Webapp', 'AccountSummaryList', 'Form']);
 
     return this.http.get<AccountStatementSummaryForm>(url.toString());
   }
 
   getSelection(firmId: EntityId, summaryTypeId: EntityId): Observable<AccountStatementSummarySelection> {
-    const url = createApiUrl(['Webapp', 'AccountSummaryList', 'Selection']);
+    const url = createApiRoute(['Webapp', 'AccountSummaryList', 'Selection']);
     const requestParams = new HttpParams({fromObject: {firmId: firmId.toString(), assetTypeId: summaryTypeId.toString()}});
 
     return this.http.get<AccountStatementSummarySelection>(url.toString(), {params: requestParams});
@@ -29,7 +29,7 @@ export class AccountStatementSummaryService {
 
   getList(page: number, pageSize: number, firmId: EntityId, assetTypeId: EntityId, date: Date, bank?: string):
     Observable<AccountStatementSummaryListResponse> {
-    const url = createApiUrl(['Webapp', 'AccountSummaryList']);
+    const url = createApiRoute(['Webapp', 'AccountSummaryList']);
     const requestParams = new HttpParams({
       fromObject:
         {

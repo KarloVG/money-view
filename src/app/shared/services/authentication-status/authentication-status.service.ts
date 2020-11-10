@@ -2,7 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import {createAppUrl} from '../../utility/create-app-url';
+import {createAppRoute} from '../../utility/create-app-route';
+import {createLoginUrl} from '../../utility/create-login-url';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +16,13 @@ export class AuthenticationStatusService {
   }
 
   isAuthenticated(): Observable<boolean> {
-    const url = createAppUrl(['user', 'info']);
+    const url = createAppRoute(['user', 'info']);
 
     return this.http.get<boolean>(url.toString(), {observe: 'response'})
       .pipe(map((response) => response.ok),
-        catchError((err: HttpErrorResponse) => {
-          throw new Error('Not Authenticated');
+        catchError((err: HttpErrorResponse, caught) => {
+          window.location.replace(createLoginUrl().toString());
+          return caught;
         })
       );
   }
