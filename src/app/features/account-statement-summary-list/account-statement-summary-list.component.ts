@@ -2,8 +2,6 @@ import {Component} from '@angular/core';
 import {TableColumn} from '@swimlane/ngx-datatable/lib/types/table-column.type';
 import {CurrencyTabularDisplayPipe} from '../../shared/pipes/currency-tabular-display/currency-tabular-display.pipe';
 import {ColumnMode} from '@swimlane/ngx-datatable';
-import {BehaviorSubject} from 'rxjs';
-import {map} from 'rxjs/operators';
 import {
   AccountStatementSummaryEntry,
   AccountStatementSummarySelection,
@@ -19,8 +17,13 @@ import {PageInfo} from '../../shared/page-info';
 })
 export class AccountStatementSummaryListComponent {
 
-  readonly isQueryFormValid = new BehaviorSubject<boolean>(false);
-  readonly isQueryFormInvalid = this.isQueryFormValid.pipe(map(x => !x));
+  get isQueryFormValid(): boolean {
+    return !!(this.currentListRequest?.valid);
+  }
+
+  get isQueryFormInvalid(): boolean {
+    return !this.isQueryFormValid;
+  }
 
   private readonly currencyTransformPipe = new CurrencyTabularDisplayPipe();
   readonly columnMode: ColumnMode = ColumnMode.flex;
@@ -122,9 +125,9 @@ export class AccountStatementSummaryListComponent {
   }
 
   onQueryFormUpdated(form: AccountStatementSummaryListQueryRequest): void {
-    this.currentListRequest = form;
+    console.log(['Query form updated']);
 
-    this.isQueryFormValid.next(!!form.valid);
+    this.currentListRequest = form;
 
     if (!form.valid) {
       return;
