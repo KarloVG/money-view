@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
-import {debounceTime, distinctUntilChanged, filter, tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter} from 'rxjs/operators';
 import {App} from '../../../config/app.config';
 import {
   AccountStatementSummaryForm,
@@ -43,19 +43,17 @@ export class AccountStatementSummaryListQueryFormComponent implements OnInit {
       this.form.valueChanges
         .pipe(
           filter(Boolean),
-          filter((val, idx) => this.form.valid),
           debounceTime(App.DefaultDebounce_ms),
-          distinctUntilChanged(),
-          tap(() => {
-            const ngbDate = this.form.value.date as NgbDateStruct;
-            const nativeDate = (this.ngbDateNativeAdapter.toModel(ngbDate) ?? new Date()) as Date;
+          distinctUntilChanged()
+        ).subscribe((formValue) => {
+        const ngbDate = this.form.value.date as NgbDateStruct;
+        const nativeDate = (this.ngbDateNativeAdapter.toModel(ngbDate) ?? new Date()) as Date;
 
-            const queryRequest = new AccountStatementSummaryListQueryRequest(this.form.value.firm,
-              this.form.value.assetType, nativeDate, this.form.value.bank);
+        const queryRequest = new AccountStatementSummaryListQueryRequest(this.form.value.firm,
+          this.form.value.assetType, nativeDate, this.form.value.bank);
 
-            this.FormUpdated.emit(queryRequest);
-          })
-        ).subscribe()
+        this.FormUpdated.emit(queryRequest);
+      })
     );
 
     this.accountSummaryService.getQueryForm()

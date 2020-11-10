@@ -29,19 +29,19 @@ export class AccountStatementSummaryListComponent {
   desiredPageOffset = 0;
   desiredPageSize = 20;
 
-  pageInfo: PageInfo = {
-    count: 20,
-    limit: 20,
-    offset: 0,
-    pageSize: 20
-  };
+  get desiredPage(): number {
+    return this.desiredPageOffset + 1;
+  }
+
+  currentEntryLength?: number;
+  currentEntryCount?: number;
 
   readonly tableColumns: TableColumn[] = [
     {
       name: 'Banka',
       prop: 'bankName',
-      minWidth: 150,
-      maxWidth: 200,
+      minWidth: 250,
+      maxWidth: 300,
       flexGrow: 1
     },
     {
@@ -49,8 +49,8 @@ export class AccountStatementSummaryListComponent {
       prop: 'iban',
       cellClass: 'text-right',
       headerClass: 'text-right',
-      minWidth: 150,
-      maxWidth: 200,
+      minWidth: 160,
+      maxWidth: 180,
       flexGrow: 1
     },
     {
@@ -59,8 +59,8 @@ export class AccountStatementSummaryListComponent {
       cellClass: 'text-right',
       headerClass: 'text-right',
       pipe: this.currencyTransformPipe,
-      minWidth: 100,
-      maxWidth: 150,
+      minWidth: 80,
+      maxWidth: 100,
       flexGrow: 1
     },
     {
@@ -69,8 +69,8 @@ export class AccountStatementSummaryListComponent {
       cellClass: 'text-right',
       headerClass: 'text-right',
       pipe: this.currencyTransformPipe,
-      minWidth: 100,
-      maxWidth: 150,
+      minWidth: 80,
+      maxWidth: 100,
       flexGrow: 1
     },
     {
@@ -79,8 +79,8 @@ export class AccountStatementSummaryListComponent {
       cellClass: 'text-right',
       headerClass: 'text-right',
       pipe: this.currencyTransformPipe,
-      minWidth: 100,
-      maxWidth: 150,
+      minWidth: 80,
+      maxWidth: 100,
       flexGrow: 1
     },
     {
@@ -89,8 +89,8 @@ export class AccountStatementSummaryListComponent {
       cellClass: 'text-right',
       headerClass: 'text-right',
       pipe: this.currencyTransformPipe,
-      minWidth: 100,
-      maxWidth: 150,
+      minWidth: 80,
+      maxWidth: 100,
       flexGrow: 1
     },
     {
@@ -99,8 +99,8 @@ export class AccountStatementSummaryListComponent {
       cellClass: 'text-right',
       headerClass: 'text-right',
       pipe: this.currencyTransformPipe,
-      minWidth: 100,
-      maxWidth: 150,
+      minWidth: 80,
+      maxWidth: 100,
       flexGrow: 1
     }
   ];
@@ -131,9 +131,8 @@ export class AccountStatementSummaryListComponent {
   }
 
   public setPage(pageInfo: PageInfo): void {
-    console.log(['Set page info', `Offset: ${pageInfo.offset}`, `Limit: ${pageInfo.limit}`, `Page size: ${pageInfo.pageSize}`, `Count: ${pageInfo.count}`]);
     this.desiredPageOffset = pageInfo.offset;
-    this.desiredPageSize = pageInfo.limit;
+    this.desiredPageSize = pageInfo.pageSize;
 
     this.updateList();
   }
@@ -143,18 +142,18 @@ export class AccountStatementSummaryListComponent {
       return;
     }
 
+    this.currentEntryLength = undefined;
+    this.currentEntryCount = undefined;
+
     const form = this.currentListRequest;
-    this.accountStatementService.getList(this.desiredPageOffset + 1, this.desiredPageSize, form.firm, form.assetType,
+    this.accountStatementService.getList(this.desiredPage, this.desiredPageSize, form.firm, form.assetType,
       new Date(form.date), form.bank)
       .subscribe((x) => {
         this.rows = x.data;
 
-        this.pageInfo.count = x.pagination.count;
-        this.pageInfo.limit = x.pagination.length;
+        this.currentEntryCount = x.pagination.count;
+        this.currentEntryLength = x.pagination.length;
       });
   }
 
 }
-
-// TODO: The table will support pagination
-// Pagination will be done server-side with search (filter) and sort done server-side
