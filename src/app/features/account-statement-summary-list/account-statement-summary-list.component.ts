@@ -60,8 +60,8 @@ export class AccountStatementSummaryListComponent {
       prop: 'iban',
       cellClass: 'text-right',
       headerClass: 'text-right',
-      minWidth: 160,
-      maxWidth: 180,
+      minWidth: 180,
+      maxWidth: 200,
       flexGrow: 1
     },
     {
@@ -71,7 +71,7 @@ export class AccountStatementSummaryListComponent {
       headerClass: 'text-right',
       pipe: this.currencyTransformPipe,
       minWidth: 80,
-      maxWidth: 100,
+      maxWidth: 120,
       flexGrow: 1
     },
     {
@@ -81,7 +81,7 @@ export class AccountStatementSummaryListComponent {
       headerClass: 'text-right',
       pipe: this.currencyTransformPipe,
       minWidth: 80,
-      maxWidth: 100,
+      maxWidth: 120,
       flexGrow: 1
     },
     {
@@ -91,7 +91,7 @@ export class AccountStatementSummaryListComponent {
       headerClass: 'text-right',
       pipe: this.currencyTransformPipe,
       minWidth: 80,
-      maxWidth: 100,
+      maxWidth: 120,
       flexGrow: 1
     },
     {
@@ -101,7 +101,7 @@ export class AccountStatementSummaryListComponent {
       headerClass: 'text-right',
       pipe: this.currencyTransformPipe,
       minWidth: 80,
-      maxWidth: 100,
+      maxWidth: 120,
       flexGrow: 1
     },
     {
@@ -111,7 +111,6 @@ export class AccountStatementSummaryListComponent {
       headerClass: 'text-right',
       pipe: this.currencyTransformPipe,
       minWidth: 80,
-      maxWidth: 100,
       flexGrow: 1
     }
   ];
