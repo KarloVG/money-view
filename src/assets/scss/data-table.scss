@@ -1,22 +1,25 @@
 @use '~@swimlane/ngx-datatable/themes/bootstrap';
 @use 'icon';
 
-.ngx-datatable {
+.ngx-datatable,
+.ngx-datatable.bootstrap {
   .datatable-header {
-    .sort-btn {
-      font-family: 'Material Icons', monospace;
+    .datatable-header-cell {
+      .sort-btn {
+        font-family: 'Material Icons', monospace;
 
-      &.datatable-icon-down::before,
-      &.datatable-icon-up::before {
-        padding-left: 2.5%;
-      }
+        &.datatable-icon-down::before,
+        &.datatable-icon-up::before {
+          padding-left: 2.5%;
+        }
 
-      &.datatable-icon-up::before {
-        content: 'arrow_upward';
-      }
+        &.datatable-icon-up::before {
+          content: 'arrow_upward';
+        }
 
-      &.datatable-icon-down::before {
-        content: 'arrow_downward';
+        &.datatable-icon-down::before {
+          content: 'arrow_downward';
+        }
       }
     }
   }
