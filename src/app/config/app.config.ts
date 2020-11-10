@@ -6,7 +6,7 @@ interface App {
 }
 
 const app: App = {
-  Origin: new URL(environment.production ? 'https://mv-dev.fleksbit.org/app' : 'http://localhost:4200'),
+  Origin: new URL(environment.production ? `${window.location.origin}/app` : window.location.origin),
   DefaultDebounce_ms: 300
 };
 

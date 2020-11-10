@@ -1,7 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {createAppUrl} from '../../utility/create-app-url';
+import {createAppRoute} from '../../utility/create-app-route';
+import {catchError} from 'rxjs/operators';
+import {createLoginUrl} from '../../utility/create-login-url';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +16,15 @@ export class UserInfoService {
   }
 
   getUserInfo(): Observable<ProfileUserClaims> {
-    const url = createAppUrl(['user', 'info']);
+    const url = createAppRoute(['user', 'info']);
 
-    return this.http.get<ProfileUserClaims>(url.toString());
+    return this.http.get<ProfileUserClaims>(url.toString())
+      .pipe(
+        catchError((err: HttpErrorResponse, caught) => {
+          window.location.replace(createLoginUrl().toString());
+          return caught;
+        })
+      );
   }
 
 }
