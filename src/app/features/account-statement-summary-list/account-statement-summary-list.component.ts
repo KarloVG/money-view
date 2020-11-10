@@ -33,6 +33,14 @@ export class AccountStatementSummaryListComponent {
     return this.desiredPageOffset + 1;
   }
 
+  get entryCount(): number {
+    return this.currentEntryCount ?? 0;
+  }
+
+  get loadingIndicator(): boolean {
+    return !this.currentEntryLength;
+  }
+
   currentEntryLength?: number;
   currentEntryCount?: number;
 
