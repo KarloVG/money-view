@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
-import {debounceTime, distinctUntilChanged, filter} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {App} from '../../../config/app.config';
 import {
   AccountStatementSummaryForm,
@@ -9,6 +9,7 @@ import {
 } from '../../account-statement-summary/account-statement-summary.service';
 import {NgbDateNativeAdapter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import {currentDateISOString} from '../../../shared/utility';
+import {isDeepStrictEqual} from 'util';
 
 @Component({
   selector: 'mv-account-statement-summary-list-query-form',
@@ -42,18 +43,18 @@ export class AccountStatementSummaryListQueryFormComponent implements OnInit, On
     this.subscriptions.add(
       this.form.valueChanges
         .pipe(
-          filter(Boolean),
+          filter((val) => !!val),
           debounceTime(App.DefaultDebounce_ms),
-          distinctUntilChanged()
-        ).subscribe((formValue) => {
-        const ngbDate = this.form.value.date as NgbDateStruct;
-        const nativeDate = (this.ngbDateNativeAdapter.toModel(ngbDate) ?? new Date()) as Date;
+          distinctUntilChanged((prev, curr) => isDeepStrictEqual(prev, curr)),
+          map((formValue: AccountStatementSummaryFormValue) => {
+            const ngbDate = formValue.date as NgbDateStruct;
+            const nativeDate = (this.ngbDateNativeAdapter.toModel(ngbDate) ?? new Date()) as Date;
 
-        const queryRequest = new AccountStatementSummaryListQueryRequest(this.form.value.firm,
-          this.form.value.assetType, nativeDate, this.form.value.bank);
-
+            return new AccountStatementSummaryListQueryRequest(this.form.value.firm,
+              this.form.value.assetType, nativeDate, this.form.value.bank);
+          }),
+        ).subscribe((queryRequest) => {
         console.log(['Form value changed', 'Emitting new query request']);
-
         this.FormUpdated.emit(queryRequest);
       })
     );
@@ -92,6 +93,13 @@ export class AccountStatementSummaryListQueryFormComponent implements OnInit, On
     e.returnValue = false;
   }
 
+}
+
+interface AccountStatementSummaryFormValue {
+  readonly firm: string | null;
+  readonly assetType: string | null;
+  readonly date: NgbDateStruct;
+  readonly bank: string | null;
 }
 
 // prop: valid: undefined | boolean
