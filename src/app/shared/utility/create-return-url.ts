@@ -1,7 +1,3 @@
 export const createReturnUrl = (returnUrl?: string): string => {
-  if (!!returnUrl) {
-    return encodeURI(returnUrl);
-  }
-
-  return encodeURIComponent(`${window.location.pathname}${window.location.search}`);
+  return encodeURIComponent(returnUrl ?? `${window.location.pathname}${window.location.search}`);
 };
