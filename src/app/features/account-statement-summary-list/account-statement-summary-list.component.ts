@@ -10,6 +10,7 @@ import {
 } from '../account-statement-summary/account-statement-summary.service';
 import {AccountStatementSummaryListQueryRequest} from './account-statement-summary-list-query-form/account-statement-summary-list-query-form.component';
 import {PageInfo} from '../../shared/page-info';
+import {BehaviorSubject} from 'rxjs';
 
 @Component({
   selector: 'mv-account-statement-summary-list',
@@ -52,17 +53,21 @@ export class AccountStatementSummaryListComponent {
     {
       name: 'Banka',
       prop: 'bankName',
+      draggable: false,
+      resizeable: false,
       minWidth: 250,
       maxWidth: 300,
-      flexGrow: 1
+      flexGrow: 1,
     },
     {
       name: 'IBAN',
       prop: 'iban',
       cellClass: 'text-right',
       headerClass: 'text-right',
-      minWidth: 180,
-      maxWidth: 200,
+      draggable: false,
+      resizeable: false,
+      minWidth: 200,
+      maxWidth: 250,
       flexGrow: 1
     },
     {
@@ -71,8 +76,10 @@ export class AccountStatementSummaryListComponent {
       cellClass: 'text-right',
       headerClass: 'text-right',
       pipe: this.currencyTransformPipe,
-      minWidth: 80,
-      maxWidth: 120,
+      draggable: false,
+      resizeable: false,
+      minWidth: 90,
+      maxWidth: 100,
       flexGrow: 1
     },
     {
@@ -81,8 +88,10 @@ export class AccountStatementSummaryListComponent {
       cellClass: 'text-right',
       headerClass: 'text-right',
       pipe: this.currencyTransformPipe,
-      minWidth: 80,
-      maxWidth: 120,
+      draggable: false,
+      resizeable: false,
+      minWidth: 90,
+      maxWidth: 100,
       flexGrow: 1
     },
     {
@@ -91,8 +100,10 @@ export class AccountStatementSummaryListComponent {
       cellClass: 'text-right',
       headerClass: 'text-right',
       pipe: this.currencyTransformPipe,
-      minWidth: 80,
-      maxWidth: 120,
+      draggable: false,
+      resizeable: false,
+      minWidth: 90,
+      maxWidth: 100,
       flexGrow: 1
     },
     {
@@ -101,8 +112,10 @@ export class AccountStatementSummaryListComponent {
       cellClass: 'text-right',
       headerClass: 'text-right',
       pipe: this.currencyTransformPipe,
-      minWidth: 80,
-      maxWidth: 120,
+      draggable: false,
+      resizeable: false,
+      minWidth: 90,
+      maxWidth: 100,
       flexGrow: 1
     },
     {
@@ -111,12 +124,14 @@ export class AccountStatementSummaryListComponent {
       cellClass: 'text-right',
       headerClass: 'text-right',
       pipe: this.currencyTransformPipe,
-      minWidth: 80,
-      flexGrow: 1
+      draggable: false,
+      resizeable: false,
+      minWidth: 90,
+      flexGrow: 2
     }
   ];
 
-  rows: AccountStatementSummaryEntry[] = [];
+  readonly rows = new BehaviorSubject<AccountStatementSummaryEntry[]>([]);
   selectionData?: AccountStatementSummarySelection;
 
   constructor(
@@ -151,6 +166,8 @@ export class AccountStatementSummaryListComponent {
       return;
     }
 
+    this.rows.next([]);
+
     this.currentEntryLength = undefined;
     this.currentEntryCount = undefined;
 
@@ -158,7 +175,7 @@ export class AccountStatementSummaryListComponent {
     this.accountStatementService.getList(this.desiredPage, this.desiredPageSize, form.firm, form.assetType,
       new Date(form.date), form.bank)
       .subscribe((x) => {
-        this.rows = x.data;
+        this.rows.next(x.data);
 
         this.currentEntryCount = x.pagination.count;
         this.currentEntryLength = x.pagination.length;

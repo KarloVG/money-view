@@ -24,3 +24,44 @@
     }
   }
 }
+
+.mv-pager {
+  ::ng-deep {
+    ul.pager {
+      a {
+        color: #363636;
+      }
+
+      li.pages {
+        padding: 0 0.125rem;
+        margin: 0 0.125rem;
+
+        &.active {
+          font-weight: bolder;
+        }
+      }
+
+      i {
+        font-family: 'Material Icons', monospace;
+        font-style: normal;
+        vertical-align: bottom;
+
+        &.datatable-icon-prev::before {
+          content: 'first_page';
+        }
+
+        &.datatable-icon-left::before {
+          content: 'chevron_left';
+        }
+
+        &.datatable-icon-right::before {
+          content: 'chevron_right';
+        }
+
+        &.datatable-icon-skip::before {
+          content: 'last_page';
+        }
+      }
+    }
+  }
+}
