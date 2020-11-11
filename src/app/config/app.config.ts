@@ -1,12 +1,12 @@
 import {environment} from '../../environments/environment';
 
 interface App {
-  readonly Origin: URL;
+  readonly BaseHref: string;
   readonly DefaultDebounce_ms: number;
 }
 
 const app: App = {
-  Origin: new URL(environment.production ? `${window.location.origin}/app` : window.location.origin),
+  BaseHref: environment.production ? '/app/' : '/',
   DefaultDebounce_ms: 300
 };
 

@@ -1,6 +1,6 @@
-import {App} from '../../config/app.config';
 import {createReturnUrl} from './create-return-url';
+import {createAppRoute} from './create-app-route';
 
 export const createLoginUrl = (returnUrl?: string): URL => {
-  return new URL(`${App.Origin}/user/login?returnUrl=${createReturnUrl(returnUrl)}`);
+  return createAppRoute(['user', `login?returnUrl=${createReturnUrl(returnUrl)}`]);
 };
