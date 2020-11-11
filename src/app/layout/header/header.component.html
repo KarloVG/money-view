@@ -1,6 +1,14 @@
 <header role="banner">
   <span class="logo-text" role="presentation">MV+</span>
 
-  <small class="user-info"><span class="user-name" *ngIf="isAuthenticated | async">{{(userInfo | async)?.name}}</span><i
-    class="material-icons md-18">expand_more</i></small>
+  <span *ngIf="true" class="user-info" display="dynamic" ngbDropdown placement="bottom-right"
+        role="button">
+    <span ngbDropdownToggle>
+      <small class="user-name" id="user-name">{{(userInfo | async)?.name}}</small>
+      <i class="material-icons md-18">expand_more</i>
+    </span>
+    <span aria-labelledby="user-name" class="dropdown-menu" ngbDropdownMenu>
+      <a ngbDropdownItem [href]="logoutHref">Odjava</a>
+    </span>
+  </span>
 </header>
