@@ -3,6 +3,7 @@ import {AuthenticationStatusService} from '../../shared/services/authentication-
 import {debounceTime} from 'rxjs/operators';
 import {backoff} from '../../shared/utility/backoff';
 import {UserInfoService} from '../../shared/services/user-info/user-info.service';
+import {createLogoutUrl} from '../../shared/utility/create-logout-url';
 
 @Component({
   selector: 'mv-header',
@@ -26,6 +27,10 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  get logoutHref(): string {
+    return createLogoutUrl().toString();
   }
 
 }
