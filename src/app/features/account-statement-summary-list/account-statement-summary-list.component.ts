@@ -5,7 +5,8 @@ import {ColumnMode} from '@swimlane/ngx-datatable';
 import {
   AccountStatementSummaryEntry,
   AccountStatementSummarySelection,
-  AccountStatementSummaryService
+  AccountStatementSummaryService,
+  ExportType
 } from '../account-statement-summary/account-statement-summary.service';
 import {AccountStatementSummaryListQueryRequest} from './account-statement-summary-list-query-form/account-statement-summary-list-query-form.component';
 import {PageInfo} from '../../shared/page-info';
@@ -124,8 +125,6 @@ export class AccountStatementSummaryListComponent {
   }
 
   onQueryFormUpdated(form: AccountStatementSummaryListQueryRequest): void {
-    console.log(['Query form updated']);
-
     this.currentListRequest = form;
 
     if (!form.valid) {
@@ -164,6 +163,17 @@ export class AccountStatementSummaryListComponent {
         this.currentEntryCount = x.pagination.count;
         this.currentEntryLength = x.pagination.length;
       });
+  }
+
+  onExportButtonClicked(exportType: ExportType = 'xlsx'): void {
+    if (this.currentListRequest) {
+      this.accountStatementService.exportData(
+        exportType,
+        this.currentListRequest.firm,
+        this.currentListRequest.assetType,
+        this.currentListRequest.date
+      );
+    }
   }
 
 }

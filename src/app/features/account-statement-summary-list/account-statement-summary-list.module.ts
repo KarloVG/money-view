@@ -6,6 +6,7 @@ import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AccountStatementSummaryListQueryFormModule} from './account-statement-summary-list-query-form/account-statement-summary-list-query-form.module';
 import {CurrencyTabularDisplayModule} from '../../shared/pipes/currency-tabular-display/currency-tabular-display.module';
+import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {CurrencyTabularDisplayModule} from '../../shared/pipes/currency-tabular-
     FormsModule,
     ReactiveFormsModule,
     AccountStatementSummaryListQueryFormModule,
-    CurrencyTabularDisplayModule
+    CurrencyTabularDisplayModule,
+    NgbDropdownModule
   ]
 })
 export class AccountStatementSummaryListModule {

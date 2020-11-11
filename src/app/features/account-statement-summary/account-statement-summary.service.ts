@@ -3,6 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {createApiRoute} from '../../shared/utility/create-api-route';
 import {BasicPaginatedResponse} from '../../shared/basic-paginated-response';
+import {first} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -45,9 +46,44 @@ export class AccountStatementSummaryService {
     return this.http.get<AccountStatementSummaryListResponse>(url.toString(), {params: requestParams});
   }
 
+  async exportData(exportType: ExportType, firmId: EntityId, assetType: EntityId, date: Date | string): Promise<void> {
+    const url = createApiRoute(['api', 'getExportedData']);
+    const requestParams = new HttpParams({
+      fromObject: {
+        exportDateType: exportType === 'pdf' ? '1' : '2',
+        firmId: firmId.toString(),
+        creditDebit: assetType.toString(),
+        date: typeof date === 'string' ? date : date.toISOString(),
+      }
+    });
+
+    const response = await this.http.get(url.toString(), {
+      params: requestParams,
+      responseType: 'blob',
+      observe: 'response'
+    }).pipe(first()).toPromise();
+
+    if (response.body) {
+      const fileName = `Izvodi-${new Date().toISOString().slice(0, 10)}.${exportType === 'pdf' ? 'pdf' : 'xlsx'}`;
+      this.downloadFile(response.body, fileName);
+    }
+  }
+
+  private downloadFile(fileBlob: Blob, fileName: string): void {
+    const binaryData = new Array(fileBlob);
+
+    const downloadLink = document.createElement('a');
+    downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: 'blob'}));
+    downloadLink.setAttribute('download', fileName);
+
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+  }
+
 }
 
 export type EntityId = string | number | bigint;
+export type ExportType = 'xlsx' | 'pdf';
 
 export interface AccountStatementSummaryForm {
   firms: MVEntityLookup[];

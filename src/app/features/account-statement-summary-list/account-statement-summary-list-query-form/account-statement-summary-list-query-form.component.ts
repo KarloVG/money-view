@@ -58,7 +58,6 @@ export class AccountStatementSummaryListQueryFormComponent implements OnInit, On
               this.form.value.assetType, nativeDate, this.form.value.bank);
           }),
         ).subscribe((queryRequest) => {
-        console.log(['Form value changed', 'Emitting new query request']);
         this.FormUpdated.emit(queryRequest);
       })
     );
