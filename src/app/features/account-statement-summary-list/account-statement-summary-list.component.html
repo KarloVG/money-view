@@ -2,15 +2,28 @@
 <hr/>
 <mv-account-statement-summary-list-query-form
   (FormUpdated)="onQueryFormUpdated($event)"></mv-account-statement-summary-list-query-form>
+
 <ng-template [ngIf]="isQueryFormInvalid">
   <p class="account-summary-list__selection">Potrebno je odabrati <strong class="text-danger">firmu</strong> i <strong
     class="text-danger">vrstu
     sredstva</strong>.</p>
 </ng-template>
+
 <ng-template [ngIf]="isQueryFormValid">
-  <p class="account-summary-list__selection">Za odabranu firmu <strong
-    class="text-info">{{selectionData?.firmName}}</strong> pregledavate
-    <strong class="text-info">{{selectionData?.assetTypeName}}</strong>.</p>
+  <div class="d-flex justify-content-between flex-wrap align-items-center">
+    <p class="account-summary-list__selection text-left">Za odabranu firmu <strong
+      class="text-info">{{selectionData?.firmName}}</strong> pregledavate
+      <strong class="text-info">{{selectionData?.assetTypeName}}</strong>.
+    </p>
+    <div ngbDropdown class="d-inline-block">
+      <button class="btn btn-outline-primary" id="export" ngbDropdownToggle>Izvoz</button>
+      <div ngbDropdownMenu aria-labelledby="export">
+        <button ngbDropdownItem (click)="onExportButtonClicked('xlsx')">XLSX</button>
+        <button ngbDropdownItem (click)="onExportButtonClicked('pdf')">PDF</button>
+      </div>
+    </div>
+  </div>
+
   <ngx-datatable class="bootstrap datatable"
                  [columnMode]="columnMode"
                  [columns]="tableColumns"
