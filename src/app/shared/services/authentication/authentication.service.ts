@@ -14,6 +14,7 @@ export class AuthenticationService {
   constructor(
     private readonly apiClient: ApiClientService
   ) {
+    this.updateAuthenticationStatus();
   }
 
   login(returnUrl?: string): void {
