@@ -1,6 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {HttpClientModule} from '@angular/common/http';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
+import {baseHref} from '../../../shared/providers/base-href.provider';
 
-import { AccountStatementSummaryListQueryFormComponent } from './account-statement-summary-list-query-form.component';
+import {AccountStatementSummaryListQueryFormComponent} from './account-statement-summary-list-query-form.component';
 
 describe('AccountStatementSummaryListQueryFormComponent', () => {
   let component: AccountStatementSummaryListQueryFormComponent;
@@ -8,9 +13,18 @@ describe('AccountStatementSummaryListQueryFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AccountStatementSummaryListQueryFormComponent ]
+      declarations: [AccountStatementSummaryListQueryFormComponent],
+      imports: [
+        HttpClientTestingModule,
+        NgbDatepickerModule,
+        FormsModule,
+        ReactiveFormsModule
+      ],
+      providers: [
+        baseHref
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

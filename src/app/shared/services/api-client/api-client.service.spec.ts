@@ -1,11 +1,10 @@
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
-import {baseHref} from '../../shared/providers/base-href.provider';
+import {baseHref} from '../../providers/base-href.provider';
+import {ApiClientService} from './api-client.service';
 
-import {AccountStatementSummaryService} from './account-statement-summary.service';
-
-describe('AccountStatementSummaryService', () => {
-  let service: AccountStatementSummaryService;
+describe('ApiClientService', () => {
+  let service: ApiClientService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -16,7 +15,7 @@ describe('AccountStatementSummaryService', () => {
         baseHref
       ]
     });
-    service = TestBed.inject(AccountStatementSummaryService);
+    service = TestBed.inject(ApiClientService);
   });
 
   it('should be created', () => {
