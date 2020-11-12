@@ -1,15 +1,16 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {LOCALE_ID, NgModule} from '@angular/core';
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
-import {ServiceWorkerModule} from '@angular/service-worker';
-import {environment} from '../environments/environment';
-import {LayoutModule} from './layout/layout.module';
 import {HttpClientModule} from '@angular/common/http';
 import '@angular/common/locales/global/hr';
-import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
-import {CroatianDateParserFormatter} from './shared/utility/croatian-date-parser.formatter';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {ServiceWorkerModule} from '@angular/service-worker';
+import {environment} from '../environments/environment';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {LayoutModule} from './layout/layout.module';
 import {httpInterceptorProviders} from './shared/interceptors';
+import {baseHref} from './shared/providers/base-href.provider';
+import {defaultDateParserFormatter} from './shared/providers/default-date-parser-formatter.provider';
+import {localeId} from './shared/providers/locale-id.provider';
 
 @NgModule({
   declarations: [
@@ -23,14 +24,9 @@ import {httpInterceptorProviders} from './shared/interceptors';
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production})
   ],
   providers: [
-    {
-      provide: LOCALE_ID,
-      useValue: 'hr'
-    },
-    {
-      provide: NgbDateParserFormatter,
-      useClass: CroatianDateParserFormatter
-    },
+    localeId,
+    baseHref,
+    defaultDateParserFormatter,
     httpInterceptorProviders
   ],
   bootstrap: [AppComponent]

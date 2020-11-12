@@ -1,21 +1,17 @@
-import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
 import {baseHref} from '../../providers/base-href.provider';
-import {UserInfoService} from './user-info.service';
+import {AppRouteService} from './app-route.service';
 
-describe('UserInfoService', () => {
-  let service: UserInfoService;
+describe('AppRouteService', () => {
+  let service: AppRouteService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule
-      ],
       providers: [
         baseHref
       ]
     });
-    service = TestBed.inject(UserInfoService);
+    service = TestBed.inject(AppRouteService);
   });
 
   it('should be created', () => {

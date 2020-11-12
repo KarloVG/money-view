@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {createApiRoute} from '../../shared/utility/create-api-route';
-import {BasicPaginatedResponse} from '../../shared/basic-paginated-response';
 import {first} from 'rxjs/operators';
+import {BasicPaginatedResponse} from '../../shared/basic-paginated-response';
+import {AppRouteService} from '../../shared/services/route/app-route.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,18 +11,19 @@ import {first} from 'rxjs/operators';
 export class AccountStatementSummaryService {
 
   constructor(
-    private readonly http: HttpClient
+    private readonly http: HttpClient,
+    private readonly appRoute: AppRouteService
   ) {
   }
 
   getQueryForm(): Observable<AccountStatementSummaryForm> {
-    const url = createApiRoute(['Webapp', 'AccountSummaryList', 'Form']);
+    const url = this.appRoute.createAppRouteURL(['api', 'Webapp', 'AccountSummaryList', 'Form']);
 
     return this.http.get<AccountStatementSummaryForm>(url.toString());
   }
 
   getSelection(firmId: EntityId, summaryTypeId: EntityId): Observable<AccountStatementSummarySelection> {
-    const url = createApiRoute(['Webapp', 'AccountSummaryList', 'Selection']);
+    const url = this.appRoute.createAppRouteURL(['api', 'Webapp', 'AccountSummaryList', 'Selection']);
     const requestParams = new HttpParams({fromObject: {firmId: firmId.toString(), assetTypeId: summaryTypeId.toString()}});
 
     return this.http.get<AccountStatementSummarySelection>(url.toString(), {params: requestParams});
@@ -30,7 +31,7 @@ export class AccountStatementSummaryService {
 
   getList(page: number, pageSize: number, firmId: EntityId, assetTypeId: EntityId, date: Date, bank?: string):
     Observable<AccountStatementSummaryListResponse> {
-    const url = createApiRoute(['Webapp', 'AccountSummaryList']);
+    const url = this.appRoute.createAppRouteURL(['api', 'Webapp', 'AccountSummaryList']);
     const requestParams = new HttpParams({
       fromObject:
         {
@@ -47,13 +48,13 @@ export class AccountStatementSummaryService {
   }
 
   async exportData(exportType: ExportType, firmId: EntityId, assetType: EntityId, date: Date | string): Promise<void> {
-    const url = createApiRoute(['api', 'getExportedData']);
+    const url = this.appRoute.createAppRouteURL(['api', 'api', 'getExportedData']);
     const requestParams = new HttpParams({
       fromObject: {
         exportDateType: exportType === 'pdf' ? '1' : '2',
         firmId: firmId.toString(),
         creditDebit: assetType.toString(),
-        date: typeof date === 'string' ? date : date.toISOString(),
+        date: typeof date === 'string' ? date : date.toISOString()
       }
     });
 

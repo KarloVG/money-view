@@ -8,7 +8,7 @@ import {
   AccountStatementSummaryService
 } from '../../account-statement-summary/account-statement-summary.service';
 import {NgbDateNativeAdapter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
-import {currentDateISOString} from '../../../shared/utility';
+import {currentDateISOString} from '../../../shared/utility/current-date-iso-string';
 
 @Component({
   selector: 'mv-account-statement-summary-list-query-form',
