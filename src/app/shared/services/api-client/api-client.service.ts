@@ -1,8 +1,7 @@
-import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import {backoff} from '../../utility/backoff';
 import {AppRouteService} from '../route/app-route.service';
 
 @Injectable({
@@ -39,16 +38,15 @@ export class ApiClientService {
 
   userInfo(): Observable<HttpResponse<UserInfoResponse>> {
     const url = this.appRoute.createAppRouteURL(['user', 'info']);
-    return this.http.get<UserInfoResponse>(url.toString(), {observe: 'response', responseType: 'json'})
-      .pipe(
-        backoff(3, 250),
-        catchError((err: HttpErrorResponse, caught) => {
-          if ([301, 302, 401, 200].includes(err.status)) {
-            this.login();
-          }
-          throw new Error('Not Authenticated');
-        })
-      );
+    const requestHeaders = new HttpHeaders({'X-Requested-With': 'XMLHttpRequest'});
+
+    return this.http.get<UserInfoResponse>(url.toString(), {observe: 'response', responseType: 'json', headers: requestHeaders})
+      .pipe(catchError((err: HttpErrorResponse, caught) => {
+        if (err.status === 401) {
+          this.login();
+        }
+        throw new Error('Not Authenticated');
+      }));
   }
 
 }

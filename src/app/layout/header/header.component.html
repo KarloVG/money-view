@@ -4,7 +4,7 @@
   <span *ngIf="auth.isAuthenticated | async" class="user-info" display="dynamic" ngbDropdown placement="bottom-right"
         role="button">
     <span ngbDropdownToggle>
-      <small class="user-name" id="user-name">{{(userInfo.getUserInfo() | async)?.name}}</small>
+      <small class="user-name" id="user-name">{{(userInfo.userInfo | async)?.name}}</small>
       <i class="material-icons md-18">expand_more</i>
     </span>
     <span aria-labelledby="user-name" class="dropdown-menu" ngbDropdownMenu>
