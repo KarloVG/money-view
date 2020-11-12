@@ -1,7 +1,8 @@
-import {HttpClient, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {tap} from 'rxjs/operators';
+import {catchError} from 'rxjs/operators';
+import {backoff} from '../../utility/backoff';
 import {AppRouteService} from '../route/app-route.service';
 
 @Injectable({
@@ -40,11 +41,12 @@ export class ApiClientService {
     const url = this.appRoute.createAppRouteURL(['user', 'info']);
     return this.http.get<UserInfoResponse>(url.toString(), {observe: 'response', responseType: 'json'})
       .pipe(
-        tap((response) => {
-          // TODO: Return 401 from API instead of directly issuing a challenge
-          if (response.status === 301 || response.status === 302 || response.status === 401) {
+        backoff(3, 250),
+        catchError((err: HttpErrorResponse, caught) => {
+          if ([301, 302, 401, 200].includes(err.status)) {
             this.login();
           }
+          throw new Error('Not Authenticated');
         })
       );
   }
