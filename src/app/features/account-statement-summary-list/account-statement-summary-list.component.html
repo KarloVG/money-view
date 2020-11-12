@@ -13,7 +13,7 @@
   <div class="d-flex justify-content-between flex-wrap align-items-center">
     <p class="account-summary-list__selection text-left">Za odabranu firmu <strong
       class="text-info">{{selectionData?.firmName}}</strong> pregledavate
-      <strong class="text-info">{{selectionData?.assetTypeName}}</strong>.
+      <strong class="text-info">{{convertAssetTypeStringToCorrectCroatianForm(selectionData?.assetTypeName)}}</strong>.
     </p>
     <div ngbDropdown class="d-inline-block">
       <button class="btn btn-outline-primary" id="export" ngbDropdownToggle>Izvoz</button>

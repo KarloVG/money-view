@@ -1,7 +1,9 @@
-import {Component} from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {ColumnMode, DatatableComponent} from '@swimlane/ngx-datatable';
 import {TableColumn} from '@swimlane/ngx-datatable/lib/types/table-column.type';
+import {BehaviorSubject} from 'rxjs';
+import {PageInfo} from '../../shared/page-info';
 import {CurrencyTabularDisplayPipe} from '../../shared/pipes/currency-tabular-display/currency-tabular-display.pipe';
-import {ColumnMode} from '@swimlane/ngx-datatable';
 import {
   AccountStatementSummaryEntry,
   AccountStatementSummarySelection,
@@ -9,8 +11,6 @@ import {
   ExportType
 } from '../account-statement-summary/account-statement-summary.service';
 import {AccountStatementSummaryListQueryRequest} from './account-statement-summary-list-query-form/account-statement-summary-list-query-form.component';
-import {PageInfo} from '../../shared/page-info';
-import {BehaviorSubject} from 'rxjs';
 
 @Component({
   selector: 'mv-account-statement-summary-list',
@@ -28,7 +28,7 @@ export class AccountStatementSummaryListComponent {
   }
 
   private readonly currencyTransformPipe = new CurrencyTabularDisplayPipe();
-  readonly columnMode: ColumnMode = ColumnMode.flex;
+  readonly columnMode: ColumnMode = ColumnMode.standard;
   private currentListRequest?: AccountStatementSummaryListQueryRequest;
 
   desiredPageOffset = 0;
@@ -55,20 +55,18 @@ export class AccountStatementSummaryListComponent {
       prop: 'bankName',
       draggable: false,
       resizeable: false,
-      minWidth: 250,
-      maxWidth: 300,
-      flexGrow: 1,
+      minWidth: 270,
+      maxWidth: 320
     },
     {
       name: 'IBAN',
       prop: 'iban',
-      cellClass: 'text-right',
-      headerClass: 'text-right',
+      cellClass: 'text-left',
+      headerClass: 'text-left',
       draggable: false,
       resizeable: false,
-      minWidth: 200,
-      maxWidth: 250,
-      flexGrow: 1
+      minWidth: 190,
+      maxWidth: 250
     },
     {
       name: 'HRK',
@@ -78,9 +76,8 @@ export class AccountStatementSummaryListComponent {
       pipe: this.currencyTransformPipe,
       draggable: false,
       resizeable: false,
-      minWidth: 90,
-      maxWidth: 100,
-      flexGrow: 1
+      minWidth: 130,
+      maxWidth: 150
     },
     {
       name: 'EUR → HRK',
@@ -90,9 +87,8 @@ export class AccountStatementSummaryListComponent {
       pipe: this.currencyTransformPipe,
       draggable: false,
       resizeable: false,
-      minWidth: 90,
-      maxWidth: 100,
-      flexGrow: 1
+      minWidth: 130,
+      maxWidth: 150
     },
     {
       name: 'USD → HRK',
@@ -102,9 +98,8 @@ export class AccountStatementSummaryListComponent {
       pipe: this.currencyTransformPipe,
       draggable: false,
       resizeable: false,
-      minWidth: 90,
-      maxWidth: 100,
-      flexGrow: 1
+      minWidth: 130,
+      maxWidth: 150
     },
     {
       name: 'GBP → HRK',
@@ -114,9 +109,8 @@ export class AccountStatementSummaryListComponent {
       pipe: this.currencyTransformPipe,
       draggable: false,
       resizeable: false,
-      minWidth: 90,
-      maxWidth: 100,
-      flexGrow: 1
+      minWidth: 130,
+      maxWidth: 150
     },
     {
       name: 'Ukupno',
@@ -126,8 +120,8 @@ export class AccountStatementSummaryListComponent {
       pipe: this.currencyTransformPipe,
       draggable: false,
       resizeable: false,
-      minWidth: 90,
-      flexGrow: 2
+      minWidth: 130,
+      maxWidth: 200
     }
   ];
 
@@ -137,6 +131,76 @@ export class AccountStatementSummaryListComponent {
   constructor(
     private readonly accountStatementService: AccountStatementSummaryService
   ) {
+    setTimeout(() => {
+      const tempData: AccountStatementSummaryEntry[] = [
+        {
+          bankId: 6,
+          bankName: 'ERSTE&STEIERMÄRKISCHE BANK d.d.',
+          accountId: 1,
+          iban: 'HR6624020061100658034',
+          hrkAmount: 14524.5400,
+          eurAmountAsHrk: 0.0,
+          usdAmountAsHrk: 0.0,
+          gbpAmountAsHrk: 0.0,
+          total: 14524.5400
+        }, {
+          bankId: 2,
+          bankName: 'AGRAM BANKA d.d.',
+          accountId: 2,
+          iban: 'HR6723400092762279663',
+          hrkAmount: 0.0,
+          eurAmountAsHrk: 0.0,
+          usdAmountAsHrk: 0.0,
+          gbpAmountAsHrk: 0.0,
+          total: 0.0
+        }, {
+          bankId: 3,
+          bankName: 'BANKA KOVANICA d.d.',
+          accountId: 3,
+          iban: 'HR4425000097134767435',
+          hrkAmount: 0.0,
+          eurAmountAsHrk: 0.0,
+          usdAmountAsHrk: 0.0,
+          gbpAmountAsHrk: 49404.5244,
+          total: 49404.5244
+        }, {
+          bankId: 4,
+          bankName: 'BKS Bank',
+          accountId: 4,
+          iban: 'HR8824020063599322736',
+          hrkAmount: 4317.3000,
+          eurAmountAsHrk: 0.0,
+          usdAmountAsHrk: 0.0,
+          gbpAmountAsHrk: 0.0,
+          total: 4317.3000
+        }, {
+          bankId: 5,
+          bankName: 'CROATIA BANKA d.d.',
+          accountId: 5,
+          iban: 'HR8724840088635814596',
+          hrkAmount: 0.0,
+          eurAmountAsHrk: 45912.3984,
+          usdAmountAsHrk: 0.0,
+          gbpAmountAsHrk: 0.0,
+          total: 45912.3984
+        }, {
+          bankId: 8,
+          bankName: 'HRVATSKA NARODNA BANKA',
+          accountId: 6,
+          iban: 'HR3924840087621549316',
+          hrkAmount: 0.0,
+          eurAmountAsHrk: 30071.0340,
+          usdAmountAsHrk: 0.0,
+          gbpAmountAsHrk: 0.0,
+          total: 30071.0340
+        }
+      ];
+
+      this.currentEntryLength = tempData.length;
+      this.currentEntryCount = tempData.length;
+
+      this.rows.next(tempData);
+    }, 1500);
   }
 
   onQueryFormUpdated(form: AccountStatementSummaryListQueryRequest): void {
@@ -190,6 +254,24 @@ export class AccountStatementSummaryListComponent {
         this.currentListRequest.assetType,
         this.currentListRequest.date
       );
+    }
+  }
+
+  // TODO: I should really start adding localization services
+  convertAssetTypeStringToCorrectCroatianForm(noun?: string): string {
+    if (!noun) {
+      return '';
+    }
+
+    noun = noun.toLowerCase();
+
+    switch (noun) {
+      case 'uplata':
+        return 'uplate';
+      case 'isplata':
+        return 'isplate';
+      default:
+        return noun;
     }
   }
 

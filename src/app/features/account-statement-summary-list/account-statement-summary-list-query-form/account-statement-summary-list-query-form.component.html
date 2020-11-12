@@ -2,7 +2,7 @@
   <section class="form-row align-items-center">
     <div class="col form-group">
       <label class="required" for="firm">Firma</label>
-      <select class="custom-select" required="required" formControlName="firm" id="firm" name="firm">
+      <select class="custom-select" formControlName="firm" id="firm" name="firm" required="required">
         <option disabled hidden readonly="readonly" selected value="null">Odaberite firmu</option>
         <option *ngFor="let item of formData?.firms" [value]="item.id">{{item.name}}</option>
       </select>
@@ -10,7 +10,7 @@
 
     <div class="col form-group">
       <label class="required" for="assetType">Vrsta sredstva</label>
-      <select class="custom-select" required="required" formControlName="assetType" id="assetType" name="assetType">
+      <select class="custom-select" formControlName="assetType" id="assetType" name="assetType" required="required">
         <option disabled hidden readonly="readonly" selected value="null">Odaberite sredstvo</option>
         <option *ngFor="let item of formData?.assetTypes" [value]="item.id">{{item.name}}</option>
       </select>
@@ -19,18 +19,13 @@
     <div class="col form-group">
       <label for="date">Datum</label>
       <div class="input-group">
-        <input #d="ngbDatepicker" class="form-control bg-white" formControlName="date" id="date" name="date"
-               ngbDatepicker placeholder="Odaberite datum" type="text" [firstDayOfWeek]="1" readonly (keydown)="onDatePickerKeyDown($event);"
-               [maxDate]="maxDateRestriction"/>
+        <input #d="ngbDatepicker" (keydown)="onDatePickerKeyDown($event);" [firstDayOfWeek]="1"
+               [maxDate]="maxDateRestriction" class="form-control bg-white" formControlName="date" id="date" name="date"
+               ngbDatepicker placeholder="Odaberite datum" readonly type="text"/>
         <div class="input-group-append">
           <button (click)="d.toggle()" class="btn btn-outline-secondary p-0 px-2 d-flex align-items-center"
                   type="button">
-            <svg fill="currentColor" height="1rem" viewBox="0 0 16 16" width="1rem" class="m-auto"
-                 xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"
-                fill-rule="evenodd"/>
-            </svg>
+            <i class="material-icons" style="font-size: 1.25rem;">calendar_today</i>
           </button>
         </div>
       </div>
@@ -39,8 +34,7 @@
     <div class="col form-group">
       <label for="bank">Banka</label>
       <input class="form-control" formControlName="bank" id="bank" list="bank-list" maxlength="64" name="bank"
-             placeholder="Filtrirajte&hellip;" type="text">
-
+             placeholder="Filtrirajte&hellip;" type="search">
       <datalist id="bank-list">
         <option *ngFor="let item of formData?.banks" [value]="item.name">{{item.name}}</option>
       </datalist>
