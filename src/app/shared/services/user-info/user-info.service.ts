@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {map} from 'rxjs/operators';
 import {ApiClientService, UserInfoResponse} from '../api-client/api-client.service';
 
 @Injectable({
@@ -14,12 +13,10 @@ export class UserInfoService {
   constructor(
     private readonly apiClient: ApiClientService
   ) {
-    this.updateUserInfo();
   }
 
   public updateUserInfo(): void {
-    this.apiClient.userInfo().pipe(map((response) => response.body))
-      .subscribe((userInfo) => this.userInfoSubject.next(userInfo));
+    this.apiClient.userInfo().subscribe((userInfo) => this.userInfoSubject.next(userInfo));
   }
 
 }

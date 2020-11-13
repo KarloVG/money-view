@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {map} from 'rxjs/operators';
 import {ApiClientService} from '../api-client/api-client.service';
 
 @Injectable({
@@ -14,7 +13,6 @@ export class AuthenticationService {
   constructor(
     private readonly apiClient: ApiClientService
   ) {
-    this.updateAuthenticationStatus();
   }
 
   login(returnUrl?: string): void {
@@ -26,8 +24,7 @@ export class AuthenticationService {
   }
 
   updateAuthenticationStatus(): void {
-    this.apiClient.userInfo().pipe(map((x) => x.ok))
-      .subscribe((isAuth) => this.isAuthenticatedSubject.next(isAuth));
+    this.apiClient.userInfo().subscribe((userInfo) => this.isAuthenticatedSubject.next(!!userInfo));
   }
 
 }

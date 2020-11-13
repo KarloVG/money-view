@@ -7,9 +7,12 @@ footer {
   background-color: color.$header-bg-light-base-color;
 }
 
-small {
-  >::before {
-    display: inline;
+.fake-spaces {
+  > *::after {
     content: ' ';
+  }
+
+  > :last-child::after {
+    content: '';
   }
 }
