@@ -16,7 +16,7 @@
       <strong class="text-info">{{convertAssetTypeStringToCorrectCroatianForm(selectionData?.assetTypeName)}}</strong>.
     </p>
     <div ngbDropdown class="d-inline-block">
-      <button class="btn btn-outline-primary" id="export" ngbDropdownToggle>Izvoz</button>
+      <button class="btn btn-outline-info" id="export" ngbDropdownToggle>Izvoz</button>
       <div ngbDropdownMenu aria-labelledby="export">
         <button ngbDropdownItem (click)="onExportButtonClicked('xlsx')">XLSX</button>
         <button ngbDropdownItem (click)="onExportButtonClicked('pdf')">PDF</button>
