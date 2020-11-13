@@ -1,17 +1,18 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {ApiClientService} from '../api-client/api-client.service';
+import {UserInfoService} from '../user-info/user-info.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  private readonly isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
-  public readonly isAuthenticated = this.isAuthenticatedSubject.asObservable();
+  public readonly isAuthenticated = this.userInfoService.userInfo.pipe(map((userInfo) => !!userInfo));
 
   constructor(
-    private readonly apiClient: ApiClientService
+    private readonly apiClient: ApiClientService,
+    private readonly userInfoService: UserInfoService
   ) {
   }
 
@@ -24,7 +25,7 @@ export class AuthenticationService {
   }
 
   updateAuthenticationStatus(): void {
-    this.apiClient.userInfo().subscribe((userInfo) => this.isAuthenticatedSubject.next(!!userInfo));
+    this.userInfoService.updateUserInfo();
   }
 
 }

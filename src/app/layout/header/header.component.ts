@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {tap} from 'rxjs/operators';
 import {AuthenticationService} from '../../shared/services/authentication/authentication.service';
 import {UserInfoService} from '../../shared/services/user-info/user-info.service';
 
@@ -10,13 +9,7 @@ import {UserInfoService} from '../../shared/services/user-info/user-info.service
 })
 export class HeaderComponent implements OnInit {
 
-  public readonly isAuthenticated = this.authenticationService.isAuthenticated
-    .pipe(tap((isAuth) => {
-      if (isAuth) {
-        this.userInfoService.updateUserInfo();
-      }
-    }));
-
+  public readonly isAuthenticated = this.authenticationService.isAuthenticated;
   public readonly userInfo = this.userInfoService.userInfo;
 
   constructor(

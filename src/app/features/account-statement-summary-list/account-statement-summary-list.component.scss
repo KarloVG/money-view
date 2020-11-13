@@ -23,3 +23,11 @@ hr {
   border: none;
   outline: none;
 }
+
+button#export {
+  padding: 0.125rem 0.75rem;
+
+  &::after {
+    vertical-align: middle;
+  }
+}
