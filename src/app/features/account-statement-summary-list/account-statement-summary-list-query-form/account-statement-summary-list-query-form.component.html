@@ -1,5 +1,5 @@
 <form [formGroup]="form">
-  <section class="form-row align-items-center">
+  <section class="form-row">
     <div class="col form-group">
       <label class="required" for="firm">Firma</label>
       <select class="custom-select" formControlName="firm" id="firm" name="firm" required="required">
@@ -8,7 +8,7 @@
       </select>
     </div>
 
-    <div class="col form-group">
+    <div class="col-2 form-group">
       <label class="required" for="assetType">Vrsta sredstva</label>
       <select class="custom-select" formControlName="assetType" id="assetType" name="assetType" required="required">
         <option disabled hidden readonly="readonly" selected value="null">Odaberite sredstvo</option>
@@ -16,7 +16,7 @@
       </select>
     </div>
 
-    <div class="col form-group">
+    <div class="col-2 form-group">
       <label for="date">Datum</label>
       <div class="input-group">
         <input #d="ngbDatepicker" (keydown)="onDatePickerKeyDown($event);" [firstDayOfWeek]="1"
@@ -31,7 +31,7 @@
       </div>
     </div>
 
-    <div class="col form-group">
+    <div class="col-5 form-group">
       <label for="bank">Banka</label>
       <input class="form-control" formControlName="bank" id="bank" list="bank-list" maxlength="64" name="bank"
              placeholder="Filtrirajte&hellip;" type="search">
