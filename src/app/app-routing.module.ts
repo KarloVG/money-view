@@ -5,12 +5,12 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./features/account-statement-summary-list/account-statement-summary-list.module')
-      .then(m => m.AccountStatementSummaryListModule),
+      .then(m => m.AccountStatementSummaryListModule)
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
-import {ColumnMode, DatatableComponent} from '@swimlane/ngx-datatable';
+import {Component, Inject, LOCALE_ID} from '@angular/core';
+import {ColumnMode} from '@swimlane/ngx-datatable';
 import {TableColumn} from '@swimlane/ngx-datatable/lib/types/table-column.type';
 import {BehaviorSubject} from 'rxjs';
 import {PageInfo} from '../../shared/page-info';
@@ -56,7 +56,10 @@ export class AccountStatementSummaryListComponent {
       draggable: false,
       resizeable: false,
       minWidth: 270,
-      maxWidth: 320
+      maxWidth: 320,
+      comparator: (curr: string, other: string) => {
+        return curr.localeCompare(other, this.localeId);
+      }
     },
     {
       name: 'IBAN',
@@ -129,78 +132,9 @@ export class AccountStatementSummaryListComponent {
   selectionData?: AccountStatementSummarySelection;
 
   constructor(
+    @Inject(LOCALE_ID) private readonly localeId: string,
     private readonly accountStatementService: AccountStatementSummaryService
   ) {
-    setTimeout(() => {
-      const tempData: AccountStatementSummaryEntry[] = [
-        {
-          bankId: 6,
-          bankName: 'ERSTE&STEIERMÄRKISCHE BANK d.d.',
-          accountId: 1,
-          iban: 'HR6624020061100658034',
-          hrkAmount: 14524.5400,
-          eurAmountAsHrk: 0.0,
-          usdAmountAsHrk: 0.0,
-          gbpAmountAsHrk: 0.0,
-          total: 14524.5400
-        }, {
-          bankId: 2,
-          bankName: 'AGRAM BANKA d.d.',
-          accountId: 2,
-          iban: 'HR6723400092762279663',
-          hrkAmount: 0.0,
-          eurAmountAsHrk: 0.0,
-          usdAmountAsHrk: 0.0,
-          gbpAmountAsHrk: 0.0,
-          total: 0.0
-        }, {
-          bankId: 3,
-          bankName: 'BANKA KOVANICA d.d.',
-          accountId: 3,
-          iban: 'HR4425000097134767435',
-          hrkAmount: 0.0,
-          eurAmountAsHrk: 0.0,
-          usdAmountAsHrk: 0.0,
-          gbpAmountAsHrk: 49404.5244,
-          total: 49404.5244
-        }, {
-          bankId: 4,
-          bankName: 'BKS Bank',
-          accountId: 4,
-          iban: 'HR8824020063599322736',
-          hrkAmount: 4317.3000,
-          eurAmountAsHrk: 0.0,
-          usdAmountAsHrk: 0.0,
-          gbpAmountAsHrk: 0.0,
-          total: 4317.3000
-        }, {
-          bankId: 5,
-          bankName: 'CROATIA BANKA d.d.',
-          accountId: 5,
-          iban: 'HR8724840088635814596',
-          hrkAmount: 0.0,
-          eurAmountAsHrk: 45912.3984,
-          usdAmountAsHrk: 0.0,
-          gbpAmountAsHrk: 0.0,
-          total: 45912.3984
-        }, {
-          bankId: 8,
-          bankName: 'HRVATSKA NARODNA BANKA',
-          accountId: 6,
-          iban: 'HR3924840087621549316',
-          hrkAmount: 0.0,
-          eurAmountAsHrk: 30071.0340,
-          usdAmountAsHrk: 0.0,
-          gbpAmountAsHrk: 0.0,
-          total: 30071.0340
-        }
-      ];
-
-      this.currentEntryLength = tempData.length;
-      this.currentEntryCount = tempData.length;
-
-      this.rows.next(tempData);
-    }, 1500);
   }
 
   onQueryFormUpdated(form: AccountStatementSummaryListQueryRequest): void {

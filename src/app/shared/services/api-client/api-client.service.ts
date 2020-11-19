@@ -40,16 +40,19 @@ export class ApiClientService {
     const url = this.appRoute.createAppRouteURL(['user', 'info']);
     const requestHeaders = new HttpHeaders({'X-Requested-With': 'XMLHttpRequest'});
 
-    return this.http.get<UserInfoResponse>(url.toString(), {observe: 'response', responseType: 'json', headers: requestHeaders})
-      .pipe(
-        catchError((err: HttpErrorResponse, caught) => {
-          if (err.status === 401) {
-            this.login();
-          }
+    return this.http.get<UserInfoResponse>(url.toString(), {
+      observe: 'response',
+      responseType: 'json',
+      headers: requestHeaders
+    }).pipe(
+      catchError((err: HttpErrorResponse, caught) => {
+        if (err.status === 401) {
+          this.login();
+        }
 
-          return throwError(err);
-        }),
-        map((response) => response.ok ? response.body : null));
+        return throwError(err);
+      }),
+      map((response) => response.ok ? response.body : null));
   }
 
 }

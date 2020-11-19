@@ -1,5 +1,8 @@
-@use '~src/assets/scss/order';
-
 :host {
-  z-index: order.$sidebar-z-idx;
+  display: block;
+}
+
+.sidebar,
+.sidebar__wrapper {
+  height: 100%;
 }

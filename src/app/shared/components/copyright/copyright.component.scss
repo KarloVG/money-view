@@ -1,0 +1,13 @@
+:host {
+  display: inline-block;
+}
+
+.fake-spaces {
+  > *::after {
+    content: ' ';
+  }
+
+  > :last-child::after {
+    content: '';
+  }
+}

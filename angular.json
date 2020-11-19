@@ -7,7 +7,8 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "displayBlock": true
         },
         "@schematics/angular:application": {
           "strict": true
@@ -33,7 +34,22 @@
               "src/browserconfig.xml"
             ],
             "styles": [
-              "src/styles.scss"
+              {
+                "input": "node_modules/bootstrap/scss/bootstrap.scss",
+                "bundleName": "bootstrap"
+              },
+              {
+                "input": "node_modules/material-design-icons-iconfont/dist/material-design-icons.css",
+                "bundleName": "icons"
+              },
+              {
+                "input": "node_modules/typeface-open-sans/index.css",
+                "bundleName": "fonts"
+              },
+              {
+                "input": "src/scss/styles.scss",
+                "bundleName": "app"
+              }
             ],
             "scripts": []
           },
@@ -47,10 +63,10 @@
               ],
               "optimization": true,
               "outputHashing": "all",
-              "sourceMap": false,
+              "sourceMap": true,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
+              "vendorChunk": true,
               "buildOptimizer": true,
               "budgets": [
                 {
@@ -60,8 +76,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "5kb"
+                  "maximumWarning": "1kb",
+                  "maximumError": "2kb"
                 }
               ],
               "serviceWorker": true,
@@ -99,7 +115,7 @@
               "src/manifest.webmanifest"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/scss/styles.scss"
             ],
             "scripts": []
           }
@@ -130,6 +146,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "spa"
 }

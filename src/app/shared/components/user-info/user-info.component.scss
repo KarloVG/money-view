@@ -1,0 +1,19 @@
+:host {
+  display: inline-block;
+}
+
+.user-info {
+  font-weight: 600;
+}
+
+.user-name {
+  margin-right: 0.5rem;
+}
+
+.material-icons {
+  vertical-align: middle;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}

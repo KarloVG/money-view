@@ -1,8 +1,13 @@
-<mv-header *ngIf="showHeader" id="root-header" role="presentation"></mv-header>
+<mv-header *ngIf="showHeader" class="header" role="presentation">
+  <mv-app-badge badge></mv-app-badge>
+  <mv-user-info userInfo></mv-user-info>
+</mv-header>
 
-<div role="presentation" id="content-wrapper">
-  <main [ngClass]="mainContentClass" role="main">
+<div class="content" role="presentation">
+  <main [ngClass]="mainContentClass" class="content__wrapper" role="main">
     <router-outlet></router-outlet>
   </main>
-  <mv-footer *ngIf="showFooter" id="root-footer"></mv-footer>
+  <mv-footer *ngIf="showFooter" class="footer">
+    <mv-copyright></mv-copyright>
+  </mv-footer>
 </div>

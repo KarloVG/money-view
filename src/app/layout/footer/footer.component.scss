@@ -1,18 +1,19 @@
-@use '~src/assets/scss/color';
+@use '~src/scss/color';
 
-footer {
-  padding: 0.5rem 1rem;
-  text-align: end;
+:host {
+  display: block;
+}
 
+.footer,
+.footer__wrapper {
+  height: 100%;
+}
+
+.footer {
   background-color: color.$header-bg-light-base-color;
 }
 
-.fake-spaces {
-  > *::after {
-    content: ' ';
-  }
-
-  > :last-child::after {
-    content: '';
-  }
+.footer__wrapper {
+  padding: 0.5rem 1rem;
+  text-align: end;
 }

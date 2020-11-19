@@ -27,6 +27,7 @@
   <hr class="spacer"/>
 
   <ngx-datatable #table class="datatable bootstrap"
+                 [sorts]="[{prop: 'bankName', dir: 'asc'}]"
                  [columnMode]="columnMode"
                  [columns]="tableColumns"
                  [rows]="rows | async"

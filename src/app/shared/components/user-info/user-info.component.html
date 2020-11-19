@@ -1,0 +1,11 @@
+<div *ngIf="isAuthenticated | async" class="user-info" display="dynamic" ngbDropdown placement="bottom-right"
+     role="button">
+  <div ngbDropdownToggle>
+    <small class="user-name" id="user-name">{{(userInfo | async)?.name}}</small>
+    <i class="material-icons md-18">expand_more</i>
+  </div>
+
+  <div aria-labelledby="user-name" class="dropdown-menu" ngbDropdownMenu>
+    <button ngbDropdownItem type="button" (click)="onLogoutClicked();">Odjava</button>
+  </div>
+</div>
