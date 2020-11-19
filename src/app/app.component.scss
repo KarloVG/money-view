@@ -1,36 +1,31 @@
 :host {
   height: 100vh;
-
-  display: grid;
-  grid-template-areas:
-                "s h"
-                "s c";
-  grid-template-rows: auto 1fr;
-  grid-template-columns: auto 1fr;
 }
 
-#root-sidebar {
-  grid-area: s;
+$header-height: 3.75rem;
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: $header-height;
 }
 
-#root-header {
-  grid-area: h;
+.content {
+  padding-top: $header-height;
 }
 
-#content-wrapper {
-  grid-area: c;
-}
-
-#content-wrapper {
+.content {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  overflow: auto;
 
-  main {
+  .content__wrapper {
     flex-grow: 1;
   }
 
-  #root-footer {
+  .footer {
     flex-shrink: 0;
   }
 }

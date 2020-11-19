@@ -1,6 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'mv-root',
@@ -20,7 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute
   ) {
   }
 
@@ -31,18 +31,20 @@ export class AppComponent implements OnInit, OnDestroy {
           if (event instanceof NavigationEnd) {
             const snapshotData = this.activatedRoute.firstChild?.snapshot?.data;
 
-            if (snapshotData) {
-              this.showHeader = snapshotData.showHeader !== false;
-              this.showSidebar = snapshotData.showSidebar !== false;
-              this.showFooter = snapshotData.showFooter !== false;
+            if (!snapshotData) {
+              return;
+            }
 
-              if (snapshotData?.mainContentClass as MainContentClass) {
-                this.mainContentClass = snapshotData.mainContentClass;
-              } else if (snapshotData?.mainContentClass === null) {
-                this.mainContentClass = '';
-              } else {
-                this.mainContentClass = 'container';
-              }
+            this.showHeader = snapshotData.showHeader !== false;
+            this.showSidebar = snapshotData.showSidebar !== false;
+            this.showFooter = snapshotData.showFooter !== false;
+
+            if (snapshotData?.mainContentClass as MainContentClass) {
+              this.mainContentClass = snapshotData.mainContentClass;
+            } else if (snapshotData?.mainContentClass === null) {
+              this.mainContentClass = '';
+            } else {
+              this.mainContentClass = 'container';
             }
           }
         }));

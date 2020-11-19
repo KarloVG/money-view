@@ -1,14 +1,12 @@
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
-
-/* Importing Typeface Open Sans font-face index file. */
-@import '~typeface-open-sans/index.css';
-
+@forward 'data-table';
+@forward 'color';
+@forward 'form';
+@forward 'icon';
+@forward 'order';
 
 html,
 body {
   height: 100%;
-  overflow: hidden;
 }
 
 body {
