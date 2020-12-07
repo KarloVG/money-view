@@ -14,6 +14,7 @@ import {httpInterceptorProviders} from './shared/interceptors';
 import {baseHref} from './shared/providers/base-href.provider';
 import {defaultDateParserFormatter} from './shared/providers/default-date-parser-formatter.provider';
 import {localeId} from './shared/providers/locale-id.provider';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import {localeId} from './shared/providers/locale-id.provider';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     LayoutModule,
     HttpClientModule,
     CopyrightModule,

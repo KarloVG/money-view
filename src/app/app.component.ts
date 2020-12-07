@@ -1,11 +1,15 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
+import { fadeIn } from 'ng-animate';
+import { trigger, transition, useAnimation } from '@angular/animations';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'mv-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [trigger('fadeIn', [transition('* => *', useAnimation(fadeIn))])]
 })
 export class AppComponent implements OnInit, OnDestroy {
   @Input() theme: Theme = 'light';
@@ -20,7 +24,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) {
   }
 
@@ -28,9 +33,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.router.events
         .subscribe(event => {
+          if(event instanceof NavigationStart) {
+            this.spinner.show();
+          }
           if (event instanceof NavigationEnd) {
             const snapshotData = this.activatedRoute.firstChild?.snapshot?.data;
-
+            setTimeout(() => this.spinner.hide(),500) //samo zbog izgleda
             if (!snapshotData) {
               return;
             }

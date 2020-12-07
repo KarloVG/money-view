@@ -4,10 +4,13 @@
 </mv-header>
 
 <div class="content" role="presentation">
-  <main [ngClass]="mainContentClass" class="content__wrapper" role="main">
-    <router-outlet></router-outlet>
+  <main [ngClass]="mainContentClass"  [@fadeIn]="o.isActivated ? o.activatedRoute : ''" class="content__wrapper" role="main">
+    <router-outlet  #o="outlet"></router-outlet>
   </main>
   <mv-footer *ngIf="showFooter" class="footer">
     <mv-copyright></mv-copyright>
   </mv-footer>
 </div>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-spin" [fullScreen]="true">
+  <p style="color: white"> Molimo pričekajte... </p>
+</ngx-spinner>
