@@ -1,0 +1,67 @@
+{
+  // experimental settings
+  "javascript.implicitProjectConfig.experimentalDecorators": true,
+  // editor settings
+  "editor.autoIndent": "full",
+  "editor.codeLens": false,
+  "editor.cursorBlinking": "solid",
+  "editor.cursorSmoothCaretAnimation": true,
+  "editor.cursorStyle": "line",
+  "editor.fontSize": 16,
+  "editor.fontFamily": "Dank Mono, Operator Mono, Fira Code, Inconsolata",
+  "editor.fontLigatures": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": false,
+  "editor.formatOnSave": true,
+  "editor.letterSpacing": 1,
+  "editor.lineHeight": 20,
+  "editor.minimap.enabled": false,
+  "editor.multiCursorModifier": "ctrlCmd",
+  "editor.suggestSelection": "first",
+  "editor.tabCompletion": "on",
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  // file settings
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 3000,
+  "files.defaultLanguage": "",
+  "files.trimTrailingWhitespace": true,
+  //terminal settings
+  "terminal.integrated.letterSpacing": 1,
+  "terminal.integrated.fontFamily": "Consolas",
+  "workbench.colorCustomizations": {
+    "terminal.background": "#1D2021",
+    "terminal.foreground": "#A89984",
+    "terminalCursor.background": "#A89984",
+    "terminalCursor.foreground": "#A89984",
+    "terminal.ansiBlack": "#1D2021",
+    "terminal.ansiBlue": "#0D6678",
+    "terminal.ansiBrightBlack": "#665C54",
+    "terminal.ansiBrightBlue": "#0D6678",
+    "terminal.ansiBrightCyan": "#8BA59B",
+    "terminal.ansiBrightGreen": "#95C085",
+    "terminal.ansiBrightMagenta": "#8F4673",
+    "terminal.ansiBrightRed": "#FB543F",
+    "terminal.ansiBrightWhite": "#FDF4C1",
+    "terminal.ansiBrightYellow": "#FAC03B",
+    "terminal.ansiCyan": "#8BA59B",
+    "terminal.ansiGreen": "#95C085",
+    "terminal.ansiMagenta": "#8F4673",
+    "terminal.ansiRed": "#FB543F",
+    "terminal.ansiWhite": "#A89984",
+    "terminal.ansiYellow": "#FAC03B"
+  },
+  // region comments
+  "maptz.regionfolder": {
+    "[ahk]": { //Language selector
+      "foldEnd": "; #endregion", //Text inserted at the end of the fold
+      "foldEndRegex": ";[\\s]*#endregion", //Regex used to find fold end text.
+      "foldStart": "; #region [NAME]", //Text inserted at the start of the fold.
+      //Use the `[NAME]` placeholder to indicate
+      //where the cursor should be placed after
+      //insertion
+      "foldStartRegex": ";[\\s]*#region[\\s]*(.*)", ////Regex used to find fold start text.
+      "disableFolding": false //Turn off #region folding for this language
+    }
+  }
+}

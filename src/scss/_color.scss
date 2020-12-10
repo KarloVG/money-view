@@ -9,3 +9,10 @@ $app-theme-primary-base-color: #58d3cc;
 $app-theme-secondary-base-color: #288ab5;
 
 $app-theme-primary-linear-gradient: linear-gradient(162.75deg, $app-theme-primary-base-color 0%, $app-theme-secondary-base-color 84%);
+
+// Card colors
+$card-body-bg-color: $app-theme-primary-base-color;
+$card-footer-bg-color: #fff;
+$card-border-color: #f6f7fb;
+$card-header-font-color: #313131;
+$card-body-dark-color: #2a3142;
