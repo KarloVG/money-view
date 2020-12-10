@@ -1,0 +1,82 @@
+/**=====================
+    03.  Card CSS Start
+==========================**/
+@use '~src/scss/color';
+
+// Card settings
+$card-padding: 30px;
+$card-margin-bottom: 30px;
+$card-border-width: 0;
+$card-border-radious: 8px;
+$card-box-shadow: 1px 5px 24px 0 rgba(color.$card-body-bg-color, 0.05);
+$card-header-font-weight: 600;
+$card-header-bg-color: color.$card-body-bg-color;
+$card-header-font-size: 18px;
+$card-header-font-transform: uppercase;
+$card-header-span-size: 12px;
+$card-header-span-color: 777777;
+$card-header-padding: 10px;
+
+
+.card {
+  margin-bottom: $card-margin-bottom;
+  border: $card-border-width;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  border-radius: $card-border-radious;
+  box-shadow: $card-box-shadow;
+  .card-header {
+    background-color: $card-header-bg-color;
+    border-bottom: none;
+    padding: 15px 20px !important;
+    border-bottom: 1px solid color.$card-border-color;
+    border-top-left-radius: $card-border-radious;
+    border-top-right-radius: $card-border-radious;
+    h5 {
+      font-size: $card-header-font-size;
+      margin-bottom: 0;
+      text-transform: $card-header-font-transform;
+      font-weight: $card-header-font-weight;
+      display: flex;
+      align-items: center;
+    }
+    > span {
+      font-size: $card-header-span-size;
+      color: $card-header-span-color;
+      margin-top: 5px;
+      display: block;
+      letter-spacing: 1px;
+    }
+  }
+  .card-body {
+    padding: $card-padding;
+    border: 1px solid $card-header-bg-color;
+    background-color: color.$card-footer-bg-color;
+    p {
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.card-absolute {
+  margin-top: 20px;
+  .card-header {
+    position: absolute;
+    top: -20px;
+    margin-bottom: 30px;
+    border-radius: 0.25rem;
+    padding: 10px 15px;
+    h5 {
+      font-size: 17px;
+    }
+  }
+  .card-body {
+    margin-top: 10px;
+  }
+}
+
+/**=====================
+    03. Card CSS End
+==========================**/

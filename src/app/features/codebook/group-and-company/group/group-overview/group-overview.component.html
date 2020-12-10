@@ -1,0 +1,37 @@
+<div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 p-0">
+  <div class="card card-absolute mt-4">
+    <div class="card-header">
+      <div class="row">
+        <h5>
+          <span class="material-icons">
+            business
+          </span>
+          Grupa
+        </h5>
+      </div>
+    </div>
+    <div class="card-body">
+      <form  [formGroup]="groupForm" #ngGroupForm="ngForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label class="required" for="name">Grupa</label>
+          <input class="form-control" formControlName="name" maxlength="64" placeholder="Upiši naziv grupe&hellip;"
+            [ngClass]="{'is-invalid': name?.invalid && (name?.dirty || name?.touched || ngGroupForm.submitted)}">
+          <div class="invalid-feedback" >
+                Polje grupa nije ispravno
+          </div>
+        </div>
+         <div class="alert alert-danger"
+                *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+        <div class="d-flex justify-content-between">
+            <button type="button" title="Odustani" class="btn btn-outline-danger" [disabled]="!groupForm.dirty">Odustani</button>
+            <button type="submit" title="Spremi" class="btn btn-success" [disabled]="groupForm.invalid" [class.loader--text]="this.isSubmitLoaderActive">
+              <span *ngIf="isSubmitLoaderActive; else notActive"></span>
+              <ng-template #notActive>Spremi</ng-template>
+            </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
