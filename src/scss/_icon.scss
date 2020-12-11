@@ -15,6 +15,10 @@
     font-size: 48px;
   }
 
+  &.i-button{
+    cursor: pointer;
+    font-size: 38px;
+  }
   /* Rules for using icons as black on a light background. */
   &.md-dark {
     color: rgba(0, 0, 0, 0.54);

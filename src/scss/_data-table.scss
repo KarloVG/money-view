@@ -1,6 +1,7 @@
 .ngx-datatable {
   box-shadow: none;
-  font-size: 0.8125rem;
+  // font-size: 0.8125rem;
+  font-size: 16px;
 }
 
 .ngx-datatable.datatable {
@@ -22,6 +23,16 @@
         padding-left: 0.25rem;
       }
     }
+  }
+}
+
+.ngx-datatable.material {
+  .datatable-header {
+      border: 0 !important;
+      .datatable-header-cell {
+          background: #0075C2;
+          color: white !important;
+      }
   }
 }
 
