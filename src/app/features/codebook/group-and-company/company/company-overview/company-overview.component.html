@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-end">
-    <span class="material-icons i-button"style="color: #288ab5"(click)="addCompany()">add_box</span>
+    <span class="material-icons i-button"style="color: #288ab5"(click)="addOrEditCompany()">add_box</span>
 </div>
 <div class="card card-absolute mt-1">
     <div class="card-header">
@@ -28,7 +28,7 @@
             </ngx-datatable-column>
             <ngx-datatable-column name="action">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
-                <span class="material-icons i-button text-warning"(click)="editCompany(row)">edit</span>
+                <span class="material-icons i-button text-warning"(click)="addOrEditCompany(row)">edit</span>
                 <span class="material-icons i-button text-danger"(click)="deleteCompany(row.id)">delete</span>
             </ng-template>
             </ngx-datatable-column>

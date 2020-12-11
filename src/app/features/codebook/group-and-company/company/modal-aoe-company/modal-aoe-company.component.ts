@@ -1,12 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { EMPTY, Observable } from 'rxjs';
-import { catchError, take } from 'rxjs/operators';
-import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
-import { IRequestCompany } from '../models/request/request-company';
 import { IResponseCompany } from '../models/response/response-company';
-import { CompanyService } from '../services/company.service';
 
 @Component({
   selector: 'mv-modal-aoe-company',
@@ -19,8 +14,6 @@ export class ModalAoeCompanyComponent implements OnInit {
   @Input() companyAdd!: IResponseCompany;
   @Input() companyId!: number;
 
-  isEdit = true;
-
   isSubmitLoaderActive: boolean = false;
 
   companyGroup: FormGroup = this._formBuilder.group({
@@ -28,71 +21,30 @@ export class ModalAoeCompanyComponent implements OnInit {
     name: ['', [Validators.minLength(3), Validators.maxLength(30)]]
   });
 
-  errorMessage: string = '';
-  company$: Observable<IResponseCompany> = this._companyService.company$.pipe(
-    catchError(err => {
-      this.errorMessage = err;
-      return EMPTY;
-    })
-  )
   constructor(private _formBuilder: FormBuilder,
-              private _modal:NgbActiveModal,
-              private _companyService: CompanyService,
-              private _notificationService: NotificationService) { }
+              public _modal:NgbActiveModal) { }
 
   ngOnInit(): void {
     if(this.companyEdit){
-      this.isEdit = false;
       this.companyGroup.patchValue({
+        id:this.companyEdit.id,
         name: this.companyEdit.name
       });
     }
   }
 
-
   onSubmit(): void {
     if (this.companyGroup.invalid) {
       return;
-    } else {
-      if (this.companyGroup.dirty) {
-        this.isSubmitLoaderActive = true;
-        if (this.id) {
-          this._companyService.put(this.companyGroup.value).pipe(take(1)).subscribe(
-            data => {
-              // todo: Modify when API comes to play
-              this._notificationService.fireSuccessMessage("Firma je uređena");
-              this.isSubmitLoaderActive = false;
-            },
-            err => catchError(err => {
-              this.isSubmitLoaderActive = false;
-              this.errorMessage = err;
-              return EMPTY;
-            })
-          );
-        } else {
-          this._companyService.add(this.companyGroup.value).pipe(take(1)).subscribe(
-            data => {
-              // todo: Modify when API comes to play
-              this._notificationService.fireSuccessMessage("Firma je dodana");
-              this.isSubmitLoaderActive = false;
-            },
-            err => catchError(err => {
-              this.isSubmitLoaderActive = false;
-              this.errorMessage = err;
-              return EMPTY;
-            })
-          );
-        }
+    }else{
+      if(this.companyGroup.dirty){
+        this._modal.close(this.companyGroup.value);
+      } else {
+        this._modal.dismiss('cancel');
       }
     }
   }
 
-  exitModal(){
-    this._modal.close(false);
-  }
-
   get name(): AbstractControl | null { return this.companyGroup.get('name');}
   get id(): AbstractControl | null { return this.companyGroup.get('id'); }
-  
-
 }
