@@ -6,7 +6,10 @@
           <span class="material-icons">
             business
           </span>
-          Grupa
+          <span *ngIf="group; else emptyGroup">{{ group.name }}</span>
+          <ng-template #emptyGroup>
+              <span>Grupa</span>
+          </ng-template>
         </h5>
       </div>
     </div>

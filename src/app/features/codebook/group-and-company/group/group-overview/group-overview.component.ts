@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EMPTY, Observable } from 'rxjs';
-import { catchError, take } from 'rxjs/operators';
+import { catchError, map, take, tap } from 'rxjs/operators';
+import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
 import { IResponseGroup } from '../models/response/response-group';
 import { GroupService } from '../services/group.service';
@@ -18,15 +19,9 @@ export class GroupOverviewComponent implements OnInit {
   groupForm: FormGroup = this._formBuilder.group({
       id: [null],
       name: ['', [Validators.minLength(3), Validators.maxLength(30)]]
-    });;
-
+    });
+  group!: IResponseGroup;
   errorMessage: string = '';
-  group$: Observable<IResponseGroup> = this._groupService.group$.pipe(
-    catchError(err => {
-      this.errorMessage = err;
-      return EMPTY;
-    })
-  );
   /* #endregion */
 
   /* #region  Constructor */
@@ -38,7 +33,7 @@ export class GroupOverviewComponent implements OnInit {
   /* #endregion */
 
   /* #region  Methods */
-  ngOnInit(): void { }
+  ngOnInit(): void { this.getGroup() }
 
   onSubmit(): void {
     if(this.groupForm.invalid) {
@@ -46,36 +41,56 @@ export class GroupOverviewComponent implements OnInit {
     } else {
       if(this.groupForm.dirty) {
         this.isSubmitLoaderActive = true;
-        if(this.id) {
-          this._groupService.put(this.groupForm.value).pipe(take(1)).subscribe(
-            data => {
-              // todo: Modify when API comes to play
-              this._notificationService.fireSuccessMessage("Grupa je uređena");
-              this.isSubmitLoaderActive = false;
-            },
-            err => catchError(err => {
-              this.isSubmitLoaderActive = false;
-              this.errorMessage = err;
-              return EMPTY;
-            })
-          );
+        if(this.id?.value) {
+          this._groupService.put(this.groupForm.value).pipe(
+            take(1),
+            catchError(err => this.catchAndReplaceError(err))
+          ).subscribe(data =>  this.handleSuccesResponse("Grupa je uređena"));
         } else {
-          this._groupService.put(this.groupForm.value).pipe(take(1)).subscribe(
-            data => {
-              // todo: Modify when API comes to play
-              this._notificationService.fireSuccessMessage("Grupa je dodana");
-              this.isSubmitLoaderActive = false;
-            },
-            err => catchError(err => {
-              this.isSubmitLoaderActive = false;
-              this.errorMessage = err;
-              return EMPTY;
-            })
-          );
+          this._groupService.add(this.groupForm.value).pipe(
+            take(1),
+            catchError(err => this.catchAndReplaceError(err))
+          ).subscribe(data =>  this.handleSuccesResponse("Grupa je dodana"));
         }
       }
     }
   }
+
+  // Get all
+  getGroup(): void {
+    this._groupService.get().pipe(
+        catchError(err => {
+          this.errorMessage = err;
+          return EMPTY;
+        }),
+        tap(data => {
+          if(data.response) {
+            this.groupForm.patchValue({
+              id: data.response.id,
+              name: data.response.name
+            })
+          }
+        }),
+        map((response: IFleksbitResponse<IResponseGroup>) => this.group = response.response),
+        take(1)
+      ).subscribe((data: IResponseGroup) => {});
+  }
+
+  // Error handling
+  catchAndReplaceError(errorMessage: string): Observable<never> {
+    this.isSubmitLoaderActive = false;
+    this._notificationService.fireErrorNotification(errorMessage);
+    this.errorMessage = errorMessage;
+    return EMPTY;
+  }
+
+  // 201 - Success
+  handleSuccesResponse(successMessage: string): void {
+    this._notificationService.fireSuccessMessage(successMessage);
+    this.isSubmitLoaderActive = false;
+    this.getGroup();
+  }
+
   /* #endregion */
 
    /* #region  Abstract controls */

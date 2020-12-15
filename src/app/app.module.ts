@@ -10,7 +10,6 @@ import {LayoutModule} from './layout/layout.module';
 import {AppBadgeModule} from './shared/components/app-badge/app-badge.module';
 import {CopyrightModule} from './shared/components/copyright/copyright.module';
 import {UserInfoModule} from './shared/components/user-info/user-info.module';
-import {httpInterceptorProviders} from './shared/interceptors';
 import {baseHref} from './shared/providers/base-href.provider';
 import {defaultDateParserFormatter} from './shared/providers/default-date-parser-formatter.provider';
 import {localeId} from './shared/providers/locale-id.provider';
@@ -35,7 +34,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     localeId,
     baseHref,
     defaultDateParserFormatter,
-    httpInterceptorProviders
+    // httpInterceptorProviders
   ],
   bootstrap: [AppComponent]
 })
