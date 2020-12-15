@@ -18,7 +18,7 @@ export class NotificationService {
       confirmButton: "d-flex btn-primary"
     },
     confirmButtonText:
-     '<i class="material-icons mr-2">mood_bad</i> U redu',
+     'U redu',
      showClass: {
         popup: 'animate__animated animate__fadeInDown'
       },
@@ -39,7 +39,7 @@ export class NotificationService {
       confirmButton: "d-flex btn-primary"
     },
     confirmButtonText:
-     '<i class="material-icons mr-2">sentiment_satisfied_alt</i> U redu',
+     ' U redu',
      showClass: {
         popup: 'animate__animated animate__fadeInDown'
       },
@@ -59,7 +59,7 @@ export class NotificationService {
       confirmButton: "d-flex btn-primary"
       },
       confirmButtonText:
-      '<i class="material-icons mr-2">sentiment_satisfied_alt</i> U redu',
+      ' U redu',
       showClass: {
           popup: 'animate__animated animate__fadeInDown'
         },

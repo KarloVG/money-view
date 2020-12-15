@@ -28,7 +28,7 @@ export class CompanyService {
     const requestParams = new HttpParams({
       fromObject:
         {
-          page: page.toString(),
+          offset: page.toString(),
           pageSize: pageSize.toString()
         }
     });
@@ -41,7 +41,8 @@ export class CompanyService {
 
   add(formGroup: IRequestCompany): Observable<IResponseCompany>{
     const request = {...formGroup};
-    return this._http.post<IResponseCompany>(this.CONTROLLER_NAME, request)
+    const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME]);
+    return this._http.post<IResponseCompany>(url.toString(), request)
       .pipe(
         tap(data => console.log('Add Company', JSON.stringify(data))),
         catchError(this.handleError)
