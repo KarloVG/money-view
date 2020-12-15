@@ -1,12 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EMPTY } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { EMPTY, Observable } from 'rxjs';
 import { catchError, take } from 'rxjs/operators';
 
 import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
 import { IRequestCompany } from '../../group-and-company/company/models/request/request-company';
 import { IRequestUSerPanel } from '../models/request/request-user-panel';
 import { IRequestRole } from '../models/request/role-request';
+import { IResponseUserPanel } from '../models/response/response-user-panel';
 import { UserPanelService } from '../services/user-panel.service';
 
 @Component({
@@ -18,6 +20,7 @@ export class UserPanelOverviewComponent implements OnInit {
 
   isSubmitLoaderActive: boolean = false;
   errorMessage: string = '';
+  group!: IResponseUserPanel;
   @Input() editUser!: IRequestUSerPanel;
 
   userPanelForm: FormGroup = this._formBuilder.group({
@@ -62,9 +65,11 @@ export class UserPanelOverviewComponent implements OnInit {
     }
   ]
 
-  constructor(private _formBuilder: FormBuilder,
-              private _notificationService: NotificationService,
-              private _userPanelService: UserPanelService) { }
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _notificationService: NotificationService,
+    private _userPanelService: UserPanelService,
+    private _spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     if(this.editUser){
@@ -80,38 +85,42 @@ export class UserPanelOverviewComponent implements OnInit {
 
   onSubmit(){
     if(this.userPanelForm.invalid){
-      return
-    }else{
+      return;
+    } else {
       if(this.userPanelForm.dirty) {
         this.isSubmitLoaderActive = true;
-        if(this.id) {
-          this._userPanelService.put(this.userPanelForm.value).pipe(take(1)).subscribe(
-            data => {
-              this._notificationService.fireSuccessMessage("Korisnik je uređen");
-              this.isSubmitLoaderActive = false;
-            },
-            err => catchError(err => {
-              this.isSubmitLoaderActive = false;
-              this.errorMessage = err;
-              return EMPTY;
-            })
-          );
+        if(this.id?.value) {
+          this._userPanelService.put(this.userPanelForm.value).pipe(
+            take(1),
+            catchError(err => this.catchAndReplaceError(err))
+          ).subscribe(data => this.handleSuccesResponse("Korisnik je uređen"));
         } else {
-          this._userPanelService.put(this.userPanelForm.value).pipe(take(1)).subscribe(
-            data => {
-              this._notificationService.fireSuccessMessage("Korisnik je dodan");
-              this.isSubmitLoaderActive = false;
-            },
-            err => catchError(err => {
-              this.isSubmitLoaderActive = false;
-              this.errorMessage = err;
-              return EMPTY;
-            })
-          )
+          this._userPanelService.add(this.userPanelForm.value).pipe(
+            take(1),
+            catchError(err => this.catchAndReplaceError(err))
+          ).subscribe(data => this.handleSuccesResponse("Korisnik je dodan"));
         }
       }
-      this._notificationService.fireSuccessMessage("Korisnik je dodan");
     }
+  }
+
+    // Error handling
+  catchAndReplaceError(errorMessage: string): Observable<never> {
+    this.isSubmitLoaderActive = false;
+    this._notificationService.fireErrorNotification(errorMessage);
+    this.errorMessage = errorMessage;
+    return EMPTY;
+  }
+
+    // 201 - Success
+  handleSuccesResponse(successMessage: string): void {
+    this._spinner.show();
+    // zbog izgleda
+    setTimeout(() => {
+      this._spinner.hide();
+      this._notificationService.fireSuccessMessage(successMessage);
+      this.isSubmitLoaderActive = false;
+    },500);
   }
 
   get id(): AbstractControl | null { return this.userPanelForm.get('id'); }
