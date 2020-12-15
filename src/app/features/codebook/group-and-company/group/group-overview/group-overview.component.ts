@@ -1,3 +1,4 @@
+import { transition, trigger, useAnimation } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EMPTY, Observable } from 'rxjs';
@@ -6,11 +7,18 @@ import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
 import { IResponseGroup } from '../models/response/response-group';
 import { GroupService } from '../services/group.service';
+import { slideInLeft } from 'ng-animate';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'mv-group-overview',
   templateUrl: './group-overview.component.html',
-  styleUrls: ['./group-overview.component.scss']
+  styleUrls: ['./group-overview.component.scss'],
+  animations: [
+    trigger('slideInLeft', [transition('* => *', useAnimation(slideInLeft, {
+      params: { timing: 1 }
+    }))])
+  ]
 })
 export class GroupOverviewComponent implements OnInit {
 
@@ -22,14 +30,16 @@ export class GroupOverviewComponent implements OnInit {
     });
   group!: IResponseGroup;
   errorMessage: string = '';
+  isEditActive: boolean = false;
   /* #endregion */
 
   /* #region  Constructor */
   constructor(
     private _groupService: GroupService,
     private _formBuilder: FormBuilder,
-    private _notificationService: NotificationService
-    ) {}
+    private _notificationService: NotificationService,
+    private _spinner: NgxSpinnerService
+  ) {}
   /* #endregion */
 
   /* #region  Methods */
@@ -86,9 +96,24 @@ export class GroupOverviewComponent implements OnInit {
 
   // 201 - Success
   handleSuccesResponse(successMessage: string): void {
-    this._notificationService.fireSuccessMessage(successMessage);
-    this.isSubmitLoaderActive = false;
-    this.getGroup();
+    this._spinner.show();
+    // zbog izgleda
+    setTimeout(() => {
+      this._spinner.hide();
+      this._notificationService.fireSuccessMessage(successMessage);
+      this.isSubmitLoaderActive = false;
+      this.isEditActive = false;
+      this.getGroup();
+    },500);
+  }
+
+  // Close edit group
+  closeEdit() {
+    this.isEditActive = false;
+    this.groupForm.patchValue({
+      id: this.group.id,
+      name: this.group.name
+    });
   }
 
   /* #endregion */

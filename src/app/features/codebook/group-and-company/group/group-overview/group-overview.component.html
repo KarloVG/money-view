@@ -1,17 +1,7 @@
-<div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 p-0">
-  <div class="card card-absolute mt-4">
+<div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 p-0  mt-5"  [@slideInLeft]="isEditActive ? true : ''">
+  <div class="card card-absolute" *ngIf="group && isEditActive; else editOrAddActive">
     <div class="card-header">
-      <div class="row">
-        <h5>
-          <span class="material-icons">
-            business
-          </span>
-          <span *ngIf="group; else emptyGroup">{{ group.name }}</span>
-          <ng-template #emptyGroup>
-              <span>Grupa</span>
-          </ng-template>
-        </h5>
-      </div>
+        <h5 class="f-20 f-w-600">{{ group.name }}</h5>
     </div>
     <div class="card-body">
       <form  [formGroup]="groupForm" #ngGroupForm="ngForm" (ngSubmit)="onSubmit()">
@@ -28,7 +18,7 @@
           {{ errorMessage }}
         </div>
         <div class="d-flex justify-content-between">
-            <button type="button" title="Odustani" class="btn btn-outline-danger" [disabled]="!groupForm.dirty">Odustani</button>
+            <button type="button" title="Odustani" class="btn btn-outline-danger" (click)="closeEdit()">Odustani</button>
             <button type="submit" title="Spremi" class="btn btn-success" [disabled]="groupForm.invalid" [class.loader--text]="this.isSubmitLoaderActive">
               <span *ngIf="isSubmitLoaderActive; else notActive"></span>
               <ng-template #notActive>Spremi</ng-template>
@@ -37,4 +27,26 @@
       </form>
     </div>
   </div>
+  <ng-template #editOrAddActive>
+   <div class="card card-absolute mt-4">
+      <div class="card-header">
+          <h5 class="f-20 f-w-600">Grupa</h5>
+      </div>
+      <div class="card-body d-flex">
+        <div class="circle-icon">
+          <i class="material-icons md-48">
+            business
+          </i>
+        </div>
+        <div class="d-flex flex-column justify-content-center ml-5">
+          <p class="mb-0 f-18 f-w-600">Naziv grupe: </p>
+          <p class="mb-0" *ngIf="group; else noGroup">{{ group.name }} </p>
+          <ng-template #noGroup>
+             <p class="mb-0" >Nije unesena </p>
+          </ng-template>
+        </div>
+         <span class="material-icons i-button text-warning absolute-right" title="Uredi" (click)="isEditActive = true;">edit</span>
+      </div>
+    </div>
+  </ng-template>
 </div>
