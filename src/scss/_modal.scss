@@ -1,0 +1,6 @@
+@use 'color';
+
+.modal-header {
+  background: color.$app-theme-primary-linear-gradient;
+  color: white;
+}

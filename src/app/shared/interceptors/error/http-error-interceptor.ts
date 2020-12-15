@@ -31,23 +31,23 @@ export class HttpErrorInterceptor implements HttpInterceptor {
            // server-side error - ovo moramo standardizirati
             errorMessage = "Došlo je do pogreške, molimo kontaktirajte administratora";
          }
-        // Swal.fire({
-        //   icon: 'error',
-        //   title: 'Upsss...',
-        //   text: errorMessage,
-        //   customClass: {
-        //     confirmButton: "d-flex"
-        //   },
-        //   confirmButtonText:
-        //    '<i class="material-icons mr-2">mood_bad</i> U redu',
-        //    showClass: {
-        //       popup: 'animate__animated animate__fadeInDown'
-        //     },
-        //     hideClass: {
-        //       popup: 'animate__animated animate__fadeOutUp'
-        //     },
-        //    heightAuto: false
-        // })
+        Swal.fire({
+          icon: 'error',
+          title: 'Upsss...',
+          text: errorMessage,
+          customClass: {
+            confirmButton: "d-flex"
+          },
+          confirmButtonText:
+           '<i class="material-icons mr-2">mood_bad</i> U redu',
+           showClass: {
+              popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+              popup: 'animate__animated animate__fadeOutUp'
+            },
+           heightAuto: false
+        })
          return throwError(errorMessage);
        })
      )

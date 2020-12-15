@@ -15,7 +15,7 @@ export class NotificationService {
     title: 'Upsss...',
     text: message,
     customClass: {
-      confirmButton: "d-flex"
+      confirmButton: "d-flex btn-primary"
     },
     confirmButtonText:
      '<i class="material-icons mr-2">mood_bad</i> U redu',
@@ -36,7 +36,7 @@ export class NotificationService {
     text: message,
     showConfirmButton: true,
     customClass: {
-      confirmButton: "d-flex"
+      confirmButton: "d-flex btn-primary"
     },
     confirmButtonText:
      '<i class="material-icons mr-2">sentiment_satisfied_alt</i> U redu',
@@ -49,4 +49,25 @@ export class NotificationService {
      heightAuto: false
   });
  }
+
+ fireWarningMessage(message: string) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Pažnja',
+      text: message,
+      customClass: {
+      confirmButton: "d-flex btn-primary"
+      },
+      confirmButtonText:
+      '<i class="material-icons mr-2">sentiment_satisfied_alt</i> U redu',
+      showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        },
+      heightAuto: false
+    });
+ }
+
 }
