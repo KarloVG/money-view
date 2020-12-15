@@ -18,6 +18,7 @@ export class ModalAoeCompanyComponent implements OnInit {
 
   companyGroup: FormGroup = this._formBuilder.group({
     id: [null],
+    oib: ['', [Validators.minLength(11), Validators.maxLength(11), Validators.pattern("^[0-9]*$")]],
     name: ['', [Validators.minLength(3), Validators.maxLength(30)]]
   });
 
@@ -25,10 +26,12 @@ export class ModalAoeCompanyComponent implements OnInit {
               public _modal:NgbActiveModal) { }
 
   ngOnInit(): void {
+    this.oib?.valueChanges.subscribe(x => {console.log(this.oib)});
     if(this.companyEdit){
       this.companyGroup.patchValue({
         id:this.companyEdit.id,
-        name: this.companyEdit.name
+        name: this.companyEdit.name,
+        oib: this.companyEdit.oib
       });
     }
   }
@@ -46,5 +49,6 @@ export class ModalAoeCompanyComponent implements OnInit {
   }
 
   get name(): AbstractControl | null { return this.companyGroup.get('name');}
+  get oib(): AbstractControl | null { return this.companyGroup.get('oib');}
   get id(): AbstractControl | null { return this.companyGroup.get('id'); }
 }
