@@ -7,7 +7,7 @@ import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
 import { IResponseGroup } from '../models/response/response-group';
 import { GroupService } from '../services/group.service';
-import { slideInLeft } from 'ng-animate';
+import { slideInUp } from 'ng-animate';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -15,8 +15,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
   templateUrl: './group-overview.component.html',
   styleUrls: ['./group-overview.component.scss'],
   animations: [
-    trigger('slideInLeft', [transition('* => *', useAnimation(slideInLeft, {
-      params: { timing: 1 }
+    trigger('slideInUp', [transition('* => *', useAnimation(slideInUp, {
+      params: { timing: 0.5 }
     }))])
   ]
 })

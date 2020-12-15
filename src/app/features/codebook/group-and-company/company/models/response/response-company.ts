@@ -5,7 +5,8 @@ export interface IPaginatedResponseCompany{
 
 export interface IResponseCompany {
   id: number;
-  name: string
+  name: string;
+  oib: string;
 }
 
 export interface IPaginationCount {

@@ -25,25 +25,9 @@ export class CompanyOverviewComponent implements OnInit {
   rows: IRequestCompany[] = [];
   loadingIndicator: boolean = true;
   currentEntryCount!: number;
-  desiredPageSize: number = 20;
+  desiredPageSize: number = 3;
   desiredPageOffset: number = 0;
 
-  readonly tableColumns: TableColumn[] = [
-    {
-      name: 'Naziv',
-      prop: 'name',
-      draggable: false,
-      resizeable: false,
-      sortable: false
-    },
-    {
-      name: 'Akcije',
-      prop: 'action',
-      draggable: false,
-      resizeable: false,
-      sortable: false
-    }
-  ];
   ColumnMode: ColumnMode = ColumnMode.force;
 
   constructor(
@@ -60,7 +44,6 @@ export class CompanyOverviewComponent implements OnInit {
   public setPage(pageInfo: PageInfo): void {
     this.desiredPageOffset = pageInfo.offset;
     this.desiredPageSize = pageInfo.pageSize;
-    console.log('pageinfo',pageInfo)
     this.getCompanies();
   }
 

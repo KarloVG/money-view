@@ -1,11 +1,10 @@
 <div class="d-flex justify-content-end">
-  <button class="btn-empty">
-    <span
-      class="material-icons i-button text-primary"
-      title="Dodaj firmu"
-      (click)="addOrEditCompany()"
-      >add_box</span
-    >
+  <button
+    class="btn btn-outline-info d-flex justify-content-between"
+    (click)="addOrEditCompany()"
+  >
+    Dodaj
+    <span class="material-icons ml-1 md-24" title="Dodaj firmu">add</span>
   </button>
 </div>
 <div class="card card-absolute mt-1">
@@ -17,7 +16,6 @@
       #table
       class="datatable bootstrap"
       [columnMode]="ColumnMode"
-      [columns]="tableColumns"
       [rows]="rows"
       [headerHeight]="36"
       [loadingIndicator]="loadingIndicator"
@@ -63,7 +61,7 @@
         >
           <button class="btn-empty">
             <span
-              class="material-icons md-36 text-warning"
+              class="material-icons md-24 text-warning"
               title="Uredi"
               (click)="addOrEditCompany(row)"
               >edit</span
@@ -71,7 +69,7 @@
           </button>
           <button class="btn-empty ml-2">
             <span
-              class="material-icons md-36 text-danger"
+              class="material-icons md-24 text-danger"
               title="Obriši"
               (click)="deleteCompany(row)"
               >delete</span
@@ -79,7 +77,7 @@
           </button>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-footer *ngIf="true">
+      <ngx-datatable-footer>
         <ng-template
           ngx-datatable-footer-template
           let-rowCount="rowCount"
