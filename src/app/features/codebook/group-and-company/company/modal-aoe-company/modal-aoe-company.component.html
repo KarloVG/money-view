@@ -1,8 +1,8 @@
 
-<div class="header">
-    <h3 *ngIf="companyEdit; else addCompanyHeader">Uređivanje</h3>
+<div class="modal-header">
+    <h4 class="modal-title" *ngIf="companyEdit; else addCompanyHeader">Uredi firmu</h4>
     <ng-template #addCompanyHeader>
-        <h3>Dodavanje</h3>
+        <h4 class="modal-title">Dodaj novu firmu</h4>
     </ng-template>
 </div>
 <div class="modal-body pb-0">
@@ -21,14 +21,14 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary mr-auto" (click)="_modal.dismiss('cancel')">
               <span class="fas fa-times"></span>
-              <span class="ml-2">Odustani</span>
+              <span >Odustani</span>
             </button>
             <button type="submit" ngbAutofocus class="btn btn-primary">
               <span class="fas fa-user-plus"></span>
               <span class="fas fa-user-check"></span>
-              <span class="ml-2"*ngIf="companyEdit; else addCompany">Uredi firmu</span>
+              <span *ngIf="companyEdit; else addCompany">Uredi firmu</span>
               <ng-template #addCompany>
-                <span class="ml-2">Dodaj firmu</span>
+                <span >Dodaj firmu</span>
               </ng-template>
             </button>
         </div>

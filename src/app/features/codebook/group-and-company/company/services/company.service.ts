@@ -1,33 +1,40 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { AppRouteService } from 'src/app/shared/services/route/app-route.service';
-import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
 import { IRequestCompany } from '../models/request/request-company';
-import { IResponseCompany } from '../models/response/response-company';
+import { IPaginatedResponseCompany, IResponseCompany } from '../models/response/response-company';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CompanyService {
 
+  /* #region  Variables */
   private readonly CONTROLLER_NAME = 'api/company';
-  // All products
-  company$: Observable<IResponseCompany> = this.get();
- /* #endregion */
+  /* #endregion */
 
  /* #region  Constructor */
   constructor(
     private readonly _http: HttpClient,
-    private readonly _appRoute: AppRouteService,
-    private readonly _notificationService: NotificationService
+    private readonly _appRoute: AppRouteService
   ) { }
 
-  private get(): Observable<IResponseCompany> {
-    return this._http.get<IResponseCompany>(this.CONTROLLER_NAME)
+  // Get All
+  get(page: number, pageSize: number,): Observable<IFleksbitResponse<IPaginatedResponseCompany>> {
+    const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME]);
+    const requestParams = new HttpParams({
+      fromObject:
+        {
+          page: page.toString(),
+          pageSize: pageSize.toString()
+        }
+    });
+    return this._http.get<IFleksbitResponse<IPaginatedResponseCompany>>(url.toString(), {params: requestParams})
       .pipe(
-        tap(data => console.log('Get Company', JSON.stringify(data))),
+        tap(data => console.log('Get Company',data)),
         catchError(this.handleError)
       );
   }
@@ -60,21 +67,19 @@ export class CompanyService {
       );
   }
 
-   // Remove before production
- private handleError(err: any): Observable<never> {
-  // instead of logging infrastructore on BE, just log it to the console
-  let errorMessage: string;
-  if (err.error instanceof ErrorEvent) {
-    // A client-side or network error occurred. Handle it accordingly.
-    errorMessage = `Došlo je do frontend pogreške: ${err.error.message}`;
-  } else {
-    // The backend returned an unsuccessful response code.
-    // The response body may contain clues as to what went wrong,
-    errorMessage = `Došlo je do backend pogreške ${err.status}: ${err.body.error}`;
+  // Remove before production
+  private handleError(err: HttpErrorResponse): Observable<never> {
+    const {error} = err;
+    // instead of logging infrastructore on BE, just log it to the console
+    let errorMessage: string;
+    if (error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      errorMessage = `Došlo je do frontend pogreške: ${error.message}`;
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      errorMessage = error.error.message;
+    }
+    return throwError(errorMessage);
   }
-  this._notificationService.fireErrorNotification(errorMessage)
-  return throwError(errorMessage);
-}
-
-
 }

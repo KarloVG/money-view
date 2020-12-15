@@ -1,0 +1,18 @@
+@use 'color';
+
+.btn-primary {
+  background: color.$app-theme-secondary-base-color !important ;
+}
+
+button.btn-empty {
+  background-color: white;
+  border: 0;
+  &:active {
+    border: 0 !important;
+    outline: white;
+  }
+  &:focus {
+    border: 0 !important;
+    outline: white;
+  }
+}
