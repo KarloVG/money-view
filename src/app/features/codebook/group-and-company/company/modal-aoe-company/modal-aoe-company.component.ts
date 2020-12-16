@@ -11,9 +11,6 @@ import { IResponseCompany } from '../models/response/response-company';
 export class ModalAoeCompanyComponent implements OnInit {
 
   @Input() companyEdit!: IResponseCompany;
-  @Input() companyAdd!: IResponseCompany;
-  @Input() companyId!: number;
-
   isSubmitLoaderActive: boolean = false;
 
   companyGroup: FormGroup = this._formBuilder.group({
@@ -26,7 +23,6 @@ export class ModalAoeCompanyComponent implements OnInit {
               public _modal:NgbActiveModal) { }
 
   ngOnInit(): void {
-    this.oib?.valueChanges.subscribe(x => {console.log(this.oib)});
     if(this.companyEdit){
       this.companyGroup.patchValue({
         id:this.companyEdit.id,
