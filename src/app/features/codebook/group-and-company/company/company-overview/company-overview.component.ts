@@ -10,7 +10,6 @@ import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { PageInfo } from 'src/app/shared/page-info';
 import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
 import { ModalAoeCompanyComponent } from '../modal-aoe-company/modal-aoe-company.component';
-import { IRequestCompany } from '../models/request/request-company';
 import { IPaginatedResponseCompany, IResponseCompany } from '../models/response/response-company';
 import { CompanyService } from '../services/company.service';
 
@@ -22,12 +21,11 @@ import { CompanyService } from '../services/company.service';
 export class CompanyOverviewComponent implements OnInit {
 
   isSubmitLoaderActive: boolean = false;
-  rows: IRequestCompany[] = [];
+  rows: IResponseCompany[] = [];
   loadingIndicator: boolean = true;
   currentEntryCount!: number;
   desiredPageSize: number = 3;
   desiredPageOffset: number = 0;
-
   ColumnMode: ColumnMode = ColumnMode.force;
 
   constructor(

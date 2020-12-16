@@ -1,0 +1,105 @@
+<div class="modal-header">
+  <h4 class="modal-title" *ngIf="bank; else addBank">Uredi banku</h4>
+  <ng-template #addBank>
+    <h4 class="modal-title">Dodaj novu banku</h4>
+  </ng-template>
+</div>
+<div class="modal-body pb-0">
+  <form [formGroup]="bankGroup" (ngSubmit)="onSubmit()" #bankForm="ngForm">
+    <div class="card-body px-0 pt-0">
+      <div class="col-12 mb-3">
+        <label class="required" for="name"> Naziv </label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          name="korisnik"
+          placeholder="Naziv firme&hellip;"
+          formControlName="name"
+          autocomplete="off"
+          [ngClass]="{
+            'is-invalid':
+              name?.invalid &&
+              (name?.dirty || name?.touched || bankForm.submitted)
+          }"
+          autocomplete="off"
+        />
+        <div class="invalid-feedback">Polje je obavezno</div>
+      </div>
+      <div class="col-12 mb-3">
+        <label class="required" for="tag">Kratica banke</label>
+        <input
+          type="text"
+          class="form-control"
+          id="tag"
+          name="tag"
+          placeholder="Kratica banke&hellip;"
+          formControlName="tag"
+          autocomplete="off"
+          [ngClass]="{
+            'is-invalid':
+              tag?.invalid && (tag?.dirty || tag?.touched || bankForm.submitted)
+          }"
+          autocomplete="off"
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="tag?.errors?.minlength || tag?.errors?.maxlength"
+        >
+          Polje Kratica Banke mora sadržavati minimalno 1 i maksimalno 8 znakova
+        </div>
+        <div class="invalid-feedback" *ngIf="tag?.errors?.required">
+          Polje Kratica Banke je obavezo
+        </div>
+      </div>
+      <div class="col-12 mb-3">
+        <label [ngClass]="{ required: vbdi?.value }" for="vbdi">VBDI</label>
+        <input
+          type="text"
+          class="form-control"
+          id="vbdi"
+          name="vbdi"
+          placeholder="VBDI&hellip;"
+          formControlName="vbdi"
+          autocomplete="off"
+          [ngClass]="{
+            'is-invalid':
+              vbdi?.invalid &&
+              (vbdi?.dirty || vbdi?.touched || bankForm.submitted)
+          }"
+          autocomplete="off"
+        />
+        <div
+          class="invalid-feedback"
+          *ngIf="vbdi?.errors?.minlength || vbdi?.errors?.maxlength"
+        >
+          Polje VBDI mora sadržavati 7 znakova
+        </div>
+        <div class="invalid-feedback" *ngIf="vbdi?.errors?.required">
+          Polje VBDI je obavezo
+        </div>
+        <div class="invalid-feedback" *ngIf="vbdi?.errors?.pattern">
+          Polje VBDI mora sadržavati samo brojeve
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline-secondary mr-auto"
+        (click)="_modal.dismiss('cancel')"
+      >
+        <span class="fas fa-times"></span>
+        <span>Odustani</span>
+      </button>
+      <button type="submit" ngbAutofocus class="btn btn-primary">
+        <span class="fas fa-user-plus"></span>
+        <span class="fas fa-user-check"></span>
+        <span *ngIf="bank; else newBank">Uredi banku</span>
+        <ng-template #newBank>
+          <span>Dodaj banku</span>
+        </ng-template>
+      </button>
+    </div>
+  </form>
+</div>

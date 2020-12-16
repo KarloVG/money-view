@@ -1,0 +1,119 @@
+<div class="col-lg-12 p-0 mt-3">
+  <div class="d-flex justify-content-end">
+    <button
+      class="btn btn-outline-info d-flex align-items-center pr-1"
+      (click)="addOrEditBank()"
+    >
+      Dodaj
+      <span class="material-icons ml-1 md-24" title="Dodaj firmu">add</span>
+    </button>
+  </div>
+  <div class="card card-absolute mt-2">
+    <div class="card-header">
+      <h5 class="f-20 f-w-600">Banke</h5>
+    </div>
+    <div class="card-body pb-1">
+      <ngx-datatable
+        #table
+        class="datatable bootstrap"
+        [columnMode]="ColumnMode"
+        [rows]="rows"
+        [headerHeight]="36"
+        [loadingIndicator]="loadingIndicator"
+        [footerHeight]="36"
+        [rowHeight]="'auto'"
+        [count]="entryCount"
+        [limit]="desiredPageSize"
+        [offset]="desiredPageOffset"
+        [externalPaging]="true"
+        (page)="setPage($event)"
+      >
+        <ngx-datatable-column name="Naziv banke" prop="name" [width]="400">
+          <ng-template
+            ngx-datatable-cell-template
+            let-rowIndex="rowIndex"
+            let-value="value"
+            let-row="row"
+          >
+            {{ value | uppercase }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="VBDI" prop="vbdi" [width]="200">
+          <ng-template
+            ngx-datatable-cell-template
+            let-rowIndex="rowIndex"
+            let-value="value"
+            let-row="row"
+          >
+            {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Kratica" prop="tag" [width]="200">
+          <ng-template
+            ngx-datatable-cell-template
+            let-rowIndex="rowIndex"
+            let-value="value"
+            let-row="row"
+          >
+            {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column
+          name="Akcije"
+          [width]="150"
+          [resizeable]="false"
+          [canAutoResize]="false"
+        >
+          <ng-template
+            ngx-datatable-cell-template
+            let-rowIndex="rowIndex"
+            let-row="row"
+            let-value="value"
+          >
+            <button class="btn-empty">
+              <span
+                class="material-icons md-24 text-warning"
+                title="Uredi"
+                (click)="addOrEditBank(row)"
+                >edit</span
+              >
+            </button>
+            <button class="btn-empty ml-2">
+              <span
+                class="material-icons md-24 text-danger"
+                title="Obriši"
+                (click)="deleteBank(row)"
+                >delete</span
+              >
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-footer>
+          <ng-template
+            ngx-datatable-footer-template
+            let-rowCount="rowCount"
+            let-pageSize="pageSize"
+            let-curPage="curPage"
+          >
+            <div>
+              <span>Ukupno: </span><span>{{ rowCount }}</span>
+            </div>
+            <datatable-pager
+              class="mv-pager"
+              [pagerLeftArrowIcon]="'datatable-icon-left'"
+              [pagerRightArrowIcon]="'datatable-icon-right'"
+              [pagerPreviousIcon]="'datatable-icon-prev'"
+              [pagerNextIcon]="'datatable-icon-skip'"
+              [page]="curPage"
+              [size]="pageSize"
+              [count]="rowCount"
+              [hidden]="!(rowCount / pageSize > 1)"
+              (change)="table.onFooterPage($event)"
+            >
+            </datatable-pager>
+          </ng-template>
+        </ngx-datatable-footer>
+      </ngx-datatable>
+    </div>
+  </div>
+</div>
