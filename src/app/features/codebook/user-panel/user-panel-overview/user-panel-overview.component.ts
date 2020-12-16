@@ -2,10 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EMPTY, Observable } from 'rxjs';
-import { catchError, take } from 'rxjs/operators';
+import { catchError, map, take } from 'rxjs/operators';
+import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 
 import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
 import { IRequestCompany } from '../../group-and-company/company/models/request/request-company';
+import { IPaginatedResponseCompany, IResponseCompany } from '../../group-and-company/company/models/response/response-company';
+import { CompanyService } from '../../group-and-company/company/services/company.service';
 import { IRequestUSerPanel } from '../models/request/request-user-panel';
 import { IRequestRole } from '../models/request/role-request';
 import { IResponseUserPanel } from '../models/response/response-user-panel';
@@ -21,6 +24,8 @@ export class UserPanelOverviewComponent implements OnInit {
   isSubmitLoaderActive: boolean = false;
   errorMessage: string = '';
   group!: IResponseUserPanel;
+  desiredPageSize: number = 150;
+  dropDownCompanies: IRequestCompany[] = [];
   @Input() editUser!: IRequestUSerPanel;
 
   userPanelForm: FormGroup = this._formBuilder.group({
@@ -54,22 +59,13 @@ export class UserPanelOverviewComponent implements OnInit {
       name:'Menadžer grupe'
     }
   ]
-  companies: IRequestCompany[] = [
-    {
-      id:1,
-      name:"Agrokor"
-    },
-    {
-      id:2,
-      name:"Jamnica"
-    }
-  ]
 
   constructor(
     private _formBuilder: FormBuilder,
     private _notificationService: NotificationService,
     private _userPanelService: UserPanelService,
-    private _spinner: NgxSpinnerService) { }
+    private _spinner: NgxSpinnerService,
+    private _companyService: CompanyService,) { }
 
   ngOnInit(): void {
     if(this.editUser){
@@ -81,6 +77,17 @@ export class UserPanelOverviewComponent implements OnInit {
         role:this.editUser.role
       });
     }
+    this.getDropdownCompanies();
+  }
+
+  getDropdownCompanies(): void{
+    this._companyService.getDropdown().pipe(
+      take(1),
+      catchError(err => this.catchAndReplaceError(err)),
+      map((response: IFleksbitResponse<IPaginatedResponseCompany>) => response.response),
+    ).subscribe((res: IPaginatedResponseCompany) => {
+      this.dropDownCompanies = res.data;
+    })
   }
 
   onSubmit(){

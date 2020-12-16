@@ -22,6 +22,21 @@ export class CompanyService {
     private readonly _appRoute: AppRouteService
   ) { }
 
+  //Get All Dropdown
+  getDropdown(): Observable<IFleksbitResponse<IPaginatedResponseCompany>>{
+    const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME]);
+    const requestParams = new HttpParams({
+      fromObject:
+      {
+        enumerate: "true"
+      }
+    });
+    return this._http.get<IFleksbitResponse<IPaginatedResponseCompany>>(url.toString(), {params: requestParams})
+      .pipe(
+        tap(data => console.log('Get Dropdown Company', data)),
+        catchError(this.handleError)
+      );
+  }
   // Get All
   get(page: number, pageSize: number,): Observable<IFleksbitResponse<IPaginatedResponseCompany>> {
     const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME]);
@@ -71,6 +86,7 @@ export class CompanyService {
   // Remove before production
   private handleError(err: HttpErrorResponse): Observable<never> {
     const {error} = err;
+    console.log(error)
     // instead of logging infrastructore on BE, just log it to the console
     let errorMessage: string;
     if (error instanceof ErrorEvent) {
@@ -80,6 +96,8 @@ export class CompanyService {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       errorMessage = error.error.message;
+      ;
+      ;
     }
     return throwError(errorMessage);
   }
