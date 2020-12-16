@@ -71,8 +71,9 @@ export class BankOverviewComponent implements OnInit {
   // Add or Edit
   addOrEditBank(bank?: IResponseBank): void {
     const modal = this._modal.open(ModalAoeBankComponent, {
-      size: 'l',
+      centered: true,
       backdrop: 'static',
+      keyboard: false,
     });
     if (bank) {
       modal.componentInstance.bank = bank;
@@ -114,6 +115,7 @@ export class BankOverviewComponent implements OnInit {
   // Delete
   deleteBank(bank: IResponseBank): void {
     const modalRef = this._modal.open(ConfirmationModalComponent, {
+      centered: true,
       backdrop: 'static',
       keyboard: false,
     });
