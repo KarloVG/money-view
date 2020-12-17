@@ -2,8 +2,8 @@
   <div class="d-flex justify-content-end">
     <button
       class="btn btn-outline-info d-flex align-items-center pr-1"
-      (click)="addOrEditBank()"
-      title="Dodaj banku"
+      (click)="addOrEditAccount()"
+      title="Dodaj račun"
     >
       Dodaj
       <span class="material-icons ml-1 md-24">add</span>
@@ -11,7 +11,7 @@
   </div>
   <div class="card card-absolute mt-2">
     <div class="card-header">
-      <h5 class="f-20 f-w-600">Banke</h5>
+      <h5 class="f-20 f-w-600">Računi</h5>
     </div>
     <div class="card-body pb-1">
       <ngx-datatable
@@ -29,7 +29,7 @@
         [externalPaging]="true"
         (page)="setPage($event)"
       >
-        <ngx-datatable-column name="Naziv banke" prop="name" [width]="400">
+        <ngx-datatable-column name="IBAN" prop="iban" [width]="300">
           <ng-template
             ngx-datatable-cell-template
             let-rowIndex="rowIndex"
@@ -39,24 +39,24 @@
             {{ value | uppercase }}
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="VBDI" prop="vbdi" [width]="200">
+        <ngx-datatable-column name="Firma" prop="company" [width]="200">
           <ng-template
             ngx-datatable-cell-template
             let-rowIndex="rowIndex"
             let-value="value"
             let-row="row"
           >
-            {{ value }}
+            {{ value?.name }}
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Kratica" prop="tag" [width]="200">
+        <ngx-datatable-column name="Bank" prop="bank" [width]="300">
           <ng-template
             ngx-datatable-cell-template
             let-rowIndex="rowIndex"
             let-value="value"
             let-row="row"
           >
-            {{ value }}
+            {{ value?.name }}
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column
@@ -75,7 +75,7 @@
               <span
                 class="material-icons md-24 text-warning"
                 title="Uredi"
-                (click)="addOrEditBank(row)"
+                (click)="addOrEditAccount(row)"
                 >edit</span
               >
             </button>
@@ -83,7 +83,7 @@
               <span
                 class="material-icons md-24 text-danger"
                 title="Obriši"
-                (click)="deleteBank(row)"
+                (click)="deleteAccount(row)"
                 >delete</span
               >
             </button>

@@ -1,0 +1,128 @@
+import { Component, Input, OnInit } from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { EMPTY, forkJoin, Observable, Subscription } from 'rxjs';
+import { catchError, map, take } from 'rxjs/operators';
+import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
+import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
+import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
+import { IResponseBank } from '../../bank/models/response/response-bank';
+import { BankService } from '../../bank/services/bank.service';
+import {
+  IPaginatedResponseCompany,
+  IResponseCompany,
+} from '../../group-and-company/company/models/response/response-company';
+import { CompanyService } from '../../group-and-company/company/services/company.service';
+import { IResponseAccount } from '../models/response/response-account';
+
+@Component({
+  selector: 'mv-modal-aoe-account',
+  templateUrl: './modal-aoe-account.component.html',
+  styleUrls: ['./modal-aoe-account.component.scss'],
+})
+export class ModalAoeAccountComponent implements OnInit {
+  /* #region  Variables */
+  @Input() account!: IResponseAccount;
+  isSubmitLoaderActive: boolean = false;
+  companies!: IResponseCompany[];
+  banks!: IResponseBank[];
+  bankAndCompany$!: Subscription;
+
+  accountGroup: FormGroup = this._formBuilder.group({
+    id: [null],
+    companyId: [null, Validators.required],
+    bankId: [null, Validators.required],
+    iban: ['', Validators.required],
+  });
+  /* #endregion */
+
+  /* #region  Constructor */
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _companyService: CompanyService,
+    private _bankService: BankService,
+    public _modal: NgbActiveModal,
+    private _notificationService: NotificationService
+  ) {}
+  /* #endregion */
+
+  /* #region  Methods */
+  ngOnInit(): void {
+    this.bankAndCompany$ = forkJoin([
+      this._bankService.getDropdown().pipe(
+        take(1),
+        catchError((err) => this.catchAndReplaceError(err)),
+        map(
+          (
+            response: IFleksbitResponse<BasicPaginatedResponse<IResponseBank>>
+          ) => response.response.data
+        )
+      ),
+      this._companyService.getDropdown().pipe(
+        take(1),
+        catchError((err) => this.catchAndReplaceError(err)),
+        map(
+          (
+            response: IFleksbitResponse<
+              BasicPaginatedResponse<IResponseCompany>
+            >
+          ) => response.response.data
+        )
+      ),
+    ]).subscribe((results) => {
+      this.banks = results[0];
+      this.companies = results[1];
+
+      console.log(this.banks);
+      if (this.account) {
+        this.accountGroup.patchValue({
+          id: this.account.id,
+          companyId: this.account.company.id,
+          bankId: this.account.id,
+          iban: this.account.iban,
+        });
+      }
+    });
+  }
+
+  // Error handling
+  catchAndReplaceError(errorMessage: string): Observable<never> {
+    this.isSubmitLoaderActive = false;
+    this._notificationService.fireErrorNotification(errorMessage);
+    return EMPTY;
+  }
+
+  onSubmit(): void {
+    if (this.accountGroup.invalid) {
+      return;
+    } else {
+      if (this.accountGroup.dirty) {
+        console.log(this.accountGroup);
+        this._modal.close(this.accountGroup.value);
+      } else {
+        this._modal.dismiss('cancel');
+      }
+    }
+  }
+  /* #endregion */
+
+  /* #region  Abstract Controls */
+  get companyId(): AbstractControl | null {
+    return this.accountGroup.get('companyId');
+  }
+  get bankId(): AbstractControl | null {
+    return this.accountGroup.get('bankId');
+  }
+  get iban(): AbstractControl | null {
+    return this.accountGroup.get('iban');
+  }
+  get id(): AbstractControl | null {
+    return this.accountGroup.get('id');
+  }
+  /* #endregion */
+}

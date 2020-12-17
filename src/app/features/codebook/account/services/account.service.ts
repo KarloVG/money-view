@@ -9,15 +9,15 @@ import { catchError, tap } from 'rxjs/operators';
 import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { AppRouteService } from 'src/app/shared/services/route/app-route.service';
-import { IRequestBank } from '../models/request/request-bank';
-import { IResponseBank } from '../models/response/response-bank';
+import { IRequestAccount } from '../models/request/request-account';
+import { IResponseAccount } from '../models/response/response-account';
 
 @Injectable({
   providedIn: 'root',
 })
-export class BankService {
+export class AccountService {
   /* #region  Variables */
-  private readonly CONTROLLER_NAME = 'api/bank';
+  private readonly CONTROLLER_NAME = 'api/accounts';
   /* #endregion */
 
   /* #region  Constructor */
@@ -26,34 +26,11 @@ export class BankService {
     private readonly _appRoute: AppRouteService
   ) {}
 
-  //Get All Dropdown
-  getDropdown(): Observable<
-    IFleksbitResponse<BasicPaginatedResponse<IResponseBank>>
-  > {
-    const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME]);
-    const requestParams = new HttpParams({
-      fromObject: {
-        enumerate: 'true',
-      },
-    });
-    return this._http
-      .get<IFleksbitResponse<BasicPaginatedResponse<IResponseBank>>>(
-        url.toString(),
-        {
-          params: requestParams,
-        }
-      )
-      .pipe(
-        tap((data) => console.log('Get Dropdown Company', data)),
-        catchError(this.handleError)
-      );
-  }
-
   // Get All
   get(
     page: number,
     pageSize: number
-  ): Observable<IFleksbitResponse<BasicPaginatedResponse<IResponseBank>>> {
+  ): Observable<IFleksbitResponse<BasicPaginatedResponse<IResponseAccount>>> {
     const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME]);
     const requestParams = new HttpParams({
       fromObject: {
@@ -62,7 +39,7 @@ export class BankService {
       },
     });
     return this._http
-      .get<IFleksbitResponse<BasicPaginatedResponse<IResponseBank>>>(
+      .get<IFleksbitResponse<BasicPaginatedResponse<IResponseAccount>>>(
         url.toString(),
         { params: requestParams }
       )
@@ -72,38 +49,43 @@ export class BankService {
       );
   }
 
-  add(formGroup: IRequestBank): Observable<IFleksbitResponse<IResponseBank>> {
+  add(
+    formGroup: IRequestAccount
+  ): Observable<IFleksbitResponse<IResponseAccount>> {
+    console.log(formGroup);
     const request = { ...formGroup };
     const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME]);
     return this._http
-      .post<IFleksbitResponse<IResponseBank>>(url.toString(), request)
+      .post<IFleksbitResponse<IResponseAccount>>(url.toString(), request)
       .pipe(
         tap((data) => console.log('Add bank', JSON.stringify(data))),
         catchError(this.handleError)
       );
   }
 
-  put(formGroup: IRequestBank): Observable<IFleksbitResponse<IResponseBank>> {
+  put(
+    formGroup: IRequestAccount
+  ): Observable<IFleksbitResponse<IResponseAccount>> {
     const request = { ...formGroup };
     const url = this._appRoute.createAppRouteURL([
       this.CONTROLLER_NAME,
       formGroup.id.toString(),
     ]);
     return this._http
-      .put<IFleksbitResponse<IResponseBank>>(url.toString(), request)
+      .put<IFleksbitResponse<IResponseAccount>>(url.toString(), request)
       .pipe(
         tap((data) => console.log('Add bank', JSON.stringify(data))),
         catchError(this.handleError)
       );
   }
 
-  delete(id: number): Observable<IFleksbitResponse<IResponseBank>> {
+  delete(id: number): Observable<IFleksbitResponse<IResponseAccount>> {
     const url = this._appRoute.createAppRouteURL([
       this.CONTROLLER_NAME,
       id.toString(),
     ]);
     return this._http
-      .delete<IFleksbitResponse<IResponseBank>>(url.toString())
+      .delete<IFleksbitResponse<IResponseAccount>>(url.toString())
       .pipe(
         tap((data) => console.log('Delete bank', JSON.stringify(data))),
         catchError(this.handleError)

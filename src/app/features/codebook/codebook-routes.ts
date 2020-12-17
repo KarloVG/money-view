@@ -17,4 +17,9 @@ export const codebookRoutes: Routes = [
     loadChildren: () =>
       import('./user-panel/user-panel.module').then((m) => m.UserPanelModule),
   },
+  {
+    path: 'account',
+    loadChildren: () =>
+      import('./account/account.module').then((m) => m.AccountModule),
+  },
 ];
