@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { AppRouteService } from 'src/app/shared/services/route/app-route.service';
-import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
+import {environment} from '../../../../../environments/environment';
 import { IRequestUSerPanel } from '../models/request/request-user-panel';
 import { IResponseUserPanel } from '../models/response/response-user-panel';
 
@@ -13,7 +13,7 @@ import { IResponseUserPanel } from '../models/response/response-user-panel';
 })
 export class UserPanelService {
 
-  private readonly CONTROLLER_NAME = 'api/user-panel';
+  private readonly CONTROLLER_NAME = environment.production ? 'api/api/user-panel' : 'api/user-panel';
 
   constructor(
     private readonly _http: HttpClient,
@@ -52,7 +52,7 @@ export class UserPanelService {
       );
   }
 
- 
+
   private handleError(err: HttpErrorResponse): Observable<never> {
     const {error} = err;
     // instead of logging infrastructore on BE, just log it to the console
@@ -64,7 +64,7 @@ export class UserPanelService {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       errorMessage = error.error.message;
-      
+
     }
     return throwError(errorMessage);
   }

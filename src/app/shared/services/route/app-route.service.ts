@@ -1,6 +1,6 @@
 import {APP_BASE_HREF} from '@angular/common';
 import {Inject, Injectable} from '@angular/core';
-import { environment } from 'src/environments/environment';
+import {environment} from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +15,14 @@ export class AppRouteService {
 
   createAppRouteURL(paths: string[]): URL {
     // TODO: zamijeni environment sa window.location.origin -> prije porodukcije
-    return new URL(`${this.baseHref}${paths.join('/')}`, environment.baseUrl);
+    return new URL(`${this.baseHref}${paths.join('/')}`,
+      environment.production ? window.location.origin : environment.baseUrl);
   }
 
   createAppRouteURLWithParams(paths: string[], params: URLSearchParams): URL {
     // TODO: zamijeni environment sa window.location.origin -> prije porodukcije
-    return new URL(`${this.baseHref}${paths.join('/')}?${params.toString()}`,environment.baseUrl);
+    return new URL(`${this.baseHref}${paths.join('/')}?${params.toString()}`,
+      environment.production ? window.location.origin : environment.baseUrl);
   }
 
 }
