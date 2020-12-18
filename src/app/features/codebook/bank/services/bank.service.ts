@@ -9,6 +9,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { AppRouteService } from 'src/app/shared/services/route/app-route.service';
+import {environment} from '../../../../../environments/environment';
 import { IRequestBank } from '../models/request/request-bank';
 import { IResponseBank } from '../models/response/response-bank';
 
@@ -17,7 +18,7 @@ import { IResponseBank } from '../models/response/response-bank';
 })
 export class BankService {
   /* #region  Variables */
-  private readonly CONTROLLER_NAME = 'api/bank';
+  private readonly CONTROLLER_NAME = environment.production ? 'api/api/bank' : 'api/bank';
   /* #endregion */
 
   /* #region  Constructor */

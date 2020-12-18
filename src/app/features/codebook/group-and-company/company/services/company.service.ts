@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { AppRouteService } from 'src/app/shared/services/route/app-route.service';
+import {environment} from '../../../../../../environments/environment';
 import { IRequestCompany } from '../models/request/request-company';
 import { IPaginatedResponseCompany, IResponseCompany } from '../models/response/response-company';
 
@@ -13,7 +14,7 @@ import { IPaginatedResponseCompany, IResponseCompany } from '../models/response/
 export class CompanyService {
 
   /* #region  Variables */
-  private readonly CONTROLLER_NAME = 'api/company';
+  private readonly CONTROLLER_NAME = environment.production ? 'api/api/company' : 'api/company';
   /* #endregion */
 
  /* #region  Constructor */

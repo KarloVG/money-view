@@ -9,6 +9,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { AppRouteService } from 'src/app/shared/services/route/app-route.service';
+import {environment} from '../../../../../environments/environment';
 import { IRequestAccount } from '../models/request/request-account';
 import { IResponseAccount } from '../models/response/response-account';
 
@@ -17,7 +18,7 @@ import { IResponseAccount } from '../models/response/response-account';
 })
 export class AccountService {
   /* #region  Variables */
-  private readonly CONTROLLER_NAME = 'api/accounts';
+  private readonly CONTROLLER_NAME = environment.production ? 'api/api/accounts' : 'api/accounts';
   /* #endregion */
 
   /* #region  Constructor */

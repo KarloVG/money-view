@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError,  tap} from 'rxjs/operators';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { AppRouteService } from 'src/app/shared/services/route/app-route.service';
+import {environment} from '../../../../../../environments/environment';
 import { IRequestGroup } from '../models/request/request-group';
 import { IResponseGroup } from '../models/response/response-group';
 
@@ -13,7 +14,7 @@ import { IResponseGroup } from '../models/response/response-group';
 export class GroupService {
 
  /* #region  Variables */
-  private readonly CONTROLLER_NAME = 'api/group';
+  private readonly CONTROLLER_NAME = environment.production ? 'api/api/group' : 'api/group';
  /* #endregion */
 
  /* #region  Constructor */
