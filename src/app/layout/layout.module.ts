@@ -6,6 +6,11 @@ import {HeaderModule} from './header/header.module';
 import {SidebarComponent} from './sidebar/sidebar.component';
 import {SidebarModule} from './sidebar/sidebar.module';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { SidenavModule } from './sidenav/sidenav.module';
+import { NavTopComponent } from './sidenav/nav-top/nav-top.component';
+import { NavTogglerComponent } from './sidenav/nav-toggler/nav-toggler.component';
+import { NavSideComponent } from './sidenav/nav-side/nav-side.component';
+
 
 @NgModule({
   declarations: [],
@@ -13,12 +18,16 @@ import { NgxSpinnerModule } from "ngx-spinner";
     SidebarModule,
     HeaderModule,
     FooterModule,
+    SidenavModule,
     NgxSpinnerModule
   ],
   exports: [
     SidebarComponent,
     HeaderComponent,
     FooterComponent,
+    NavTopComponent,
+    NavTogglerComponent,
+    NavSideComponent,
     NgxSpinnerModule
   ]
 })

@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import { SideNavService } from '../sidenav/services/sidenav.service';
 
 @Component({
   selector: 'mv-header',
@@ -6,4 +7,6 @@ import {Component} from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
+
+  constructor(public sideNavService: SideNavService){}
 }

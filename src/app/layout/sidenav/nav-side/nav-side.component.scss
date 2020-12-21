@@ -1,0 +1,103 @@
+@use '~src/scss/color';
+
+:host {
+  display: block;
+  background: linear-gradient(130.75deg, #51C8C9 0%,#288ab5 64%);
+  background-attachment: fixed;
+}
+
+#sidebar {
+  min-width: 200px;
+  max-width: 200px;
+  min-height: 91.7vh;
+  color: #fff;
+  transition: all 0.9s;
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.5;
+  mix-blend-mode: lighten;
+  }
+
+  .navbar {
+    display: block;
+  }
+   
+  #sidebar.hidden {
+    margin-left: -200px;
+  }
+   
+  a[data-toggle="collapse"] {
+    position: relative;
+  }
+   
+  @media (max-width: 575px) {
+    #sidebar {
+        margin-left: -200px;
+    }
+    #sidebar.hidden {
+        margin-left: 0;
+    }
+  }
+   
+  a, a:hover, a:focus {
+    color: inherit;
+  }
+   
+
+  #sidebar .sidebar-header {
+    padding: 20px;
+  }
+   
+  #sidebar ul li a {
+  padding: 15px;
+  display: block;
+  width: 100%;
+  &:hover  {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  }
+   
+  hr {
+  border-top: 1px solid #fff;
+  margin-top: 0;
+  }
+
+  //dropdown animation
+  .navbar-nav li:hover > ul.dropdown-menu {
+    display: block;
+  }
+
+  :hover >.dropdown-menu{
+    max-height: 300px;
+    visibility: visible;
+  }
+  .dropdown-menu{
+    display: block;
+    max-height: 0px;
+    visibility: hidden;
+    transition: all 0.4s ease-in-out;
+    overflow: hidden;
+  }
+  
+//only implements padding to first child
+  .nav-item {
+    &.dropdown {
+      .nav-link.dropdown-toggle:first-child {
+        padding-bottom: 0 !important;
+      }
+    }
+  }
+
+/* rotate caret on hover */
+.nav-item > a:hover:after {
+    text-decoration: underline;
+    transform: rotate(-180deg);
+} 
+
+.dropdown-item{
+  &:hover{
+    background-color:rgb(233, 227, 227) !important;
+  }
+}
+
+

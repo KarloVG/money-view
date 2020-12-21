@@ -1,6 +1,15 @@
 <header class="header" role="banner">
   <div class="header__wrapper" role="presentation">
-    <ng-content select="[badge]"></ng-content>
+    <div class="badge">
+      <ng-content select="[badge]"></ng-content>
+    </div>
     <ng-content select="[userInfo]"></ng-content>
+    <div class="toggler">
+      <button type="button" class="navbar-toggler" (click)="sideNavService.toggleSideNav()">
+        <span class="material-icons">
+          list
+        </span>
+      </button>
+    </div>
   </div>
 </header>

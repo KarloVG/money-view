@@ -15,6 +15,8 @@ import {baseHref} from './shared/providers/base-href.provider';
 import {defaultDateParserFormatter} from './shared/providers/default-date-parser-formatter.provider';
 import {localeId} from './shared/providers/locale-id.provider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SidebarComponent } from './layout/sidebar/sidebar.component';
+import { SidebarModule } from './layout/sidebar/sidebar.module';
 
 @NgModule({
   declarations: [

@@ -9,6 +9,8 @@
 .header,
 .header__wrapper {
   height: 100%;
+  background-clip: content-box;
+  
 }
 
 .header {
@@ -19,6 +21,22 @@
   padding: 0 1.5rem;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  // justify-content: space-between;
   align-items: center;
+}
+
+.navbar-toggler{
+  color: #fff !important;
+  outline: none;
+  &:hover{
+    background-color: #528ba3 !important;
+  }
+}
+
+.badge{
+  padding: 20px;
+}
+
+.toggler{
+  padding: 20px 15px 15px 20px;
 }
