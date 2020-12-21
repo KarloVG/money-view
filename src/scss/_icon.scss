@@ -1,10 +1,17 @@
+@use 'color';
+
 .material-icons {
+
   &.md-18 {
     font-size: 18px;
   }
 
   &.md-24 {
     font-size: 24px;
+  }
+
+  &.md-30 {
+    font-size: 30px;
   }
 
   &.md-36 {
@@ -36,4 +43,24 @@
       color: rgba(255, 255, 255, 0.3);
     }
   }
+}
+
+.circle-icon {
+  background: color.$app-theme-primary-linear-gradient;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  line-height: 100px;
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-primary {
+  color: color.$app-theme-secondary-base-color !important;
+}
+
+.text-warning {
+  color: #f0ad4e !important
 }

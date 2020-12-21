@@ -1,0 +1,99 @@
+<div class="modal-header">
+  <h4 class="modal-title" *ngIf="account; else addAccount">Uredi račun</h4>
+  <ng-template #addAccount>
+    <h4 class="modal-title">Dodaj novi račun</h4>
+  </ng-template>
+</div>
+<div class="modal-body pb-0">
+  <form
+    [formGroup]="accountGroup"
+    (ngSubmit)="onSubmit()"
+    #accountForm="ngForm"
+  >
+    <div class="card-body px-0 pt-0">
+      <div class="col-12 mb-3">
+        <label class="required" for="vbdi">IBAN</label>
+        <input
+          type="text"
+          class="form-control"
+          id="iban"
+          name="iban"
+          placeholder="IBAN&hellip;"
+          formControlName="iban"
+          autocomplete="off"
+          [ngClass]="{
+            'is-invalid':
+              iban?.invalid &&
+              (iban?.dirty || iban?.touched || accountForm.submitted)
+          }"
+          autocomplete="off"
+        />
+        <div class="invalid-feedback">Polje IBAN je obavezo</div>
+      </div>
+      <div class="col-12 mb-3">
+        <label class="required" for="companyId">Odaberite firmu:</label>
+        <select
+          class="custom-select"
+          formControlName="companyId"
+          id="id"
+          name="name"
+          required="required"
+          [ngClass]="{
+            'is-invalid':
+              companyId?.invalid &&
+              (companyId?.dirty || companyId?.touched || accountForm.submitted)
+          }"
+        >
+          <option disabled hidden readonly="readonly" selected value="null">
+            Odaberite&hellip;
+          </option>
+          <option *ngFor="let company of companies" [ngValue]="company.id">
+            {{ company.name }}
+          </option>
+        </select>
+        <div class="invalid-feedback">Polje je obavezno</div>
+      </div>
+      <div class="col-12 mb-3">
+        <label class="required" for="bankId">Odaberite banku:</label>
+        <select
+          class="custom-select"
+          formControlName="bankId"
+          id="id"
+          name="name"
+          required="required"
+          [ngClass]="{
+            'is-invalid':
+              bankId?.invalid &&
+              (bankId?.dirty || bankId?.touched || accountForm.submitted)
+          }"
+        >
+          <option disabled hidden readonly="readonly" selected value="null">
+            Odaberite&hellip;
+          </option>
+          <option *ngFor="let bank of banks" [ngValue]="bank.id">
+            {{ bank.name }}
+          </option>
+        </select>
+        <div class="invalid-feedback">Polje je obavezno</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline-secondary mr-auto"
+        (click)="_modal.dismiss('cancel')"
+      >
+        <span class="fas fa-times"></span>
+        <span>Odustani</span>
+      </button>
+      <button type="submit" ngbAutofocus class="btn btn-primary">
+        <span class="fas fa-user-plus"></span>
+        <span class="fas fa-user-check"></span>
+        <span *ngIf="account; else newAccount">Uredi račun</span>
+        <ng-template #newAccount>
+          <span>Dodaj račun</span>
+        </ng-template>
+      </button>
+    </div>
+  </form>
+</div>
