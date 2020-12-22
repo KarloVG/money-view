@@ -9,18 +9,18 @@ import { catchError, tap } from 'rxjs/operators';
 import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { AppRouteService } from 'src/app/shared/services/route/app-route.service';
-import { environment } from '../../../../../environments/environment';
-import { IRequestAccount } from '../models/request/request-account';
-import { IResponseAccount } from '../models/response/response-account';
+import { environment } from 'src/environments/environment';
+import { IRequestLicence } from '../models/request/request-licence';
+import { IResponseLicence } from '../models/response/response-licence';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AccountService {
+export class LicenceService {
   /* #region  Variables */
   private readonly CONTROLLER_NAME = environment.production
-    ? 'api/api/accounts'
-    : 'api/accounts';
+    ? 'api/api/licenses'
+    : 'api/licenses';
   /* #endregion */
 
   /* #region  Constructor */
@@ -28,12 +28,15 @@ export class AccountService {
     private readonly _http: HttpClient,
     private readonly _appRoute: AppRouteService
   ) {}
+  /* #endregion */
+
+  /* #region  Methods */
 
   // Get All
   get(
     page: number,
     pageSize: number
-  ): Observable<IFleksbitResponse<BasicPaginatedResponse<IResponseAccount>>> {
+  ): Observable<IFleksbitResponse<BasicPaginatedResponse<IResponseLicence>>> {
     const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME]);
     const requestParams = new HttpParams({
       fromObject: {
@@ -42,62 +45,59 @@ export class AccountService {
       },
     });
     return this._http
-      .get<IFleksbitResponse<BasicPaginatedResponse<IResponseAccount>>>(
+      .get<IFleksbitResponse<BasicPaginatedResponse<IResponseLicence>>>(
         url.toString(),
-        { params: requestParams }
+        {
+          params: requestParams,
+        }
       )
       .pipe(
-        tap((data) => console.log('Get bank', data)),
+        tap((data) => console.log('Get Licence', data)),
         catchError(this.handleError)
       );
   }
-  add(
-    formGroup: IRequestAccount
-  ): Observable<IFleksbitResponse<IResponseAccount>> {
-    console.log(formGroup.iban);
-    const request = { ...formGroup, iban: 'HR' + formGroup.iban };
-    console.log(request);
+
+  // Add
+  add(formGroup: IResponseLicence): Observable<IRequestLicence> {
+    const request = {
+      id: formGroup.id,
+      key: formGroup.identifier,
+    };
     const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME]);
-    return this._http
-      .post<IFleksbitResponse<IResponseAccount>>(url.toString(), request)
-      .pipe(
-        tap((data) => console.log('Add bank', JSON.stringify(data))),
-        catchError(this.handleError)
-      );
+    return this._http.post<IRequestLicence>(url.toString(), request).pipe(
+      tap((data) => console.log('Add Licence', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
   }
 
-  put(
-    formGroup: IRequestAccount
-  ): Observable<IFleksbitResponse<IResponseAccount>> {
-    const request = { ...formGroup, iban: 'HR' + formGroup.iban };
-    const url = this._appRoute.createAppRouteURL([
-      this.CONTROLLER_NAME,
-      formGroup.id.toString(),
-    ]);
-    return this._http
-      .put<IFleksbitResponse<IResponseAccount>>(url.toString(), request)
-      .pipe(
-        tap((data) => console.log('Add bank', JSON.stringify(data))),
-        catchError(this.handleError)
-      );
+  // Edit
+  put(formGroup: IResponseLicence): Observable<IRequestLicence> {
+    const request = {
+      key: formGroup.identifier,
+    };
+    const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME]);
+    return this._http.put<IRequestLicence>(url.toString(), request).pipe(
+      tap((data) => console.log('Put Licence', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
   }
 
-  delete(id: number): Observable<IFleksbitResponse<IResponseAccount>> {
+  // Delete
+  delete(id: number): Observable<IResponseLicence> {
     const url = this._appRoute.createAppRouteURL([
       this.CONTROLLER_NAME,
       id.toString(),
     ]);
-    return this._http
-      .delete<IFleksbitResponse<IResponseAccount>>(url.toString())
-      .pipe(
-        tap((data) => console.log('Delete bank', JSON.stringify(data))),
-        catchError(this.handleError)
-      );
+    return this._http.delete<IResponseLicence>(url.toString()).pipe(
+      tap((data) => console.log('Delete Licence', JSON.stringify(data))),
+      catchError(this.handleError)
+    );
   }
 
   // Remove before production
   private handleError(err: HttpErrorResponse): Observable<never> {
     const { error } = err;
+    console.log(error);
     // instead of logging infrastructore on BE, just log it to the console
     let errorMessage: string;
     if (error instanceof ErrorEvent) {
@@ -110,4 +110,5 @@ export class AccountService {
     }
     return throwError(errorMessage);
   }
+  /* #endregion */
 }

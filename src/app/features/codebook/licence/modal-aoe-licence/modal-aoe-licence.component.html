@@ -1,0 +1,46 @@
+<div class="modal-header">
+  <h4 class="modal-title" *ngIf="licence; else addLicence">Uredi licencu</h4>
+  <ng-template #addLicence>
+    <h4 class="modal-title">Dodaj novu licencu</h4>
+  </ng-template>
+</div>
+<div class="modal-body pb-0">
+  <form [formGroup]="licenceGroup" (ngSubmit)="onSubmit()" #myForm="ngForm">
+    <div class="card-body p-0">
+      <div class="col-12 mb-3">
+        <label class="required" for="identifier">Ključ licence</label>
+        <input
+          type="text"
+          class="form-control"
+          id="identifier"
+          name="korisnik"
+          placeholder="Ključ licence&hellip;"
+          formControlName="identifier"
+          autocomplete="off"
+          [ngClass]="{
+            'is-invalid':
+              identifier?.invalid &&
+              (identifier?.dirty || identifier?.touched || myForm.submitted)
+          }"
+          autocomplete="off"
+        />
+        <div class="invalid-feedback">Polje ključ licence je obavezno</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline-secondary mr-auto"
+        (click)="_modal.dismiss('cancel')"
+      >
+        <span>Odustani</span>
+      </button>
+      <button type="submit" ngbAutofocus class="btn btn-primary">
+        <span *ngIf="licence; else newLicence">Uredi licencu</span>
+        <ng-template #newLicence>
+          <span>Dodaj licencu</span>
+        </ng-template>
+      </button>
+    </div>
+  </form>
+</div>
