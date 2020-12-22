@@ -37,7 +37,7 @@ export class ModalAoeAccountComponent implements OnInit {
     id: [null],
     companyId: [null, Validators.required],
     bankId: [null, Validators.required],
-    iban: ['', Validators.required],
+    iban: ['', [Validators.required, Validators.pattern('^[0-9]{19}$')]],
   });
   /* #endregion */
 
@@ -78,13 +78,12 @@ export class ModalAoeAccountComponent implements OnInit {
       this.banks = results[0];
       this.companies = results[1];
 
-      console.log(this.banks);
       if (this.account) {
         this.accountGroup.patchValue({
           id: this.account.id,
           companyId: this.account.company.id,
           bankId: this.account.id,
-          iban: this.account.iban,
+          iban: this.account.iban.substring(2),
         });
       }
     });

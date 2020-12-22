@@ -22,4 +22,9 @@ export const codebookRoutes: Routes = [
     loadChildren: () =>
       import('./account/account.module').then((m) => m.AccountModule),
   },
+  {
+    path: 'licence',
+    loadChildren: () =>
+      import('./licence/licence.module').then((m) => m.LicenceModule),
+  },
 ];
