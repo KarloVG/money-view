@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavTopComponent } from './nav-top/nav-top.component';
-import { NavTogglerComponent } from './nav-toggler/nav-toggler.component';
 import { NavSideComponent } from './nav-side/nav-side.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
-  declarations: [NavTopComponent, NavSideComponent],
+  declarations: [NavSideComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
-  exports:[NavSideComponent, NavTopComponent]
+  exports:[NavSideComponent]
 })
 export class SidenavModule { }

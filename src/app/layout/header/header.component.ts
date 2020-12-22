@@ -1,4 +1,6 @@
 import {Component} from '@angular/core';
+import { Router } from '@angular/router';
+
 import { SideNavService } from '../sidenav/services/sidenav.service';
 
 @Component({
@@ -8,5 +10,10 @@ import { SideNavService } from '../sidenav/services/sidenav.service';
 })
 export class HeaderComponent {
 
-  constructor(public sideNavService: SideNavService){}
+  constructor(public sideNavService: SideNavService, private _router: Router){}
+
+  navigateTo(): void {
+    this._router.navigateByUrl('');
+    
+  }
 }
