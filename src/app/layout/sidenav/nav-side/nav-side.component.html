@@ -1,0 +1,22 @@
+<nav id="sidebar" class="navbar" [ngClass]="{'hidden': _sideNavService.hideSideNav }">
+    <ul class="navbar-nav">
+      <ng-container *ngFor="let menu of menus;">
+        <li class="nav-item dropdown" *ngIf="menu?.children?.length; else noNavigationChildren">
+          <a class="nav-link" [ngClass]="{'dropdown-toggle' : menu?.children?.length}" href="javascript:;" [id]="menu.id" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ menu.name }}</a>
+          <ul class="dropdown-menu" id="dropdown-menu" [attr.aria-label]="menu.id">
+            <li *ngFor="let nestedMenu of menu.children">
+              <a class="dropdown-item" href="javascript:;" [routerLink]="[nestedMenu.path]" [routerLinkActive]="['is-active']">{{ nestedMenu.name }}</a>
+            </li>
+          </ul>
+        </li>
+        <ng-template #noNavigationChildren>
+          <li class="nav-item">
+            <a class="nav-link"  href="javascript:;" [routerLink]="[menu.path]" [routerLinkActive]="['is-active']">{{ menu.name }}</a>
+          </li>
+        </ng-template>
+      </ng-container>
+    </ul>
+  </nav>
+
+
+
