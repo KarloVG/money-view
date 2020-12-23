@@ -37,6 +37,16 @@
   padding: 20px;
 }
 
+.badge-user{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.user-info{
+  padding: 20px;
+}
+
 .toggler{
-  padding: 20px 15px 15px 20px;
+  padding: 20px 15px 15px 0px;
 }
