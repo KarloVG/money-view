@@ -4,15 +4,16 @@
 </mv-header>
 <div class="content" role="presentation">
   <div class="d-flex">
-  <mv-nav-side></mv-nav-side>
-  <main [ngClass]="mainContentClass"  [@fadeIn]="o.isActivated ? o.activatedRoute : ''" class="content__wrapper" role="main">
-    <router-outlet  #o="outlet"></router-outlet>  
-  </main>
+    <mv-nav-side></mv-nav-side>
+    <main [ngClass]="mainContentClass" [@fadeIn]="o.isActivated ? o.activatedRoute : ''" class="content__wrapper"
+      role="main">
+      <router-outlet #o="outlet"></router-outlet>
+    </main>
+    <mv-notification-message></mv-notification-message>
   </div>
   <mv-footer *ngIf="showFooter" class="footer">
     <mv-copyright></mv-copyright>
   </mv-footer>
-  
 </div>
 <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-spin" [fullScreen]="true">
   <p style="color: white"> Molimo pričekajte... </p>

@@ -1,0 +1,59 @@
+<div class="notification-message" *ngIf="licence && viewComponent" >
+    <div class="notification one col-lg-12" *ngIf="licence.expirationDays < 730">
+        <div class="icon-info">
+            <div class="icon">
+                <span class="material-icons">error_outline</span>
+            </div>
+            <div class="info">
+                <a class="info-message">PAŽNJA!</a>
+            </div>
+        </div>
+        Za mjesec dana istječe vam licenca, molimo kontaktirajte davatelja usluge kako biste dobili novu licencu.
+        <div class="button-text col-xl-1 col-lg-2 col-sm-3 col-xs-1">
+            <button type="button" class="btn btn-info" (click)="showComponent()">U redu</button>
+        </div>
+    </div>
+    <div class="notification two col-lg-12" *ngIf="licence.expirationDays < 7">
+        <div class="icon-info">
+            <div class="icon">
+                <span class="material-icons">error_outline</span>
+            </div>
+            <div class="info">
+                <a class="info-message">PAŽNJA!</a>
+            </div>
+        </div>
+        Za tjedan dana istječe vam licenca, molimo kontaktirajte davatelja usluge kako biste dobili novu licencu.
+        <div class="button-text col-xl-1 col-lg-2 col-sm-3 col-xs-1">
+            <button type="button" class="btn btn-info"(click)="showComponent()">U redu</button>
+        </div>
+    </div>
+    <div class="notification three col-lg-12" *ngIf="licence.expirationDays < 1">
+        <div class="icon-info">
+            <div class="icon">
+                <span class="material-icons">error_outline</span>
+            </div>
+            <div class="info">
+                <a class="info-message">PAŽNJA!</a>
+            </div>
+        </div>
+        Licenca vam je istekla, molimo kontaktirajte davatelja usluge kako biste dobili novu licencu.
+        <div class="button-text col-xl-1 col-lg-2 col-sm-3 col-xs-1">
+            <button type="button" class="btn btn-info"(click)="showComponent()">U redu</button>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="notification col-lg-12">
+    <div class="text" *ngIf="licence.expirationDays < 30">
+        Za mjesec dana istječe vam licenca, molimo kontaktirajte davatelja usluge kako biste dobili novu licencu.
+    </div>
+    <div class="text" *ngIf="licence.expirationDays < 7 ">
+        Za tjedan dana istječe vam licenca, molimo kontaktirajte davatelja usluge kako biste dobili novu licencu.
+    </div>
+    <div class="text" *ngIf="licence.expirationDays < 1 ">
+        Za tjedan dana istječe vam licenca, molimo kontaktirajte davatelja usluge kako biste dobili novu licencu.
+    </div>
+    <div class="button-text col-xl-1 col-lg-2 col-sm-3 col-xs-1">
+        <button type="button" class="btn btn-warning">U redu</button>
+    </div>
+</div> -->
