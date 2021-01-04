@@ -14,6 +14,7 @@ import { baseHref } from './shared/providers/base-href.provider';
 import { defaultDateParserFormatter } from './shared/providers/default-date-parser-formatter.provider';
 import { localeId } from './shared/providers/locale-id.provider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NotificationModule } from './shared/notification-message/notification-message.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,6 +27,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CopyrightModule,
     AppBadgeModule,
     UserInfoModule,
+    NotificationModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),

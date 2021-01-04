@@ -1,0 +1,58 @@
+:host {
+  display: block;
+}
+
+.notification{
+  position:absolute;
+  justify-content: space-between;
+  display: flex;
+  width: 100%;
+  padding:10px 25px 10px 25px;
+  align-items: center;
+  opacity: 0.75;
+  bottom: 38px;
+}
+
+.notification.one{
+  background-color:#cfb82359;
+}
+.notification.two{
+  background-color: #ff851b7c;
+}
+.notification.three{
+  background-color:#fa534acb;
+}
+
+.btn{
+  text-align: center;
+  font-size: 13px;
+}
+
+.text{
+  padding:10px 25px 10px 25px;
+}
+
+.button-text{
+  padding: 25px 25px 25px 0;
+}
+
+.info-message{
+  color: black !important;
+  font-size: 25px;
+}
+
+.icon-info{
+  display: flex;
+}
+
+.icon{
+  margin-right: 15px;
+}
+
+.info{
+  padding: 7px 0px 
+}
+
+.material-icons{
+  font-size: 50px;
+}

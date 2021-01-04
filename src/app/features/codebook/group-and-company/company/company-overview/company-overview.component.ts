@@ -26,7 +26,7 @@ export class CompanyOverviewComponent implements OnInit {
   rows: IResponseCompany[] = [];
   loadingIndicator: boolean = true;
   currentEntryCount!: number;
-  desiredPageSize: number = 3;
+  desiredPageSize: number = 20;
   desiredPageOffset: number = 0;
   ColumnMode: ColumnMode = ColumnMode.force;
 
