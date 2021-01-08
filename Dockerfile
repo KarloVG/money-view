@@ -1,15 +1,15 @@
 FROM node:lts-alpine AS deps
 WORKDIR /deps
-COPY ./package.json ./yarn.lock ./
-RUN yarn install
+COPY ./package.json ./package-lock.json ./
+RUN npm install
 
 FROM node:lts-alpine as builder
-ARG baseHref="/"
-ARG deployUrl="/"
+ARG baseHref="/app/"
+ARG deployUrl="/app/"
 WORKDIR /ng-app
 COPY . .
 COPY --from=deps /deps/ ./
-RUN yarn run ng build --prod --output-path=dist --base-href=${baseHref} --deploy-url=${deployUrl}
+RUN npm run ng build -- --prod --output-path=dist --base-href=${baseHref} --deploy-url=${deployUrl}
 
 FROM nginx:alpine
 COPY ./nginx/ /etc/nginx/
