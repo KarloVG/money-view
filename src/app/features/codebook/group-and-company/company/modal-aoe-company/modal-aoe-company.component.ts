@@ -15,8 +15,8 @@ export class ModalAoeCompanyComponent implements OnInit {
 
   companyGroup: FormGroup = this._formBuilder.group({
     id: [null],
-    oib: ['', [Validators.minLength(11), Validators.maxLength(11), Validators.pattern("^[0-9]*$")]],
-    name: ['', [Validators.minLength(3), Validators.maxLength(30)]]
+    oib: ['', [Validators.required,Validators.minLength(11), Validators.maxLength(11), Validators.pattern("^[0-9]*$")]],
+    name: ['', [Validators.required,Validators.minLength(3), Validators.maxLength(30)]]
   });
 
   constructor(private _formBuilder: FormBuilder,

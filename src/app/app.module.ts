@@ -15,6 +15,7 @@ import { defaultDateParserFormatter } from './shared/providers/default-date-pars
 import { localeId } from './shared/providers/locale-id.provider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotificationModule } from './shared/notification-message/notification-message.module';
+import { AuthorizationGuardService } from './shared/services/authentication/authorization.guard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,6 +34,7 @@ import { NotificationModule } from './shared/notification-message/notification-m
     }),
   ],
   providers: [
+    AuthorizationGuardService,
     localeId,
     baseHref,
     defaultDateParserFormatter,

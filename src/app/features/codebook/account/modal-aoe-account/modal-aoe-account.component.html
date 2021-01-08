@@ -5,11 +5,7 @@
   </ng-template>
 </div>
 <div class="modal-body pb-0">
-  <form
-    [formGroup]="accountGroup"
-    (ngSubmit)="onSubmit()"
-    #accountForm="ngForm"
-  >
+  <form [formGroup]="accountGroup" (ngSubmit)="onSubmit()" #accountForm="ngForm">
     <div class="card-body px-0 pt-0">
       <div class="col-12 mb-3">
         <label class="required" for="vbdi">IBAN</label>
@@ -17,23 +13,14 @@
           <div class="input-group-prepend">
             <span class="input-group-text">HR</span>
           </div>
-          <input
-            type="text"
-            class="form-control"
-            id="iban"
-            name="iban"
-            placeholder="IBAN&hellip;"
-            formControlName="iban"
-            autocomplete="off"
-            [ngClass]="{
+          <input type="text" class="form-control" id="iban" name="iban" placeholder="IBAN&hellip;"
+            formControlName="iban" autocomplete="off" [ngClass]="{
               'is-invalid':
                 iban?.invalid &&
                 (iban?.dirty || iban?.touched || accountForm.submitted)
-            }"
-            autocomplete="off"
-          />
+            }" autocomplete="off" />
           <div class="invalid-feedback" *ngIf="iban?.errors?.required">
-            Polje IBAN je obavezo
+            Polje IBAN je obavezno
           </div>
           <div class="invalid-feedback" *ngIf="iban?.errors?.pattern">
             Polje IBAN je broj od 19 znamenki
@@ -42,18 +29,11 @@
       </div>
       <div class="col-12 mb-3">
         <label class="required" for="companyId">Odaberite firmu:</label>
-        <select
-          class="custom-select"
-          formControlName="companyId"
-          id="id"
-          name="name"
-          required="required"
-          [ngClass]="{
+        <select class="custom-select" formControlName="companyId" id="id" name="name" required="required" [ngClass]="{
             'is-invalid':
               companyId?.invalid &&
               (companyId?.dirty || companyId?.touched || accountForm.submitted)
-          }"
-        >
+          }">
           <option disabled hidden readonly="readonly" selected value="null">
             Odaberite&hellip;
           </option>
@@ -65,18 +45,11 @@
       </div>
       <div class="col-12 mb-3">
         <label class="required" for="bankId">Odaberite banku:</label>
-        <select
-          class="custom-select"
-          formControlName="bankId"
-          id="id"
-          name="name"
-          required="required"
-          [ngClass]="{
+        <select class="custom-select" formControlName="bankId" id="id" name="name" required="required" [ngClass]="{
             'is-invalid':
               bankId?.invalid &&
               (bankId?.dirty || bankId?.touched || accountForm.submitted)
-          }"
-        >
+          }">
           <option disabled hidden readonly="readonly" selected value="null">
             Odaberite&hellip;
           </option>
@@ -88,11 +61,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-outline-secondary mr-auto"
-        (click)="_modal.dismiss('cancel')"
-      >
+      <button type="button" class="btn btn-outline-secondary mr-auto" (click)="_modal.dismiss('cancel')">
         <span class="fas fa-times"></span>
         <span>Odustani</span>
       </button>

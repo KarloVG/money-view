@@ -1,4 +1,4 @@
-<nav id="sidebar" class="navbar" [ngClass]="{'hidden': _sideNavService.hideSideNav }">
+<nav id="sidebar" class="navbar" [ngClass]="{'hidden': _navService.collapseSidebar }">
     <ul class="navbar-nav">
       <ng-container *ngFor="let menu of menus;">
         <li class="nav-item dropdown" *ngIf="menu?.children?.length; else noNavigationChildren">

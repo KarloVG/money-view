@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import { Router } from '@angular/router';
-
-import { SideNavService } from '../sidenav/services/sidenav.service';
+import { NavigationService } from '../sidenav/services/navigation.service';
 
 @Component({
   selector: 'mv-header',
@@ -10,10 +9,13 @@ import { SideNavService } from '../sidenav/services/sidenav.service';
 })
 export class HeaderComponent {
 
-  constructor(public sideNavService: SideNavService, private _router: Router){}
+  constructor(public _navService: NavigationService, private _router: Router){}
+
+  collapseSidebar() {
+    this._navService.collapseSidebar = !this._navService.collapseSidebar
+  }
 
   navigateTo(): void {
     this._router.navigateByUrl('');
-    
   }
 }

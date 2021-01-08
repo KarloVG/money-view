@@ -1,14 +1,17 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import { codebookRoutes } from './features/codebook/codebook-routes';
+import { AuthorizationGuardService } from './shared/services/authentication/authorization.guard';
 
 const routes: Routes = [
   {
     path: 'codebook',
+    canActivateChild: [AuthorizationGuardService],
     children: codebookRoutes,
   },
   {
     path: '',
+    canActivateChild: [AuthorizationGuardService],
     loadChildren: () => import('./features/account-statement-summary-list/account-statement-summary-list.module')
       .then(m => m.AccountStatementSummaryListModule)
   },

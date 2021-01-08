@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { HostListener, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 export interface IMenuItem {
@@ -13,7 +13,22 @@ export interface IMenuItem {
 })
 export class NavigationService {
 
-  constructor() { }
+  public screenWidth: any
+	public collapseSidebar: boolean = false
+	public fullScreen = false;
+
+	constructor() {
+		this.onResize();
+		if (this.screenWidth < 991) {
+			this.collapseSidebar = true
+		}
+	}
+
+  // Windows width
+  @HostListener('window:resize', ['$event'])
+  onResize(event?:any) {
+    this.screenWidth = window.innerWidth;
+  }
 
   getMenu(): IMenuItem[]{
     return [

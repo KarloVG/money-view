@@ -59,4 +59,5 @@ export class ApiClientService {
 
 export interface UserInfoResponse {
   readonly name: string;
+  readonly role: string;
 }

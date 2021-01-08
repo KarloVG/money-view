@@ -1,19 +1,19 @@
 <header class="header" role="banner">
   <div class="header__wrapper" role="presentation">
     <div class="toggler">
-      <button type="button" class="navbar-toggler" (click)="sideNavService.toggleSideNav()">
+      <button type="button" class="navbar-toggler" (click)="collapseSidebar()">
         <span class="material-icons">
           list
         </span>
       </button>
     </div>
     <div class="badge-user">
-    <div class="badge" href="javascript:;" (click)="navigateTo()">
-      <ng-content select="[badge]"></ng-content>
-    </div>
-    <div class="user-info">
-    <ng-content select="[userInfo]"></ng-content>
-  </div>
+      <div class="badge" href="javascript:;" (click)="navigateTo()">
+        <ng-content select="[badge]"></ng-content>
+      </div>
+      <div class="user-info">
+        <ng-content select="[userInfo]"></ng-content>
+      </div>
     </div>
   </div>
 </header>

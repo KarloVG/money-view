@@ -11,47 +11,26 @@
     <div class="card-body px-0 pt-0">
       <div class="col-12 mb-3">
         <label class="required" for="name"> Naziv </label>
-        <input
-          type="text"
-          class="form-control"
-          id="name"
-          name="korisnik"
-          placeholder="Naziv firme&hellip;"
-          formControlName="name"
-          autocomplete="off"
-          [ngClass]="{
+        <input type="text" class="form-control" id="name" name="korisnik" placeholder="Naziv firme&hellip;"
+          formControlName="name" autocomplete="off" [ngClass]="{
             'is-invalid':
               name?.invalid &&
               (name?.dirty || name?.touched || myForm.submitted)
-          }"
-          autocomplete="off"
-        />
+          }" autocomplete="off" />
         <div class="invalid-feedback">Polje je obavezno</div>
       </div>
       <div class="col-12 mb-3">
         <label class="required" for="oib"> OIB </label>
-        <input
-          type="text"
-          class="form-control"
-          id="oib"
-          name="oib"
-          placeholder="OIB&hellip;"
-          formControlName="oib"
-          autocomplete="off"
-          [ngClass]="{
+        <input type="text" class="form-control" id="oib" name="oib" placeholder="OIB&hellip;" formControlName="oib"
+          autocomplete="off" [ngClass]="{
             'is-invalid':
               oib?.invalid && (oib?.dirty || oib?.touched || myForm.submitted)
-          }"
-          autocomplete="off"
-        />
-        <div
-          class="invalid-feedback"
-          *ngIf="oib?.errors?.minlength || oib?.errors?.maxlength"
-        >
+          }" autocomplete="off" />
+        <div class="invalid-feedback" *ngIf="oib?.errors?.minlength || oib?.errors?.maxlength">
           Polje OIB mora sadržavati 11 znakova
         </div>
         <div class="invalid-feedback" *ngIf="oib?.errors?.required">
-          Polje OIB je obavezo
+          Polje OIB je obavezno
         </div>
         <div class="invalid-feedback" *ngIf="oib?.errors?.pattern">
           Polje OIB mora sadržavati samo brojeve
@@ -59,11 +38,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-outline-secondary mr-auto"
-        (click)="_modal.dismiss('cancel')"
-      >
+      <button type="button" class="btn btn-outline-secondary mr-auto" (click)="_modal.dismiss('cancel')">
         <span class="fas fa-times"></span>
         <span>Odustani</span>
       </button>

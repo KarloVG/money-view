@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SideNavService } from '../services/sidenav.service';
 import { Router } from '@angular/router';
 import { IMenuItem, NavigationService } from '../services/navigation.service';
 
@@ -9,13 +8,12 @@ import { IMenuItem, NavigationService } from '../services/navigation.service';
   styleUrls: ['./nav-side.component.scss']
 })
 export class NavSideComponent implements OnInit {
-  
+
   menus: IMenuItem[] = [];
 
   constructor(
-    public _sideNavService: SideNavService, 
     public _router: Router,
-    private _navService: NavigationService
+    public _navService: NavigationService
     ) {
       console.log(_router)
      }

@@ -40,9 +40,8 @@ export class UserPanelOverviewComponent implements OnInit {
 
   checkEmail(group: FormGroup) { // here we have the 'passwords' group
   let pass = group.controls.email.value;
-  let confirmPass = group.controls.confirmMail.value;
-  console.log()
-  return pass === confirmPass ? null : group.get('confirmMail')?.setErrors({'notSame': true});
+  let confirmEmail = group.controls.confirmMail.value;
+  return pass === confirmEmail ? group.get('confirmMail')?.setErrors(null) : group.get('confirmMail')?.setErrors({'notSame': true});
 }
 
   roles: IRequestRole[] = [
@@ -90,7 +89,11 @@ export class UserPanelOverviewComponent implements OnInit {
     })
   }
 
-  onSubmit(){
+  resetFormGroup(): void {
+    this.userPanelForm.reset();
+  }
+
+  onSubmit(): void{
     if(this.userPanelForm.invalid){
       return;
     } else {
