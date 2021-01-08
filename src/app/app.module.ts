@@ -16,6 +16,7 @@ import { localeId } from './shared/providers/locale-id.provider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotificationModule } from './shared/notification-message/notification-message.module';
 import { AuthorizationGuardService } from './shared/services/authentication/authorization.guard';
+import { AppTogglerModule } from './shared/components/app-toggler/app-toggler.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +28,7 @@ import { AuthorizationGuardService } from './shared/services/authentication/auth
     HttpClientModule,
     CopyrightModule,
     AppBadgeModule,
+    AppTogglerModule,
     UserInfoModule,
     NotificationModule,
     ServiceWorkerModule.register('ngsw-worker.js', {

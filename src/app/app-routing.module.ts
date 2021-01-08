@@ -6,12 +6,11 @@ import { AuthorizationGuardService } from './shared/services/authentication/auth
 const routes: Routes = [
   {
     path: 'codebook',
-    canActivateChild: [AuthorizationGuardService],
     children: codebookRoutes,
   },
   {
     path: '',
-    canActivateChild: [AuthorizationGuardService],
+    canLoad: [AuthorizationGuardService],
     loadChildren: () => import('./features/account-statement-summary-list/account-statement-summary-list.module')
       .then(m => m.AccountStatementSummaryListModule)
   },

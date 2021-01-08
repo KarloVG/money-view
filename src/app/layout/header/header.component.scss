@@ -10,7 +10,6 @@
 .header__wrapper {
   height: 100%;
   background-clip: content-box;
-  
 }
 
 .header {
@@ -21,7 +20,7 @@
   padding: 0 1.5rem;
   display: flex;
   flex-direction: row;
-  // justify-content: space-between;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -41,12 +40,13 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+  align-items: center;
+  flex: 1;
 }
 
 .user-info{
   padding: 20px;
-}
-
-.toggler{
-  padding: 20px 15px 15px 0px;
+  flex: 8;
+  display: flex;
+  justify-content: flex-end;
 }
