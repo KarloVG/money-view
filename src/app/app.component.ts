@@ -4,7 +4,6 @@ import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/r
 import {fadeIn} from 'ng-animate';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {Subscription} from 'rxjs';
-import {AuthenticationService} from './shared/services/authentication/authentication.service';
 
 @Component({
   selector: 'mv-root',
@@ -26,8 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private spinner: NgxSpinnerService,
-    private readonly authenticationService: AuthenticationService
+    private spinner: NgxSpinnerService
   ) {
   }
 
@@ -58,8 +56,6 @@ export class AppComponent implements OnInit, OnDestroy {
             }
           }
         }));
-
-    this.authenticationService.updateAuthenticationStatus();
   }
 
   ngOnDestroy(): void {
