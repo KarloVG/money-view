@@ -68,9 +68,11 @@ export class NavigationService {
 
   publishNavigationChange(isAuthorized: boolean) {
       if (isAuthorized) {
-          this.menuItems.next(this.getMenu());
+        console.log('show menu')
+        this.menuItems.next(this.getMenu());
       } else {
-          this.menuItems.next([]);
+        console.log('hide menu')
+        this.menuItems.next([]);
       }
   }
 }

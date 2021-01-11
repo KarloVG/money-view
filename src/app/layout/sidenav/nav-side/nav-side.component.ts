@@ -19,6 +19,7 @@ export class NavSideComponent implements OnInit {
   ngOnInit(): void {
     this._navService.menuItems$
       .subscribe((items) => {
+        console.log(items)
         this.menus = items;
         if(!items.length) {
          this._navService.collapseSidebar = true;
