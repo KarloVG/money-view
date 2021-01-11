@@ -24,8 +24,15 @@ export class HttpErrorInterceptor implements HttpInterceptor {
    return next.handle(request)
      .pipe(
        catchError((error: HttpErrorResponse) => {
-         this._notificationService.fireErrorNotification(error.name);
-         return throwError(error.name);
+         let errorMsg;
+         if (error.error instanceof ErrorEvent) {
+           // client-side error
+           errorMsg = 'Kontaktirajte administratora';
+         } else {
+           // server-side error
+            this._notificationService.fireErrorNotification(error.name);
+         }
+         return throwError(errorMsg ? errorMsg : error.name);
        })
      )
  }

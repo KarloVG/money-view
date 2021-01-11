@@ -24,18 +24,18 @@ export class AuthorizationGuardService implements CanActivateChild {
       return this._apiClient.userInfo().pipe(map(
         response => {
           if (response?.role == 'admin')  {
-            this._navService.publishNavigationChange(false);
+            this._navService.publishNavigationChange(true);
             // admin
-            if(state.url === '/' || state.url === '/app') {
-              this._router.navigate(['app/codeboook/user-panel']);
+            if(state.url === '/') {
+              this._router.navigate(['/codeboook/user-panel']);
               return false;
             }
             return true;
           } else if(response?.role == 'group-manager' || response?.role == 'firm-manager') {
-            this._navService.publishNavigationChange(true);
+            this._navService.publishNavigationChange(false);
             //manager groupe ili firme
-            if(state.url !== '/' && state.url !== '/app') {
-              this._router.navigate(['/app']);
+            if(state.url !== '/') {
+              this._router.navigate(['/']);
               return false;
             }
             return true;
