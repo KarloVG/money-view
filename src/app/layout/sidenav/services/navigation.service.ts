@@ -63,7 +63,7 @@ export class NavigationService {
     ];
   };
 
-  menuItems = new BehaviorSubject<IMenuItem[]>(this.getMenu());
+  menuItems = new BehaviorSubject<IMenuItem[]>([]);
   menuItems$ = this.menuItems.asObservable();
 
   publishNavigationChange(isAuthorized: boolean) {

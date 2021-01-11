@@ -23,15 +23,15 @@ export class AuthorizationGuardService implements CanActivateChild {
       console.log('ruta za pristup', route, state)
       return this._apiClient.userInfo().pipe(map(
         response => {
-          if (response?.role == 'admin')  {
+          if (response?.role ===  'admin')  {
             this._navService.publishNavigationChange(true);
             // admin
             if(state.url === '/') {
-              this._router.navigate(['/codeboook/user-panel']);
+              this._router.navigate(['/codebook/user-panel']);
               return false;
             }
             return true;
-          } else if(response?.role == 'group-manager' || response?.role == 'firm-manager') {
+          } else if(response?.role ===  'group-manager' || response?.role ===  'firm-manager') {
             this._navService.publishNavigationChange(false);
             //manager groupe ili firme
             if(state.url !== '/'  &&  state.url !== '/user/login' && state.url !== '/user/logout') {
