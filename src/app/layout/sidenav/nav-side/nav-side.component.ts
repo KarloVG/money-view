@@ -19,7 +19,6 @@ export class NavSideComponent implements OnInit {
      }
 
   ngOnInit(): void {
-    this._navService.publishNavigationChange(false);
     this._navService.menuItems$
       .subscribe((items) => {
         this.menus = items;

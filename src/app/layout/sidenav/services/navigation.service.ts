@@ -61,16 +61,16 @@ export class NavigationService {
         children: []
       }
     ];
-  }
+  };
 
   menuItems = new BehaviorSubject<IMenuItem[]>(this.getMenu());
   menuItems$ = this.menuItems.asObservable();
 
-  publishNavigationChange(bool: boolean) {
-      if (bool) {
-          this.menuItems.next([]);
-      } else {
+  publishNavigationChange(isAuthorized: boolean) {
+      if (isAuthorized) {
           this.menuItems.next(this.getMenu());
+      } else {
+          this.menuItems.next([]);
       }
   }
 }
