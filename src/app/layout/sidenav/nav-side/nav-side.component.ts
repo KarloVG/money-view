@@ -14,15 +14,16 @@ export class NavSideComponent implements OnInit {
   constructor(
     public _router: Router,
     public _navService: NavigationService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this._navService.menuItems$
       .subscribe((items) => {
-        console.log(items)
         this.menus = items;
-        if(!items.length) {
-         this._navService.collapseSidebar = true;
+        if (items.length) {
+          this._navService.collapseSidebar = false;
+        } else {
+          this._navService.collapseSidebar = true;
         }
       });
   }

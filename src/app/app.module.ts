@@ -41,8 +41,8 @@ import { httpInterceptorProviders } from './shared/interceptors';
     localeId,
     baseHref,
     defaultDateParserFormatter,
-    // httpInterceptorProviders
+    httpInterceptorProviders
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
