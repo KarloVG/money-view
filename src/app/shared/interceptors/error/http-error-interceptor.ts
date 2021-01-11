@@ -1,22 +1,20 @@
-import {
-  HttpEvent,
-  HttpInterceptor,
-  HttpHandler,
-  HttpRequest,
-  HttpErrorResponse
-} from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
-import { NotificationService } from '../../services/swal-notification/notification.service';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable, throwError} from 'rxjs';
+import {catchError} from 'rxjs/operators';
+import {AuthenticationService} from '../../services/authentication/authentication.service';
+import {NotificationService} from '../../services/swal-notification/notification.service';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
   /* #region  constructor */
   constructor(
-    private _notificationService: NotificationService
-  ) { }
+    private _notificationService: NotificationService,
+    private _authenticationService: AuthenticationService
+  ) {
+  }
+
   /* #endregion */
 
   /* #region  intercept */
@@ -24,10 +22,15 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     return next.handle(request)
       .pipe(
         catchError((error: HttpErrorResponse) => {
+          if (error.status === 401) {
+            this._authenticationService.login();
+          }
+
           this._notificationService.fireErrorNotification(error.message);
           return throwError(error.message);
         })
-      )
+      );
   }
+
   /* #endregion */
 }
