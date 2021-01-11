@@ -41,7 +41,7 @@ import { httpInterceptorProviders } from './shared/interceptors';
     localeId,
     baseHref,
     defaultDateParserFormatter,
-    httpInterceptorProviders
+    // httpInterceptorProviders
   ],
   bootstrap: [AppComponent],
 })
