@@ -23,7 +23,7 @@ export class AuthorizationGuardService implements CanLoad {
           if (response?.role == 'admin')  {
             this._navService.publishNavigationChange(false);
             // admin
-            if(route.path === '') {
+            if(route.path === 'app') {
               this._router.navigate(['app/codeboook/user-panel']);
               return false;
             }
@@ -31,7 +31,7 @@ export class AuthorizationGuardService implements CanLoad {
           } else if(response?.role == 'group-manager' || response?.role == 'firm-manager') {
             this._navService.publishNavigationChange(true);
             //manager groupe ili firme
-            if(route.path !== '') {
+            if(route.path !== 'app') {
               this._router.navigate(['app']);
               return false;
             }
