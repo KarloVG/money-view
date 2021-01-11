@@ -3,7 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EMPTY, Observable } from 'rxjs';
-import { catchError, map, take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
 import { ConfirmationModalComponent } from 'src/app/shared/components/confirmation-modal/confirmation-modal.component';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
@@ -54,7 +54,6 @@ export class AccountOverviewComponent implements OnInit {
       .get(this.desiredPageOffset, this.desiredPageSize)
       .pipe(
         take(1),
-        catchError((err) => this.catchAndReplaceError(err)),
         map(
           (
             response: IFleksbitResponse<
@@ -88,7 +87,6 @@ export class AccountOverviewComponent implements OnInit {
             .put(result)
             .pipe(
               take(1),
-              catchError((err) => this.catchAndReplaceError(err))
             )
             .subscribe((data) => {
               this.handleSuccesResponse('Račun je uređen');
@@ -98,7 +96,6 @@ export class AccountOverviewComponent implements OnInit {
             .add(result)
             .pipe(
               take(1),
-              catchError((err) => this.catchAndReplaceError(err))
             )
             .subscribe((data) => {
               this.handleSuccesResponse('Račun je dodan');
@@ -131,8 +128,7 @@ export class AccountOverviewComponent implements OnInit {
           this._accountService
             .delete(account.id)
             .pipe(
-              take(1),
-              catchError((err) => this.catchAndReplaceError(err))
+              take(1)
             )
             .subscribe((data) => {
               this.handleSuccesResponse('Račun je obrisan');
@@ -153,12 +149,6 @@ export class AccountOverviewComponent implements OnInit {
       this._notificationService.fireSuccessMessage(successMessage);
       this.getAccounts();
     }, 500);
-  }
-
-  // Error handling
-  catchAndReplaceError(errorMessage: string): Observable<never> {
-    this._notificationService.fireErrorNotification(errorMessage);
-    return EMPTY;
   }
 
   // Ngb modal dismiss event

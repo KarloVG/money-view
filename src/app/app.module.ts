@@ -17,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotificationModule } from './shared/notification-message/notification-message.module';
 import { AuthorizationGuardService } from './shared/services/authentication/authorization.guard';
 import { AppTogglerModule } from './shared/components/app-toggler/app-toggler.module';
+import { httpInterceptorProviders } from './shared/interceptors';
 
 @NgModule({
   declarations: [AppComponent],
@@ -40,7 +41,7 @@ import { AppTogglerModule } from './shared/components/app-toggler/app-toggler.mo
     localeId,
     baseHref,
     defaultDateParserFormatter,
-    // httpInterceptorProviders
+    httpInterceptorProviders
   ],
   bootstrap: [AppComponent],
 })

@@ -7,16 +7,13 @@ import {
 } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EMPTY, forkJoin, Observable, Subscription } from 'rxjs';
-import { catchError, map, take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
 import { IResponseBank } from '../../bank/models/response/response-bank';
 import { BankService } from '../../bank/services/bank.service';
-import {
-  IPaginatedResponseCompany,
-  IResponseCompany,
-} from '../../group-and-company/company/models/response/response-company';
+import { IResponseCompany } from '../../group-and-company/company/models/response/response-company';
 import { CompanyService } from '../../group-and-company/company/services/company.service';
 import { IResponseAccount } from '../models/response/response-account';
 
@@ -56,7 +53,6 @@ export class ModalAoeAccountComponent implements OnInit {
     this.bankAndCompany$ = forkJoin([
       this._bankService.getDropdown().pipe(
         take(1),
-        catchError((err) => this.catchAndReplaceError(err)),
         map(
           (
             response: IFleksbitResponse<BasicPaginatedResponse<IResponseBank>>
@@ -65,7 +61,6 @@ export class ModalAoeAccountComponent implements OnInit {
       ),
       this._companyService.getDropdown().pipe(
         take(1),
-        catchError((err) => this.catchAndReplaceError(err)),
         map(
           (
             response: IFleksbitResponse<
@@ -87,13 +82,6 @@ export class ModalAoeAccountComponent implements OnInit {
         });
       }
     });
-  }
-
-  // Error handling
-  catchAndReplaceError(errorMessage: string): Observable<never> {
-    this.isSubmitLoaderActive = false;
-    this._notificationService.fireErrorNotification(errorMessage);
-    return EMPTY;
   }
 
   onSubmit(): void {

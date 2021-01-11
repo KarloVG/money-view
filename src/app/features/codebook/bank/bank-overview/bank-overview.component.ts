@@ -3,7 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EMPTY, Observable } from 'rxjs';
-import { catchError, map, take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
 import { ConfirmationModalComponent } from 'src/app/shared/components/confirmation-modal/confirmation-modal.component';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
@@ -54,7 +54,6 @@ export class BankOverviewComponent implements OnInit {
       .get(this.desiredPageOffset, this.desiredPageSize)
       .pipe(
         take(1),
-        catchError((err) => this.catchAndReplaceError(err)),
         map(
           (
             response: IFleksbitResponse<BasicPaginatedResponse<IResponseBank>>
@@ -84,8 +83,7 @@ export class BankOverviewComponent implements OnInit {
           this._bankService
             .put(result)
             .pipe(
-              take(1),
-              catchError((err) => this.catchAndReplaceError(err))
+              take(1)
             )
             .subscribe((data) => {
               this.handleSuccesResponse('Banka je uređena');
@@ -94,8 +92,7 @@ export class BankOverviewComponent implements OnInit {
           this._bankService
             .add(result)
             .pipe(
-              take(1),
-              catchError((err) => this.catchAndReplaceError(err))
+              take(1)
             )
             .subscribe((data) => {
               this.handleSuccesResponse('Banka je dodana');
@@ -128,8 +125,7 @@ export class BankOverviewComponent implements OnInit {
           this._bankService
             .delete(bank.id)
             .pipe(
-              take(1),
-              catchError((err) => this.catchAndReplaceError(err))
+              take(1)
             )
             .subscribe((data) => {
               this.handleSuccesResponse('Banka je obrisana');
@@ -150,12 +146,6 @@ export class BankOverviewComponent implements OnInit {
       this._notificationService.fireSuccessMessage(successMessage);
       this.getBanks();
     }, 500);
-  }
-
-  // Error handling
-  catchAndReplaceError(errorMessage: string): Observable<never> {
-    this._notificationService.fireErrorNotification(errorMessage);
-    return EMPTY;
   }
 
   // Ngb modal dismiss event

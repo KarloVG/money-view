@@ -1,8 +1,7 @@
 import { transition, trigger, useAnimation } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EMPTY, Observable } from 'rxjs';
-import { catchError, map, take, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
 import { IResponseGroup } from '../models/response/response-group';
@@ -53,13 +52,11 @@ export class GroupOverviewComponent implements OnInit {
         this.isSubmitLoaderActive = true;
         if(this.id?.value) {
           this._groupService.put(this.groupForm.value).pipe(
-            take(1),
-            catchError(err => this.catchAndReplaceError(err))
+            take(1)
           ).subscribe(data =>  this.handleSuccesResponse("Grupa je uređena"));
         } else {
           this._groupService.add(this.groupForm.value).pipe(
-            take(1),
-            catchError(err => this.catchAndReplaceError(err))
+            take(1)
           ).subscribe(data =>  this.handleSuccesResponse("Grupa je dodana"));
         }
       }
@@ -69,10 +66,6 @@ export class GroupOverviewComponent implements OnInit {
   // Get all
   getGroup(): void {
     this._groupService.get().pipe(
-        catchError(err => {
-          this.errorMessage = err;
-          return EMPTY;
-        }),
         tap(data => {
           if(data.response) {
             this.groupForm.patchValue({
@@ -84,14 +77,6 @@ export class GroupOverviewComponent implements OnInit {
         map((response: IFleksbitResponse<IResponseGroup>) => this.group = response.response),
         take(1)
       ).subscribe((data: IResponseGroup) => {});
-  }
-
-  // Error handling
-  catchAndReplaceError(errorMessage: string): Observable<never> {
-    this.isSubmitLoaderActive = false;
-    this._notificationService.fireErrorNotification(errorMessage);
-    this.errorMessage = errorMessage;
-    return EMPTY;
   }
 
   // 201 - Success

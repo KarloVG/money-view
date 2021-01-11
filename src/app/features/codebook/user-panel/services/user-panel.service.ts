@@ -1,7 +1,7 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { AppRouteService } from 'src/app/shared/services/route/app-route.service';
 import {environment} from '../../../../../environments/environment';
@@ -24,8 +24,7 @@ export class UserPanelService {
     const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME]);
     return this._http.get<IFleksbitResponse<IResponseUserPanel>>(url.toString())
      .pipe(
-       tap(data => console.log('Get Users', JSON.stringify(data))),
-       catchError(this.handleError)
+       tap(data => console.log('Get Users', JSON.stringify(data)))
      );
   }
 
@@ -36,8 +35,7 @@ export class UserPanelService {
      console.log(url);
     return this._http.post<IFleksbitResponse<IResponseUserPanel>>(url.toString(), request)
         .pipe(
-          tap(data => this.get()),
-          catchError(this.handleError)
+          tap(data => this.get())
         );
   }
 
@@ -47,25 +45,7 @@ export class UserPanelService {
     const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME, formGroup.id.toString()]);
     return this._http.put<IFleksbitResponse<IResponseUserPanel>>(url.toString(), request)
       .pipe(
-        tap(data => console.log('Add Company', JSON.stringify(data))),
-        catchError(this.handleError)
+        tap(data => console.log('Add Company', JSON.stringify(data)))
       );
-  }
-
-
-  private handleError(err: HttpErrorResponse): Observable<never> {
-    const {error} = err;
-    // instead of logging infrastructore on BE, just log it to the console
-    let errorMessage: string;
-    if (error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      errorMessage = `Došlo je do frontend pogreške: ${error.message}`;
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      errorMessage = error.error.message;
-
-    }
-    return throwError(errorMessage);
   }
 }

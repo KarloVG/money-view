@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router, CanLoad, Route } from '@angular/router';
+import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateChild } from '@angular/router';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { NavigationService } from 'src/app/layout/sidenav/services/navigation.service';
@@ -7,7 +7,7 @@ import { ApiClientService } from '../api-client/api-client.service';
 import { NotificationService } from '../swal-notification/notification.service';
 
 @Injectable()
-export class AuthorizationGuardService implements CanLoad {
+export class AuthorizationGuardService implements CanActivateChild {
 
     constructor(
       private _router: Router,
@@ -16,14 +16,17 @@ export class AuthorizationGuardService implements CanLoad {
       private _navService: NavigationService
     ) {  }
 
-    canLoad(route: Route):Observable<boolean>|boolean {
-      console.log('ruta za pristup', route)
+    canActivateChild(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> {
+      console.log('ruta za pristup', route, state)
       return this._apiClient.userInfo().pipe(map(
         response => {
           if (response?.role == 'admin')  {
             this._navService.publishNavigationChange(false);
             // admin
-            if(route.path === 'app') {
+            if(state.url === '/' || state.url === '/app') {
               this._router.navigate(['app/codeboook/user-panel']);
               return false;
             }
@@ -31,8 +34,8 @@ export class AuthorizationGuardService implements CanLoad {
           } else if(response?.role == 'group-manager' || response?.role == 'firm-manager') {
             this._navService.publishNavigationChange(true);
             //manager groupe ili firme
-            if(route.path !== 'app') {
-              this._router.navigate(['app']);
+            if(state.url !== '/' && state.url !== '/app') {
+              this._router.navigate(['/app']);
               return false;
             }
             return true;

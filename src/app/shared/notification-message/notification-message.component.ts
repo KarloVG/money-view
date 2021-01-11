@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { map, take, tap } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { map, take } from 'rxjs/operators';
 import { IFleksbitResponse } from '../models/fleksbit-response';
 import { INotificationLicenceResponse } from '../models/notification-licence-response';
 import { NotificationMessageService } from './notification-message.service';
@@ -9,10 +9,10 @@ import { NotificationMessageService } from './notification-message.service';
   templateUrl: './notification-message.component.html',
   styleUrls: ['./notification-message.component.scss']
 })
-export class NotificationMessageComponent implements OnInit, AfterViewInit {
+export class NotificationMessageComponent implements OnInit {
 
   licence!: INotificationLicenceResponse;
-  viewComponent: any = true;
+  isDisplayed: boolean = true;
 
   constructor(
     private _notificationMessage: NotificationMessageService
@@ -20,13 +20,6 @@ export class NotificationMessageComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getLicences();
-  }
-
-  ngAfterViewInit(): void{
-    const token = sessionStorage.getItem('view-notification');
-    if(token){
-      this.viewComponent = JSON.parse(token);
-    }
   }
 
   getLicences(): void {
@@ -46,7 +39,6 @@ export class NotificationMessageComponent implements OnInit, AfterViewInit {
   }
 
   showComponent(): void{
-    this.viewComponent = false;
-    sessionStorage.setItem('view-notification', JSON.stringify(this.viewComponent));
+    this.isDisplayed = false;
   }
 }

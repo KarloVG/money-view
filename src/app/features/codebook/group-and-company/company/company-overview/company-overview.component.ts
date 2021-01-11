@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ColumnMode, TableColumn } from '@swimlane/ngx-datatable';
+import { ColumnMode } from '@swimlane/ngx-datatable';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Observable } from 'rxjs';
-import { EMPTY } from 'rxjs/internal/observable/empty';
-import { catchError, map, take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { ConfirmationModalComponent } from 'src/app/shared/components/confirmation-modal/confirmation-modal.component';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { PageInfo } from 'src/app/shared/page-info';
@@ -53,7 +51,6 @@ export class CompanyOverviewComponent implements OnInit {
       .get(this.desiredPageOffset, this.desiredPageSize)
       .pipe(
         take(1),
-        catchError((err) => this.catchAndReplaceError(err)),
         map(
           (response: IFleksbitResponse<IPaginatedResponseCompany>) =>
             response.response
@@ -82,8 +79,7 @@ export class CompanyOverviewComponent implements OnInit {
           this._companyService
             .put(result)
             .pipe(
-              take(1),
-              catchError((err) => this.catchAndReplaceError(err))
+              take(1)
             )
             .subscribe((data) => {
               this.handleSuccesResponse('Firma je uređena');
@@ -92,8 +88,7 @@ export class CompanyOverviewComponent implements OnInit {
           this._companyService
             .add(result)
             .pipe(
-              take(1),
-              catchError((err) => this.catchAndReplaceError(err))
+              take(1)
             )
             .subscribe((data) => {
               this.handleSuccesResponse('Firma je dodana');
@@ -126,8 +121,7 @@ export class CompanyOverviewComponent implements OnInit {
           this._companyService
             .delete(company.id)
             .pipe(
-              take(1),
-              catchError((err) => this.catchAndReplaceError(err))
+              take(1)
             )
             .subscribe((data) => {
               this.handleSuccesResponse('Firma je obrisana');
@@ -148,12 +142,6 @@ export class CompanyOverviewComponent implements OnInit {
       this._notificationService.fireSuccessMessage(successMessage);
       this.getCompanies();
     }, 500);
-  }
-
-  // Error handling
-  catchAndReplaceError(errorMessage: string): Observable<never> {
-    this._notificationService.fireErrorNotification(errorMessage);
-    return EMPTY;
   }
 
   // Ngb modal dismiss event

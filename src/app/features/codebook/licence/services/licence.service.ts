@@ -4,8 +4,8 @@ import {
   HttpParams,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { AppRouteService } from 'src/app/shared/services/route/app-route.service';
@@ -52,8 +52,7 @@ export class LicenceService {
         }
       )
       .pipe(
-        tap((data) => console.log('Get Licence', data)),
-        catchError(this.handleError)
+        tap((data) => console.log('Get Licence', data))
       );
   }
 
@@ -65,8 +64,7 @@ export class LicenceService {
     };
     const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME]);
     return this._http.post<IRequestLicence>(url.toString(), request).pipe(
-      tap((data) => console.log('Add Licence', JSON.stringify(data))),
-      catchError(this.handleError)
+      tap((data) => console.log('Add Licence', JSON.stringify(data)))
     );
   }
 
@@ -77,8 +75,7 @@ export class LicenceService {
     };
     const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME]);
     return this._http.put<IRequestLicence>(url.toString(), request).pipe(
-      tap((data) => console.log('Put Licence', JSON.stringify(data))),
-      catchError(this.handleError)
+      tap((data) => console.log('Put Licence', JSON.stringify(data)))
     );
   }
 
@@ -89,26 +86,8 @@ export class LicenceService {
       id.toString(),
     ]);
     return this._http.delete<IResponseLicence>(url.toString()).pipe(
-      tap((data) => console.log('Delete Licence', JSON.stringify(data))),
-      catchError(this.handleError)
+      tap((data) => console.log('Delete Licence', JSON.stringify(data)))
     );
-  }
-
-  // Remove before production
-  private handleError(err: HttpErrorResponse): Observable<never> {
-    const { error } = err;
-    console.log(error);
-    // instead of logging infrastructore on BE, just log it to the console
-    let errorMessage: string;
-    if (error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      errorMessage = `Došlo je do frontend pogreške: ${error.message}`;
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      errorMessage = error.error.message;
-    }
-    return throwError(errorMessage);
   }
   /* #endregion */
 }

@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { EMPTY, Observable } from 'rxjs';
-import { catchError, map, take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
 import { ConfirmationModalComponent } from 'src/app/shared/components/confirmation-modal/confirmation-modal.component';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
@@ -86,8 +85,7 @@ export class LicenceOverviewComponent implements OnInit {
         this._licenceService
           .put(result)
           .pipe(
-            take(1),
-            catchError((err) => this.catchAndReplaceError(err))
+            take(1)
           )
           .subscribe((data) => {
             this.handleSuccesResponse('Licenca je uređena');
@@ -114,8 +112,7 @@ export class LicenceOverviewComponent implements OnInit {
           this._licenceService
             .delete(licence.id)
             .pipe(
-              take(1),
-              catchError((err) => this.catchAndReplaceError(err))
+              take(1)
             )
             .subscribe((data) => {
               this.handleSuccesResponse('Licenca je obrisana');
@@ -136,12 +133,6 @@ export class LicenceOverviewComponent implements OnInit {
       this._notificationService.fireSuccessMessage(successMessage);
       this.getLicences();
     }, 500);
-  }
-
-  // Error handling
-  catchAndReplaceError(errorMessage: string): Observable<never> {
-    this._notificationService.fireErrorNotification(errorMessage);
-    return EMPTY;
   }
 
   // Ngb modal dismiss event

@@ -1,10 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { EMPTY, Observable } from 'rxjs';
-import { catchError, map, take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
-
 import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
 import { IRequestCompany } from '../../group-and-company/company/models/request/request-company';
 import { IPaginatedResponseCompany, IResponseCompany } from '../../group-and-company/company/models/response/response-company';
@@ -82,7 +80,6 @@ export class UserPanelOverviewComponent implements OnInit {
   getDropdownCompanies(): void{
     this._companyService.getDropdown().pipe(
       take(1),
-      catchError(err => this.catchAndReplaceError(err)),
       map((response: IFleksbitResponse<IPaginatedResponseCompany>) => response.response),
     ).subscribe((res: IPaginatedResponseCompany) => {
       this.dropDownCompanies = res.data;
@@ -101,28 +98,18 @@ export class UserPanelOverviewComponent implements OnInit {
         this.isSubmitLoaderActive = true;
         if(this.id?.value) {
           this._userPanelService.put(this.userPanelForm.value).pipe(
-            take(1),
-            catchError(err => this.catchAndReplaceError(err))
+            take(1)
           ).subscribe(data => this.handleSuccesResponse("Korisnik je uređen"));
         } else {
           this._userPanelService.add(this.userPanelForm.value).pipe(
-            take(1),
-            catchError(err => this.catchAndReplaceError(err))
+            take(1)
           ).subscribe(data => this.handleSuccesResponse("Korisnik je dodan"));
         }
       }
     }
   }
 
-    // Error handling
-  catchAndReplaceError(errorMessage: string): Observable<never> {
-    this.isSubmitLoaderActive = false;
-    this._notificationService.fireErrorNotification(errorMessage);
-    this.errorMessage = errorMessage;
-    return EMPTY;
-  }
-
-    // 201 - Success
+  // 201 - Success
   handleSuccesResponse(successMessage: string): void {
     this._spinner.show();
     // zbog izgleda

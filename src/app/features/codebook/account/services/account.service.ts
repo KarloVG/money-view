@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { AppRouteService } from 'src/app/shared/services/route/app-route.service';
@@ -47,8 +47,7 @@ export class AccountService {
         { params: requestParams }
       )
       .pipe(
-        tap((data) => console.log('Get bank', data)),
-        catchError(this.handleError)
+        tap((data) => console.log('Get bank', data))
       );
   }
   add(
@@ -61,8 +60,7 @@ export class AccountService {
     return this._http
       .post<IFleksbitResponse<IResponseAccount>>(url.toString(), request)
       .pipe(
-        tap((data) => console.log('Add bank', JSON.stringify(data))),
-        catchError(this.handleError)
+        tap((data) => console.log('Add bank', JSON.stringify(data)))
       );
   }
 
@@ -77,8 +75,7 @@ export class AccountService {
     return this._http
       .put<IFleksbitResponse<IResponseAccount>>(url.toString(), request)
       .pipe(
-        tap((data) => console.log('Add bank', JSON.stringify(data))),
-        catchError(this.handleError)
+        tap((data) => console.log('Add bank', JSON.stringify(data)))
       );
   }
 
@@ -90,24 +87,7 @@ export class AccountService {
     return this._http
       .delete<IFleksbitResponse<IResponseAccount>>(url.toString())
       .pipe(
-        tap((data) => console.log('Delete bank', JSON.stringify(data))),
-        catchError(this.handleError)
+        tap((data) => console.log('Delete bank', JSON.stringify(data)))
       );
-  }
-
-  // Remove before production
-  private handleError(err: HttpErrorResponse): Observable<never> {
-    const { error } = err;
-    // instead of logging infrastructore on BE, just log it to the console
-    let errorMessage: string;
-    if (error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      errorMessage = `Došlo je do frontend pogreške: ${error.message}`;
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      errorMessage = error.error.message;
-    }
-    return throwError(errorMessage);
   }
 }
