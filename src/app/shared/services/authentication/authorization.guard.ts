@@ -34,7 +34,7 @@ export class AuthorizationGuardService implements CanActivateChild {
           } else if(response?.role == 'group-manager' || response?.role == 'firm-manager') {
             this._navService.publishNavigationChange(false);
             //manager groupe ili firme
-            if(state.url !== '/') {
+            if(state.url !== '/'  &&  state.url !== '/user/login' && state.url !== '/user/logout') {
               this._router.navigate(['/']);
               return false;
             }
