@@ -5,9 +5,9 @@ import { map, take } from 'rxjs/operators';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
 import { IRequestCompany } from '../../group-and-company/company/models/request/request-company';
-import { IPaginatedResponseCompany, IResponseCompany } from '../../group-and-company/company/models/response/response-company';
+import { IPaginatedResponseCompany } from '../../group-and-company/company/models/response/response-company';
 import { CompanyService } from '../../group-and-company/company/services/company.service';
-import { IRequestUSerPanel } from '../models/request/request-user-panel';
+import { IRequestUserPanel } from '../models/request/request-user-panel';
 import { IRequestRole } from '../models/request/role-request';
 import { IResponseUserPanel } from '../models/response/response-user-panel';
 import { UserPanelService } from '../services/user-panel.service';
@@ -24,36 +24,36 @@ export class UserPanelOverviewComponent implements OnInit {
   group!: IResponseUserPanel;
   desiredPageSize: number = 150;
   dropDownCompanies: IRequestCompany[] = [];
-  @Input() editUser!: IRequestUSerPanel;
+  @Input() editUser!: IRequestUserPanel;
 
   userPanelForm: FormGroup = this._formBuilder.group({
     id: [null],
-    email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],  //Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
+    email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
     confirmMail: ['', [Validators.required]],
     company: ['', Validators.required],
     username: ['', [Validators.required, Validators.minLength(4)]],
-    role: ['', Validators.required]
+    role: ['']
   }, { validator: this.checkEmail }
   );
 
-  checkEmail(group: FormGroup) { // here we have the 'passwords' group
-  let pass = group.controls.email.value;
-  let confirmEmail = group.controls.confirmMail.value;
-  return pass === confirmEmail ? group.get('confirmMail')?.setErrors(null) : group.get('confirmMail')?.setErrors({'notSame': true});
-}
+  checkEmail(group: FormGroup) {
+    let pass = group.controls.email.value;
+    let confirmEmail = group.controls.confirmMail.value;
+    return pass === confirmEmail ? group.get('confirmMail')?.setErrors(null) : group.get('confirmMail')?.setErrors({ 'notSame': true });
+  }
 
   roles: IRequestRole[] = [
     {
-      id:1,
-      name:'Admin'
+      id: 1,
+      name: 'Admin'
     },
     {
-      id:2,
-      name:'Menadžer firme'
+      id: 2,
+      name: 'Menadžer firme'
     },
     {
-      id:3,
-      name:'Menadžer grupe'
+      id: 3,
+      name: 'Menadžer grupe'
     }
   ]
 
@@ -65,19 +65,41 @@ export class UserPanelOverviewComponent implements OnInit {
     private _companyService: CompanyService,) { }
 
   ngOnInit(): void {
-    if(this.editUser){
+    if (this.editUser) {
       this.userPanelForm.patchValue({
-        id:this.editUser.id,
-        email:this.editUser.email,
-        company:this.editUser.company,
-        username:this.editUser.username,
-        role:this.editUser.role
+        id: this.editUser.id,
+        email: this.editUser.email,
+        company: this.editUser.company,
+        username: this.editUser.username,
+        role: this.editUser.role
       });
     }
     this.getDropdownCompanies();
   }
 
-  getDropdownCompanies(): void{
+  changeUserRole(event: any) {
+    if (event && event?.target?.value === "2") {
+      this.company?.setValidators([Validators.required]);
+      this.company?.updateValueAndValidity();
+    } else {
+      if (this.checkIfValidators(this.company)) {
+        this.company?.clearValidators();
+        this.company?.updateValueAndValidity();
+      }
+    }
+  }
+
+  checkIfValidators(abstractControl: AbstractControl | null) {
+    if (abstractControl?.validator) {
+      const validator = abstractControl.validator({} as AbstractControl);
+      if (validator && validator.required) {
+        return true;
+      }
+    }
+    return false
+  }
+
+  getDropdownCompanies(): void {
     this._companyService.getDropdown().pipe(
       take(1),
       map((response: IFleksbitResponse<IPaginatedResponseCompany>) => response.response),
@@ -90,13 +112,13 @@ export class UserPanelOverviewComponent implements OnInit {
     this.userPanelForm.reset();
   }
 
-  onSubmit(): void{
-    if(this.userPanelForm.invalid){
+  onSubmit(): void {
+    if (this.userPanelForm.invalid) {
       return;
     } else {
-      if(this.userPanelForm.dirty) {
+      if (this.userPanelForm.dirty) {
         this.isSubmitLoaderActive = true;
-        if(this.id?.value) {
+        if (this.id?.value) {
           this._userPanelService.put(this.userPanelForm.value).pipe(
             take(1)
           ).subscribe(data => this.handleSuccesResponse("Korisnik je uređen"));
@@ -117,14 +139,14 @@ export class UserPanelOverviewComponent implements OnInit {
       this._spinner.hide();
       this._notificationService.fireSuccessMessage(successMessage);
       this.isSubmitLoaderActive = false;
-    },500);
+    }, 500);
   }
 
   get id(): AbstractControl | null { return this.userPanelForm.get('id'); }
-  get email(): AbstractControl | null { return this.userPanelForm.get('email');}
-  get confirmMail(): AbstractControl | null { return this.userPanelForm.get('confirmMail');}
+  get email(): AbstractControl | null { return this.userPanelForm.get('email'); }
+  get confirmMail(): AbstractControl | null { return this.userPanelForm.get('confirmMail'); }
   get username(): AbstractControl | null { return this.userPanelForm.get('username'); }
-  get role(): AbstractControl | null { return this.userPanelForm.get('role');}
-  get company(): AbstractControl | null { return this.userPanelForm.get('company');}
+  get role(): AbstractControl | null { return this.userPanelForm.get('role'); }
+  get company(): AbstractControl | null { return this.userPanelForm.get('company'); }
 
 }

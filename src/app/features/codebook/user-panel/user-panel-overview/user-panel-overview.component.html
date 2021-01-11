@@ -8,7 +8,8 @@
         <div class="form-group">
           <label class="required" for="role">Odaberite ulogu:</label>
           <select class="custom-select" formControlName="role" id="role" name="role" required="required"
-            [ngClass]="{'is-invalid': role?.invalid && (role?.dirty || role?.touched || ngUserPanelForm.submitted)}">
+            [ngClass]="{'is-invalid': role?.invalid && (role?.dirty || role?.touched || ngUserPanelForm.submitted)}"
+            (change)="changeUserRole($event)">
             <option value="" disabled [selected]="!role?.value">Odaberite</option>
             <option *ngFor="let role of roles" [value]="role.id">{{role.name}}</option>
           </select>

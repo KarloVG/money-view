@@ -1,4 +1,4 @@
-export interface IRequestCompany{
-    id:number,
-    name:string
+export interface IRequestCompany {
+  id: number,
+  name: string
 }

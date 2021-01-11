@@ -14,27 +14,27 @@ export interface IMenuItem {
 export class NavigationService {
 
   public screenWidth: any
-	public collapseSidebar: boolean = false
-	public fullScreen = false;
+  public collapseSidebar: boolean = false
+  public fullScreen = false;
 
-	constructor() {
-		this.onResize();
-		if (this.screenWidth < 991) {
-			this.collapseSidebar = true
-		}
-	}
+  constructor() {
+    this.onResize();
+    if (this.screenWidth < 991) {
+      this.collapseSidebar = true
+    }
+  }
 
   // Windows width
   @HostListener('window:resize', ['$event'])
-  onResize(event?:any) {
+  onResize(event?: any) {
     this.screenWidth = window.innerWidth;
   }
 
-  getMenu(): IMenuItem[]{
+  getMenu(): IMenuItem[] {
     return [
       {
         id: 1,
-        name:'Šifrarnici',
+        name: 'Šifrarnici',
         path: '',
         children: [
           {
@@ -43,7 +43,7 @@ export class NavigationService {
             path: '/codebook/group-and-company'
           },
           {
-            id:3,
+            id: 3,
             name: 'Računi',
             path: '/codebook/account'
           },
@@ -51,12 +51,17 @@ export class NavigationService {
             id: 4,
             name: 'Banke',
             path: '/codebook/bank'
+          },
+          {
+            id: 6,
+            name: 'Licence',
+            path: '/codebook/licence'
           }
         ]
       },
       {
         id: 5,
-        name:'User management',
+        name: 'User management',
         path: '/codebook/user-panel',
         children: []
       }
@@ -67,12 +72,10 @@ export class NavigationService {
   menuItems$ = this.menuItems.asObservable();
 
   publishNavigationChange(isAuthorized: boolean) {
-      if (isAuthorized) {
-        console.log('show menu')
-        this.menuItems.next(this.getMenu());
-      } else {
-        console.log('hide menu')
-        this.menuItems.next([]);
-      }
+    if (isAuthorized) {
+      this.menuItems.next(this.getMenu());
+    } else {
+      this.menuItems.next([]);
+    }
   }
 }
