@@ -5,14 +5,14 @@
 }
 
 button.btn-empty {
-  background-color: white;
+  background: none;
   border: 0;
   &:active {
     border: 0 !important;
-    outline: white;
+    outline: none;
   }
   &:focus {
     border: 0 !important;
-    outline: white;
+    outline: none;
   }
 }

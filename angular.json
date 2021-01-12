@@ -34,6 +34,9 @@
               "src/browserconfig.xml"
             ],
             "styles": [
+              "node_modules/@swimlane/ngx-datatable/assets/icons.css",
+              "node_modules/@swimlane/ngx-datatable/themes/bootstrap.css",
+              "node_modules/animate.css/animate.min.css",
               {
                 "input": "node_modules/bootstrap/scss/bootstrap.scss",
                 "bundleName": "bootstrap"
@@ -49,8 +52,7 @@
               {
                 "input": "src/scss/styles.scss",
                 "bundleName": "app"
-              },
-              "node_modules/animate.css/animate.min.css"
+              }
             ],
             "scripts": []
           },
