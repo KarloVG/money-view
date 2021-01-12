@@ -19,8 +19,9 @@ export class UserPanelService {
 
   constructor(
     private readonly _http: HttpClient,
-    private readonly _appRoute: AppRouteService,
-  ) { }
+    private readonly _appRoute: AppRouteService
+  ) {
+  }
 
   add(formGroup: IRequestUserPanel): Observable<IFleksbitResponse<IResponseUserPanel>> {
     const request = {
@@ -35,13 +36,17 @@ export class UserPanelService {
 
   //Edit existing
   put(formGroup: IRequestUserPanel): Observable<IFleksbitResponse<IResponseUserPanel>> {
+    if (!formGroup.id) {
+      throw new Error('Invalid User ID');
+    }
+
     const request = {
       email: formGroup.email,
       username: formGroup.username,
       firmId: formGroup.company,
-      roleNames: [this.roles.find(x => x.id == formGroup.role)?.name]
+      roleNames: [this.roles.find(x => x.id === formGroup.role)?.name]
     };
-    const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME, formGroup.id?.toString() ?? '']);
+    const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME, formGroup.id.toString()]);
     return this._http.put<IFleksbitResponse<IResponseUserPanel>>(url.toString(), request);
   }
 }
