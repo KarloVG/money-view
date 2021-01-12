@@ -41,7 +41,7 @@ export class UserPanelService {
       firmId: formGroup.company,
       roleNames: [this.roles.find(x => x.id == formGroup.role)?.name]
     };
-    const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME, formGroup.id.toString()]);
+    const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME, formGroup.id?.toString() ?? '']);
     return this._http.put<IFleksbitResponse<IResponseUserPanel>>(url.toString(), request);
   }
 }
