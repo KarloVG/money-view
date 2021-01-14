@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ColumnMode } from '@swimlane/ngx-datatable';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { map, take } from 'rxjs/operators';
+import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
+import { ConfirmationModalComponent } from 'src/app/shared/components/confirmation-modal/confirmation-modal.component';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
+import { PageInfo } from 'src/app/shared/page-info';
 import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
-import { IRequestCompany } from '../../group-and-company/company/models/request/request-company';
-import { IPaginatedResponseCompany } from '../../group-and-company/company/models/response/response-company';
-import { CompanyService } from '../../group-and-company/company/services/company.service';
-import { IRequestUserPanel } from '../models/request/request-user-panel';
-import { IRequestRole } from '../models/request/role-request';
+import { ModalAoeUserPanelComponent } from '../modal-aoe-user-panel/modal-aoe-user-panel.component';
 import { IResponseUserPanel } from '../models/response/response-user-panel';
 import { UserPanelService } from '../services/user-panel.service';
 
@@ -19,134 +19,135 @@ import { UserPanelService } from '../services/user-panel.service';
 })
 export class UserPanelOverviewComponent implements OnInit {
 
-  isSubmitLoaderActive: boolean = false;
-  errorMessage: string = '';
-  group!: IResponseUserPanel;
-  desiredPageSize: number = 150;
-  dropDownCompanies: IRequestCompany[] = [];
-  @Input() editUser!: IRequestUserPanel;
+  rows: IResponseUserPanel[] = [];
+  loadingIndicator: boolean = true;
+  currentEntryCount!: number;
+  desiredPageSize: number = 20;
+  desiredPageOffset: number = 0;
+  ColumnMode: ColumnMode = ColumnMode.force;
 
-  userPanelForm: FormGroup = this._formBuilder.group({
-    id: [null],
-    email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
-    confirmMail: ['', [Validators.required]],
-    company: ['', Validators.required],
-    username: ['', [Validators.required, Validators.minLength(4)]],
-    role: ['']
-  }, { validator: this.checkEmail }
-  );
 
-  checkEmail(group: FormGroup) {
-    let pass = group.controls.email.value;
-    let confirmEmail = group.controls.confirmMail.value;
-    return pass === confirmEmail ? group.get('confirmMail')?.setErrors(null) : group.get('confirmMail')?.setErrors({ 'notSame': true });
-  }
-
-  roles: IRequestRole[] = [
-    {
-      id: 1,
-      name: 'Admin'
-    },
-    {
-      id: 2,
-      name: 'Menadžer firme'
-    },
-    {
-      id: 3,
-      name: 'Menadžer grupe'
-    }
-  ]
 
   constructor(
-    private _formBuilder: FormBuilder,
     private _notificationService: NotificationService,
+    private _modal: NgbModal,
     private _userPanelService: UserPanelService,
-    private _spinner: NgxSpinnerService,
-    private _companyService: CompanyService,) { }
+    private _spinner: NgxSpinnerService
+  ) { }
+
+  public setPage(pageInfo: PageInfo): void {
+    this.desiredPageOffset = pageInfo.offset;
+    this.desiredPageSize = pageInfo.pageSize;
+    this.getUsers();
+  }
 
   ngOnInit(): void {
-    if (this.editUser) {
-      this.userPanelForm.patchValue({
-        id: this.editUser.id,
-        email: this.editUser.email,
-        company: this.editUser.company,
-        username: this.editUser.username,
-        role: this.editUser.role
+    this.getUsers();
+  }
+
+  getUsers(): void {
+    this._userPanelService
+      .get(this.desiredPageOffset, this.desiredPageSize)
+      .pipe(
+        take(1),
+        map(
+          (
+            response:
+              IFleksbitResponse<BasicPaginatedResponse<IResponseUserPanel>>
+          ) => response.response
+        )
+      )
+      .subscribe((res: BasicPaginatedResponse<IResponseUserPanel>) => {
+        this.rows = res.data;
+        this.loadingIndicator = false;
+        this.currentEntryCount = res.pagination.count;
       });
+  }
+
+  addOrEditUser(user?: IResponseUserPanel): void {
+    const modal = this._modal.open(ModalAoeUserPanelComponent, {
+      centered: true,
+      backdrop: 'static',
+      keyboard: false,
+    });
+    if (user) {
+      modal.componentInstance.user = user;
     }
-    this.getDropdownCompanies();
-  }
-
-  changeUserRole(event: any) {
-    if (event && event?.target?.value === "2") {
-      this.company?.setValidators([Validators.required]);
-      this.company?.updateValueAndValidity();
-    } else {
-      if (this.checkIfValidators(this.company)) {
-        this.company?.clearValidators();
-        this.company?.updateValueAndValidity();
-      }
-    }
-  }
-
-  checkIfValidators(abstractControl: AbstractControl | null) {
-    if (abstractControl?.validator) {
-      const validator = abstractControl.validator({} as AbstractControl);
-      if (validator && validator.required) {
-        return true;
-      }
-    }
-    return false
-  }
-
-  getDropdownCompanies(): void {
-    this._companyService.getDropdown().pipe(
-      take(1),
-      map((response: IFleksbitResponse<IPaginatedResponseCompany>) => response.response),
-    ).subscribe((res: IPaginatedResponseCompany) => {
-      this.dropDownCompanies = res.data;
-    })
-  }
-
-  resetFormGroup(): void {
-    this.userPanelForm.reset();
-  }
-
-  onSubmit(): void {
-    if (this.userPanelForm.invalid) {
-      return;
-    } else {
-      if (this.userPanelForm.dirty) {
-        this.isSubmitLoaderActive = true;
-        if (this.id?.value) {
-          this._userPanelService.put(this.userPanelForm.value).pipe(
-            take(1)
-          ).subscribe(data => this.handleSuccesResponse("Korisnik je uređen"));
+    modal.result
+      .then((result) => {
+        if (result && result.id) {
+          this._userPanelService
+            .put(result)
+            .pipe(
+              take(1)
+            )
+            .subscribe((data) => {
+              this.handleSuccesResponse('Korisnik je uređen');
+            });
         } else {
-          this._userPanelService.add(this.userPanelForm.value).pipe(
-            take(1)
-          ).subscribe(data => this.handleSuccesResponse("Korisnik je dodan"));
+          this._userPanelService
+            .add(result)
+            .pipe(
+              take(1)
+            )
+            .subscribe((data) => {
+              this.handleSuccesResponse('Korisnik je dodan');
+            });
         }
-      }
-    }
+      })
+      .catch((reason) => {
+        if (user) {
+          this.handleModalDismiss('Korisnik nije uređen');
+        } else {
+          this.handleModalDismiss('Korisnik nije dodan');
+        }
+      });
   }
 
-  // 201 - Success
+  deleteUser(user: IResponseUserPanel): void {
+    const modalRef = this._modal.open(ConfirmationModalComponent, {
+      centered: true,
+      backdrop: 'static',
+      keyboard: false,
+    });
+    modalRef.componentInstance.title = 'Brisanje korisnika';
+    modalRef.componentInstance.description = `Želite li obrisati korisnika ${user.userName}?`;
+    modalRef.componentInstance.isDelete = true;
+    modalRef.result
+      .then((result) => {
+        if (result == true) {
+          this._userPanelService
+            .delete(user.id)
+            .pipe(
+              take(1)
+            )
+            .subscribe((data) => {
+              this.handleSuccesResponse('Korisnik je obrisan');
+            });
+        }
+      })
+      .catch((reason) => {
+        this.handleModalDismiss('Korisnik nije obrisan');
+      });
+  }
+
   handleSuccesResponse(successMessage: string): void {
     this._spinner.show();
-    // zbog izgleda
     setTimeout(() => {
       this._spinner.hide();
       this._notificationService.fireSuccessMessage(successMessage);
-      this.isSubmitLoaderActive = false;
+      this.getUsers();
     }, 500);
   }
 
-  get id(): AbstractControl | null { return this.userPanelForm.get('id'); }
-  get email(): AbstractControl | null { return this.userPanelForm.get('email'); }
-  get confirmMail(): AbstractControl | null { return this.userPanelForm.get('confirmMail'); }
-  get username(): AbstractControl | null { return this.userPanelForm.get('username'); }
-  get role(): AbstractControl | null { return this.userPanelForm.get('role'); }
-  get company(): AbstractControl | null { return this.userPanelForm.get('company'); }
+  handleModalDismiss(message: string): void {
+    this._notificationService.fireWarningMessage(message);
+  }
 
+  get entryCount(): number {
+    return this.currentEntryCount ?? 0;
+  }
+  get desiredPage(): number {
+    return this.desiredPageOffset + 1;
+  }
 }

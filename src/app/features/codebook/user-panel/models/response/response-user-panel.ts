@@ -6,5 +6,5 @@ export interface IResponseUserPanel{
     role: IResponseRole,
     company: IResponseCompany,
     email: string,
-    username: string
+    userName: string
 }
