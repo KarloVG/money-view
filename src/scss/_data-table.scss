@@ -29,6 +29,9 @@
 
 .ngx-datatable.bootstrap
 {
+  .datatable-row-even {
+    background-color: white !important;
+  }
   .datatable-footer {
     background-color: white;
     color: #424242;
