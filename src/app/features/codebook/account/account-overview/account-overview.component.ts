@@ -23,7 +23,7 @@ export class AccountOverviewComponent implements OnInit {
   rows: IResponseAccount[] = [];
   loadingIndicator: boolean = true;
   currentEntryCount!: number;
-  desiredPageSize: number = 20;
+  desiredPageSize: number = 5;
   desiredPageOffset: number = 0;
   ColumnMode: ColumnMode = ColumnMode.force;
   /* #endregion */
