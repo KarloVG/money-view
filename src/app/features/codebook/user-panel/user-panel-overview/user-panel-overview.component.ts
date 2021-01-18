@@ -22,7 +22,7 @@ export class UserPanelOverviewComponent implements OnInit {
   rows: IResponseUserPanel[] = [];
   loadingIndicator: boolean = true;
   currentEntryCount!: number;
-  desiredPageSize: number = 20;
+  desiredPageSize: number = 5;
   desiredPageOffset: number = 0;
   ColumnMode: ColumnMode = ColumnMode.force;
 
