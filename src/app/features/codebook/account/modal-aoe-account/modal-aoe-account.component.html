@@ -22,8 +22,8 @@
           <div class="invalid-feedback" *ngIf="iban?.errors?.required">
             Polje IBAN je obavezno
           </div>
-          <div class="invalid-feedback" *ngIf="iban?.errors?.pattern">
-            Polje IBAN je broj od 19 znamenki
+          <div class="invalid-feedback" *ngIf="iban?.errors?.minlength || iban?.errors?.maxlength">
+            Polje IBAN mora sadržavati 19 znamenaka
           </div>
           <div class="invalid-feedback" *ngIf="iban?.errors?.pattern">
             Polje IBAN mora sadržavati samo brojeve
