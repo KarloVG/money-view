@@ -7,10 +7,9 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationModalModule } from 'src/app/shared/components/confirmation-modal/confirmation-modal.module';
 import { RouterModule } from '@angular/router';
-import { InputRestrictionAccountDirective } from 'src/app/shared/directives/input-restriction-account.directive';
 
 @NgModule({
-  declarations: [AccountOverviewComponent, ModalAoeAccountComponent, InputRestrictionAccountDirective],
+  declarations: [AccountOverviewComponent, ModalAoeAccountComponent],
   imports: [
     CommonModule,
     NgbModule,
@@ -26,6 +25,5 @@ import { InputRestrictionAccountDirective } from 'src/app/shared/directives/inpu
     ]),
   ],
   entryComponents: [ModalAoeAccountComponent],
-  exports: [InputRestrictionAccountDirective]
 })
 export class AccountModule { }

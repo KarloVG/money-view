@@ -6,10 +6,9 @@ import { ModalAoeCompanyComponent } from './modal-aoe-company/modal-aoe-company.
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalModule } from 'src/app/shared/components/confirmation-modal/confirmation-modal.module';
-import { InputRestrictionCompanyDirective } from 'src/app/shared/directives/input-restriction-company.directive';
 
 @NgModule({
-  declarations: [CompanyOverviewComponent, ModalAoeCompanyComponent, InputRestrictionCompanyDirective],
+  declarations: [CompanyOverviewComponent, ModalAoeCompanyComponent],
   imports: [
     CommonModule,
     NgbModule,
@@ -18,7 +17,7 @@ import { InputRestrictionCompanyDirective } from 'src/app/shared/directives/inpu
     ReactiveFormsModule,
     ConfirmationModalModule
   ],
-  exports: [CompanyOverviewComponent, InputRestrictionCompanyDirective],
+  exports: [CompanyOverviewComponent],
   entryComponents: [ModalAoeCompanyComponent]
 })
 export class CompanyModule { }

@@ -13,8 +13,8 @@
           <div class="input-group-prepend">
             <span class="input-group-text">HR</span>
           </div>
-          <input type="text" class="form-control" id="iban" [mask]="'^([0-9]\\d\{0,18\})$'" name="iban"
-            placeholder="IBAN&hellip;" formControlName="iban" autocomplete="off" [ngClass]="{
+          <input type="text" class="form-control" id="iban" maxlength="19" name="iban" placeholder="IBAN&hellip;"
+            formControlName="iban" autocomplete="off" [ngClass]="{
               'is-invalid':
                 iban?.invalid &&
                 (iban?.dirty || iban?.touched || accountForm.submitted)
@@ -24,6 +24,9 @@
           </div>
           <div class="invalid-feedback" *ngIf="iban?.errors?.pattern">
             Polje IBAN je broj od 19 znamenki
+          </div>
+          <div class="invalid-feedback" *ngIf="iban?.errors?.pattern">
+            Polje IBAN mora sadržavati samo brojeve
           </div>
         </div>
       </div>
