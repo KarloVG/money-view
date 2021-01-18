@@ -1,5 +1,5 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { codebookRoutes } from './features/codebook/codebook-routes';
 import { AuthorizationGuardService } from './shared/services/authentication/authorization.guard';
 
