@@ -21,8 +21,8 @@
       </div>
       <div class="col-12 mb-3">
         <label class="required" for="oib"> OIB </label>
-        <input type="text" class="form-control" id="oib" name="oib" placeholder="OIB&hellip;" formControlName="oib"
-          autocomplete="off" [ngClass]="{
+        <input type="text" class="form-control" id="oib" [mask]="'^([0-9]\\d\{0,10\})$'" name="oib"
+          placeholder="OIB&hellip;" formControlName="oib" autocomplete="off" [ngClass]="{
             'is-invalid':
               oib?.invalid && (oib?.dirty || oib?.touched || myForm.submitted)
           }" autocomplete="off" />

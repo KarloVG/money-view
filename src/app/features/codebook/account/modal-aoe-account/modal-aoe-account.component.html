@@ -13,8 +13,8 @@
           <div class="input-group-prepend">
             <span class="input-group-text">HR</span>
           </div>
-          <input type="text" class="form-control" id="iban" name="iban" placeholder="IBAN&hellip;"
-            formControlName="iban" autocomplete="off" [ngClass]="{
+          <input type="text" class="form-control" id="iban" [mask]="'^([0-9]\\d\{0,18\})$'" name="iban"
+            placeholder="IBAN&hellip;" formControlName="iban" autocomplete="off" [ngClass]="{
               'is-invalid':
                 iban?.invalid &&
                 (iban?.dirty || iban?.touched || accountForm.submitted)
