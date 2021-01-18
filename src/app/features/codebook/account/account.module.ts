@@ -26,4 +26,4 @@ import { RouterModule } from '@angular/router';
   ],
   entryComponents: [ModalAoeAccountComponent],
 })
-export class AccountModule {}
+export class AccountModule { }

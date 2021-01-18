@@ -18,6 +18,6 @@ import { ConfirmationModalModule } from 'src/app/shared/components/confirmation-
     ConfirmationModalModule
   ],
   exports: [CompanyOverviewComponent],
-  entryComponents:[ModalAoeCompanyComponent]
+  entryComponents: [ModalAoeCompanyComponent]
 })
 export class CompanyModule { }

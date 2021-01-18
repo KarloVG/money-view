@@ -23,7 +23,6 @@ export class ModalAoeUserPanelComponent implements OnInit {
   isSubmitLoaderActive: boolean = false;
   errorMessage: string = '';
   group!: IResponseUserPanel;
-  desiredPageSize: number = 150;
   dropDownCompanies: IRequestCompany[] = [];
   @Input() user!: IRequestUserPanel;
 
