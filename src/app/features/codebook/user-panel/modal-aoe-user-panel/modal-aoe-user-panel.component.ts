@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { map, take } from 'rxjs/operators';
@@ -31,7 +31,7 @@ export class ModalAoeUserPanelComponent implements OnInit {
     email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
     confirmMail: ['', [Validators.required]],
     company: ['', Validators.required],
-    userName: ['', [Validators.required, Validators.minLength(4)]],
+    userName: ['', [Validators.required, Validators.minLength(4), Validators.pattern("^[a-zA-Z0-9\S._@+-]{4,}$")]],
     role: ['']
   }, { validator: this.checkEmail }
   );
@@ -115,35 +115,17 @@ export class ModalAoeUserPanelComponent implements OnInit {
       return;
     } else {
       if (this.userPanelForm.dirty) {
-        this.isSubmitLoaderActive = true;
-        if (this.id?.value) {
-          this._userPanelService.put(this.userPanelForm.value).pipe(
-            take(1)
-          ).subscribe(data => this.handleSuccesResponse("Korisnik je uređen"));
-        } else {
-          this._userPanelService.add(this.userPanelForm.value).pipe(
-            take(1)
-          ).subscribe(data => this.handleSuccesResponse("Korisnik je dodan"));
-        }
+        this._modal.close(this.userPanelForm.value);
+      } else {
+        this._modal.dismiss('cancel');
       }
     }
-  }
-
-  // 201 - Success
-  handleSuccesResponse(successMessage: string): void {
-    this._spinner.show();
-    // zbog izgleda
-    setTimeout(() => {
-      this._spinner.hide();
-      this._notificationService.fireSuccessMessage(successMessage);
-      this.isSubmitLoaderActive = false;
-    }, 500);
   }
 
   get id(): AbstractControl | null { return this.userPanelForm.get('id'); }
   get email(): AbstractControl | null { return this.userPanelForm.get('email'); }
   get confirmMail(): AbstractControl | null { return this.userPanelForm.get('confirmMail'); }
-  get userName(): AbstractControl | null { return this.userPanelForm.get('username'); }
+  get userName(): AbstractControl | null { return this.userPanelForm.get('userName'); }
   get role(): AbstractControl | null { return this.userPanelForm.get('role'); }
   get company(): AbstractControl | null { return this.userPanelForm.get('company'); }
 

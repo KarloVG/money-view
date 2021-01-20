@@ -8,6 +8,7 @@ import { ModalAoeUserPanelComponent } from './modal-aoe-user-panel/modal-aoe-use
 import { ConfirmationModalModule } from 'src/app/shared/components/confirmation-modal/confirmation-modal.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+
 @NgModule({
   declarations: [UserPanelOverviewComponent, ModalAoeUserPanelComponent],
   imports: [

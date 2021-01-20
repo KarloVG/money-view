@@ -33,8 +33,11 @@
       <label class="required" for="userName">Korisničko ime</label>
       <input class="form-control" formControlName="userName" placeholder="Upiši korisničko ime&hellip;"
         [ngClass]="{'is-invalid': userName?.invalid && (userName?.dirty || userName?.touched || ngUserPanelForm.submitted)}">
-      <div class="invalid-feedback">
+      <div class="invalid-feedback" *ngIf="userName?.errors?.required">
         Korisničko ime je obavezno
+      </div>
+      <div class="invalid-feedback" *ngIf="userName?.errors?.pattern">
+        Korisničko ime mora sadržavati minimalno 4 znaka i može sadržavati samo alfanumeričke znakove i -._@+
       </div>
     </div>
     <div class="form-group">
