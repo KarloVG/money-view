@@ -5,7 +5,7 @@ export interface IRequestUserPanel {
   role: number | undefined,
   company: IRequestCompany,
   email: string,
-  username: string
+  userName: string
   firmId?: number;
   roleNames?: string[] | undefined;
 }

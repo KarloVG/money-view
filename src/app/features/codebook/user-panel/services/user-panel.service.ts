@@ -1,6 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { AppRouteService } from 'src/app/shared/services/route/app-route.service';
 import { environment } from '../../../../../environments/environment';
@@ -23,10 +25,42 @@ export class UserPanelService {
   ) {
   }
 
+  get(
+    page: number,
+    pageSize: number
+  ):
+    Observable<IFleksbitResponse<BasicPaginatedResponse<IResponseUserPanel>>> {
+    const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME]);
+    const requestParams = new HttpParams({
+      fromObject: {
+        offset: page.toString(),
+        pageSize: pageSize.toString()
+      },
+    });
+    return this._http
+      .get<IFleksbitResponse<BasicPaginatedResponse<IResponseUserPanel>>>(
+        url.toString(),
+        { params: requestParams }
+      )
+      .pipe(
+        tap((data) => console.log('Get user', data))
+      );
+  }
+
+  delete(id: number): Observable<IFleksbitResponse<IResponseUserPanel>> {
+    const url = this._appRoute.createAppRouteURL([
+      this.CONTROLLER_NAME,
+      id.toString(),
+    ]);
+    return this._http
+      .delete<IFleksbitResponse<IResponseUserPanel>>(url.toString()).pipe(
+        tap((data) => console.log('Delete user', JSON.stringify(data)))
+      );
+  }
   add(formGroup: IRequestUserPanel): Observable<IFleksbitResponse<IResponseUserPanel>> {
     const request = {
       email: formGroup.email,
-      username: formGroup.username,
+      username: formGroup.userName,
       firmId: +formGroup.company,
       roleNames: [this.roles.find(x => x.id == formGroup.role)?.name]
     };
@@ -42,7 +76,7 @@ export class UserPanelService {
 
     const request = {
       email: formGroup.email,
-      username: formGroup.username,
+      username: formGroup.userName,
       firmId: formGroup.company,
       roleNames: [this.roles.find(x => x.id === formGroup.role)?.name]
     };

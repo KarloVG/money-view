@@ -35,7 +35,7 @@ export class ModalAoeAccountComponent implements OnInit {
     id: [null],
     companyId: [null, Validators.required],
     bankId: [null, Validators.required],
-    iban: ['', [Validators.required, Validators.pattern('^[0-9]{19}$')]],
+    iban: ['', [Validators.required, Validators.minLength(19), Validators.maxLength(19), Validators.pattern('^[0-9]*$')]],
   });
   /* #endregion */
 

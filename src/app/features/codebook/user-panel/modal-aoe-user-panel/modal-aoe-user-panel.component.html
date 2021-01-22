@@ -1,0 +1,84 @@
+<div class="modal-header">
+  <h4 class="modal-title" *ngIf="user;else addUser">Uredi korisnik</h4>
+  <ng-template #addUser>
+    <h4 class="modal-title">Dodaj novog korisnika</h4>
+  </ng-template>
+</div>
+<div class="card-body">
+  <form [formGroup]="userPanelForm" #ngUserPanelForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label class="required" for="role">Odaberite ulogu:</label>
+      <select class="custom-select" formControlName="role" id="role" name="role" required="required"
+        [ngClass]="{'is-invalid': role?.invalid && (role?.dirty || role?.touched || ngUserPanelForm.submitted)}"
+        (change)="changeUserRole($event)">
+        <option value="" disabled [selected]="!role?.value">Odaberite</option>
+        <option *ngFor="let role of roles" [value]="role.id">{{role.name}}</option>
+      </select>
+      <div class="invalid-feedback">
+        Polje je obavezno
+      </div>
+    </div>
+    <div class="form-group" *ngIf="role?.value == 2">
+      <label class="required" for="company">Odaberite firmu:</label>
+      <select class="custom-select" formControlName="company" id="company" name="company" required="required"
+        [ngClass]="{'is-invalid': company?.invalid && (company?.dirty || company?.touched || ngUserPanelForm.submitted)}">
+        <option value="" disabled selected>Odaberite</option>
+        <option *ngFor="let companies of dropDownCompanies" [value]="companies.id">{{companies.name}}</option>
+      </select>
+      <div class="invalid-feedback">
+        Polje je obavezno
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="required" for="userName">Korisničko ime</label>
+      <input class="form-control" formControlName="userName" placeholder="Upiši korisničko ime&hellip;"
+        [ngClass]="{'is-invalid': userName?.invalid && (userName?.dirty || userName?.touched || ngUserPanelForm.submitted)}">
+      <div class="invalid-feedback" *ngIf="userName?.errors?.required">
+        Korisničko ime je obavezno
+      </div>
+      <div class="invalid-feedback" *ngIf="userName?.errors?.pattern">
+        Korisničko ime mora sadržavati minimalno 4 znaka i može sadržavati samo alfanumeričke znakove i -._@+
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="required" for="email">Email</label>
+      <input class="form-control" type="email" formControlName="email" placeholder="Upiši email&hellip;"
+        [ngClass]="{'is-invalid': email?.invalid && (email?.dirty || email?.touched || ngUserPanelForm.submitted)}">
+      <div *ngIf="email?.errors?.required" class="invalid-feedback">
+        Email adresa je obavezna
+      </div>
+      <div *ngIf="email?.errors?.pattern" class="invalid-feedback">
+        Unesite ispravnu Email adresu
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="required" for="confirmMail">Potvrdite email</label>
+      <input class="form-control" type="email" formControlName="confirmMail" placeholder="Upiši email&hellip;"
+        [ngClass]="{'is-invalid': confirmMail?.invalid  && (confirmMail?.dirty || confirmMail?.touched|| ngUserPanelForm.submitted)}">
+      <div *ngIf="confirmMail?.errors?.required" class="invalid-feedback">
+        Polje potvrdite Email je obavezno
+      </div>
+      <div class="invalid-feedback" *ngIf="confirmMail?.hasError('notSame')">
+        Email polje se mora poklapati
+      </div>
+    </div>
+    <div class="alert alert-danger" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+    <div class="d-flex justify-content-between">
+      <button type="button" title="Odustani" class="btn btn-outline-secondary mr-auto"
+        (click)="_modal.dismiss('cancel')">
+        Odustani</button>
+      <button type="submit" ngbAutofocus class="btn btn-primary">
+        <span class="fas fa-user-plus"></span>
+        <span class="fas fa-user-check"></span>
+        <span *ngIf="user; else newUser">
+          Uredi korisnika
+        </span>
+        <ng-template #newUser>
+          <span>Dodaj korisnika</span>
+        </ng-template>
+      </button>
+    </div>
+  </form>
+</div>

@@ -8,7 +8,6 @@
   "editor.cursorSmoothCaretAnimation": true,
   "editor.cursorStyle": "line",
   "editor.fontSize": 16,
-  "editor.fontFamily": "Dank Mono, Operator Mono, Fira Code, Inconsolata",
   "editor.fontLigatures": true,
   "editor.formatOnPaste": true,
   "editor.formatOnType": false,
