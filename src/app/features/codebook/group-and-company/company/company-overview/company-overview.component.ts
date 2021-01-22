@@ -33,7 +33,7 @@ export class CompanyOverviewComponent implements OnInit {
     private _companyService: CompanyService,
     private _notificationService: NotificationService,
     private _spinner: NgxSpinnerService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getCompanies();
@@ -75,25 +75,7 @@ export class CompanyOverviewComponent implements OnInit {
     }
     modal.result
       .then((result) => {
-        if (result && result.id) {
-          this._companyService
-            .put(result)
-            .pipe(
-              take(1)
-            )
-            .subscribe((data) => {
-              this.handleSuccesResponse('Firma je uređena');
-            });
-        } else {
-          this._companyService
-            .add(result)
-            .pipe(
-              take(1)
-            )
-            .subscribe((data) => {
-              this.handleSuccesResponse('Firma je dodana');
-            });
-        }
+        this.handleSuccesResponse(result);
       })
       .catch((reason) => {
         if (editCompany) {
@@ -101,7 +83,6 @@ export class CompanyOverviewComponent implements OnInit {
         } else {
           this.handleModalDismiss('Firma nije dodana');
         }
-        // todo swift alert warning
       });
   }
 
@@ -114,7 +95,7 @@ export class CompanyOverviewComponent implements OnInit {
     });
     modalRef.componentInstance.title = 'Brisanje firme';
     modalRef.componentInstance.description = `Želite li obrisati firmu pod nazivom ${company.name}?`;
-    modalRef.componentInstance.isDelete = true; // text danger
+    modalRef.componentInstance.isDelete = true;
     modalRef.result
       .then((result) => {
         if (result == true) {
