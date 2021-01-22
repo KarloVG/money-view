@@ -6,6 +6,14 @@ import { environment } from 'src/environments/environment';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { NotificationService } from '../../services/swal-notification/notification.service';
 
+interface FleksbitError {
+  code: number;
+  response: any,
+  error: {
+    message: string
+  }
+}
+
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
@@ -28,15 +36,15 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request)
       .pipe(
-        catchError((error: HttpErrorResponse) => {
-          if (error.status === 401) {
+        catchError((error: FleksbitError) => {
+          if (error.code === 401) {
             this._authenticationService.login();
           }
           // Don't fire notification service
           if ((request.method === 'POST' || request.method === 'PUT') && this.isValidRequestForInterceptor(request.url)) {
-            this._notificationService.fireErrorNotification(error.message);
+            this._notificationService.fireErrorNotification(error.error.message);
           }
-          return throwError(error.message);
+          return throwError(error.error.message);
         })
       );
   }
