@@ -32,6 +32,9 @@
   .datatable-row-even {
     background-color: white !important;
   }
+  .datatable-body .datatable-body-row {
+    border-top: none !important;
+  }
   .datatable-footer {
     background-color: white;
     color: #424242;

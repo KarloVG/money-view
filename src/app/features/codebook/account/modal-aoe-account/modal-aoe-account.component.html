@@ -16,8 +16,8 @@
           <input type="text" class="form-control" id="iban" maxlength="19" name="iban" placeholder="IBAN&hellip;"
             formControlName="iban" autocomplete="off" [ngClass]="{
               'is-invalid':
-                iban?.invalid &&
-                (iban?.dirty || iban?.touched || accountForm.submitted)
+               errorMessage.length ||  (iban?.invalid &&
+                (iban?.dirty || iban?.touched || accountForm.submitted))
             }" autocomplete="off" />
           <div class="invalid-feedback" *ngIf="iban?.errors?.required">
             Polje IBAN je obavezno
@@ -27,6 +27,9 @@
           </div>
           <div class="invalid-feedback" *ngIf="iban?.errors?.pattern">
             Polje IBAN mora sadržavati samo brojeve
+          </div>
+          <div class="invalid-feedback" *ngIf="errorMessage.length">
+            {{ errorMessage }}
           </div>
         </div>
       </div>

@@ -6,16 +6,16 @@ import {
   Validators,
 } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { EMPTY, forkJoin, Observable, Subscription } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
-import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
 import { IResponseBank } from '../../bank/models/response/response-bank';
 import { BankService } from '../../bank/services/bank.service';
 import { IResponseCompany } from '../../group-and-company/company/models/response/response-company';
 import { CompanyService } from '../../group-and-company/company/services/company.service';
 import { IResponseAccount } from '../models/response/response-account';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'mv-modal-aoe-account',
@@ -29,6 +29,7 @@ export class ModalAoeAccountComponent implements OnInit {
   companies!: IResponseCompany[];
   banks!: IResponseBank[];
   bankAndCompany$!: Subscription;
+  errorMessage: string = '';
 
   accountGroup: FormGroup = this._formBuilder.group({
     id: [null],
@@ -44,7 +45,7 @@ export class ModalAoeAccountComponent implements OnInit {
     private _companyService: CompanyService,
     private _bankService: BankService,
     public _modal: NgbActiveModal,
-    private _notificationService: NotificationService
+    private _accountService: AccountService
   ) { }
   /* #endregion */
 
@@ -89,8 +90,27 @@ export class ModalAoeAccountComponent implements OnInit {
       return;
     } else {
       if (this.accountGroup.dirty) {
-        console.log(this.accountGroup);
-        this._modal.close(this.accountGroup.value);
+        if (this.id?.value) {
+          this._accountService
+            .put(this.accountGroup.value)
+            .pipe(take(1))
+            .subscribe(
+              data => {
+                this._modal.close('Račun je uređen');
+              },
+              err => this.errorMessage = err
+            );
+        } else {
+          this._accountService
+            .add(this.accountGroup.value)
+            .pipe(take(1))
+            .subscribe(
+              data => {
+                this._modal.close('Račun je dodan');
+              },
+              err => this.errorMessage = err
+            );
+        }
       } else {
         this._modal.dismiss('cancel');
       }

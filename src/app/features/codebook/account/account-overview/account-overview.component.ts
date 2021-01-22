@@ -34,7 +34,7 @@ export class AccountOverviewComponent implements OnInit {
     private _accountService: AccountService,
     private _notificationService: NotificationService,
     private _spinner: NgxSpinnerService
-  ) {}
+  ) { }
   /* #endregion */
 
   /* #region  Methods */
@@ -82,25 +82,7 @@ export class AccountOverviewComponent implements OnInit {
     }
     modal.result
       .then((result) => {
-        if (result && result.id) {
-          this._accountService
-            .put(result)
-            .pipe(
-              take(1),
-            )
-            .subscribe((data) => {
-              this.handleSuccesResponse('Račun je uređen');
-            });
-        } else {
-          this._accountService
-            .add(result)
-            .pipe(
-              take(1),
-            )
-            .subscribe((data) => {
-              this.handleSuccesResponse('Račun je dodan');
-            });
-        }
+        this.handleSuccesResponse(result);
       })
       .catch((reason) => {
         if (account) {
@@ -108,7 +90,6 @@ export class AccountOverviewComponent implements OnInit {
         } else {
           this.handleModalDismiss('Račun nije dodan');
         }
-        // todo swift alert warning
       });
   }
 

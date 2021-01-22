@@ -24,7 +24,7 @@
         <input type="text" class="form-control" id="oib" maxlength="11" name="oib" placeholder="OIB&hellip;"
           formControlName="oib" autocomplete="off" [ngClass]="{
             'is-invalid':
-              oib?.invalid && (oib?.dirty || oib?.touched || myForm.submitted)
+              errorMessage.length || (oib?.invalid && (oib?.dirty || oib?.touched || myForm.submitted))
           }" autocomplete="off" />
         <div class="invalid-feedback" *ngIf="oib?.errors?.minlength || oib?.errors?.maxlength">
           Polje OIB mora sadržavati 11 znamenaka
@@ -34,6 +34,9 @@
         </div>
         <div class="invalid-feedback" *ngIf="oib?.errors?.pattern">
           Polje OIB mora sadržavati samo brojeve
+        </div>
+        <div class="invalid-feedback" *ngIf="errorMessage.length">
+          {{ errorMessage }}
         </div>
       </div>
     </div>
