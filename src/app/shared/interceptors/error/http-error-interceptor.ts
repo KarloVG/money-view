@@ -1,10 +1,10 @@
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable, throwError} from 'rxjs';
-import {catchError} from 'rxjs/operators';
-import {environment} from 'src/environments/environment';
-import {AuthenticationService} from '../../services/authentication/authentication.service';
-import {NotificationService} from '../../services/swal-notification/notification.service';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { NotificationService } from '../../services/swal-notification/notification.service';
 
 interface FleksbitError {
   code: number;
@@ -40,20 +40,20 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           if (error.status === 401) {
             this._authenticationService.login();
           }
-          // Don't fire notification service
-          if ((request.method === 'POST' || request.method === 'PUT') && this.isValidRequestForInterceptor(request.url)) {
-            this._notificationService.fireErrorNotification(error.error.message);
-          }
           const fleksbitError = error.error as FleksbitError;
+          // Don't fire notification service
+          if (this.isValidRequestForInterceptor(request.url, request.method)) {
+            this._notificationService.fireErrorNotification(fleksbitError?.error?.message ?? error.message);
+          }
           return throwError(fleksbitError?.error?.message ?? error.message);
         })
       );
   }
 
-  private isValidRequestForInterceptor(requestUrl: string): boolean {
+  private isValidRequestForInterceptor(requestUrl: string, method: string): boolean {
     let positionIndicator: string = environment.production ? 'api/api/' : 'api/';
     let position = requestUrl.indexOf(positionIndicator);
-    if (position > 0) {
+    if (position > 0 && (method === 'POST' || method === 'PUT')) {
       let destination: string = requestUrl.substr(position + positionIndicator.length);
       for (let address of this.urlWithoutErrInterceptor) {
         if (new RegExp(address).test(destination)) {
