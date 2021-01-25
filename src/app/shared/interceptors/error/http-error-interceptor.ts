@@ -44,7 +44,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           const fleksbitError = error.error as FleksbitError;
           // Don't fire notification service
           if (this.isValidRequestForInterceptor(request.url, request.method)) {
-            this._notificationService.fireErrorNotification(fleksbitError?.error?.message ?? 'Došlo je do pogreške. Molimo kontaktirajte administratora.');
+            const errorMsg = error.error instanceof Blob ? 'Nema podataka za prikaz za navedeni datum.' : fleksbitError?.error?.message;
+            console.log(error.error.text().message)
+            this._notificationService.fireErrorNotification(errorMsg ?? 'Došlo je do pogreške. Molimo kontaktirajte administratora.');
           }
           return throwError(fleksbitError?.error?.message ?? error.message);
         })
