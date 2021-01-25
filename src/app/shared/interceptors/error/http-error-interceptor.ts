@@ -37,13 +37,14 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     return next.handle(request)
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          if (error.status === 401) {
-            this._authenticationService.login();
-          }
+          // if (error.status === 401) {
+          //   this._authenticationService.login();
+          // }
+          console.log('err', error);
           const fleksbitError = error.error as FleksbitError;
           // Don't fire notification service
           if (this.isValidRequestForInterceptor(request.url, request.method)) {
-            this._notificationService.fireErrorNotification(fleksbitError?.error?.message ?? error.message);
+            this._notificationService.fireErrorNotification(fleksbitError?.error?.message ?? 'Došlo je do pogreške. Molimo kontaktirajte administratora');
           }
           return throwError(fleksbitError?.error?.message ?? error.message);
         })
