@@ -1,17 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { forkJoin, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
-import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
 import { IRequestCompany } from '../../group-and-company/company/models/request/request-company';
-import { IPaginatedResponseCompany } from '../../group-and-company/company/models/response/response-company';
+import { IPaginatedResponseCompany, IResponseCompany } from '../../group-and-company/company/models/response/response-company';
 import { CompanyService } from '../../group-and-company/company/services/company.service';
 import { IRequestUserPanel } from '../models/request/request-user-panel';
 import { IRequestRole } from '../models/request/role-request';
 import { IResponseUserPanel } from '../models/response/response-user-panel';
-import { UserPanelService } from '../services/user-panel.service';
 
 @Component({
   selector: 'mv-user-user-overview',
@@ -21,10 +20,10 @@ import { UserPanelService } from '../services/user-panel.service';
 export class ModalAoeUserPanelComponent implements OnInit {
 
   isSubmitLoaderActive: boolean = false;
-  errorMessage: string = '';
   group!: IResponseUserPanel;
   dropDownCompanies: IRequestCompany[] = [];
   @Input() user!: IRequestUserPanel;
+  company$!: Subscription;
 
   userPanelForm: FormGroup = this._formBuilder.group({
     id: [null],
@@ -59,27 +58,34 @@ export class ModalAoeUserPanelComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _notificationService: NotificationService,
     public _modal: NgbActiveModal,
-    private _userPanelService: UserPanelService,
-    private _spinner: NgxSpinnerService,
-    private _companyService: CompanyService,) { }
+    private _companyService: CompanyService
+  ) { }
 
   ngOnInit(): void {
-    if (this.user) {
-      this.userPanelForm.patchValue({
-        id: this.user.id,
-        email: this.user.email,
-        company: this.user.company,
-        userName: this.user.userName,
-        roleNames: this.user.role
-      });
-    }
-    this.getDropdownCompanies();
+    this.company$ = forkJoin([
+      this._companyService.getDropdown().pipe(
+        take(1),
+        map((response: IFleksbitResponse<BasicPaginatedResponse<IResponseCompany>>) => response.response.data),
+      )
+    ]).subscribe((result) => {
+      this.dropDownCompanies = result[0];
+      if (this.user) {
+        this.userPanelForm.patchValue({
+          id: this.user.id,
+          email: this.user.email,
+          confirmMail: this.user.email,
+          company: this.user.company,
+          userName: this.user.userName,
+          roleNames: this.user.role
+        });
+      }
+    });
   }
 
-  changeUserRole(event: any) {
-    if (event && event?.target?.value === "2") {
+  changeUserRole(event: Event) {
+    const selectedValue = (event.target as HTMLOptionElement).value;
+    if (selectedValue === "2") {
       this.company?.setValidators([Validators.required]);
       this.company?.updateValueAndValidity();
     } else {
@@ -100,16 +106,6 @@ export class ModalAoeUserPanelComponent implements OnInit {
     return false
   }
 
-  getDropdownCompanies(): void {
-    this._companyService.getDropdown().pipe(
-      take(1),
-      map((response: IFleksbitResponse<IPaginatedResponseCompany>) => response.response),
-    ).subscribe((res: IPaginatedResponseCompany) => {
-      this.dropDownCompanies = res.data;
-    })
-  }
-
-
   onSubmit(): void {
     if (this.userPanelForm.invalid) {
       return;
@@ -124,9 +120,8 @@ export class ModalAoeUserPanelComponent implements OnInit {
 
   get id(): AbstractControl | null { return this.userPanelForm.get('id'); }
   get email(): AbstractControl | null { return this.userPanelForm.get('email'); }
-  get confirmMail(): AbstractControl | null { return this.userPanelForm.get('confirmMail');}
+  get confirmMail(): AbstractControl | null { return this.userPanelForm.get('confirmMail'); }
   get userName(): AbstractControl | null { return this.userPanelForm.get('userName'); }
   get roleNames(): AbstractControl | null { return this.userPanelForm.get('roleNames'); }
   get company(): AbstractControl | null { return this.userPanelForm.get('company'); }
-
 }

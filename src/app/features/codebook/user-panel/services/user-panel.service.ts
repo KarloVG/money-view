@@ -62,7 +62,7 @@ export class UserPanelService {
       email: formGroup.email,
       username: formGroup.userName,
       firmId: +formGroup.company,
-      roleNames: [this.roles.find(x => x.id == formGroup.role)?.name]
+      roleNames: [this.roles.find(x => x.id.toString() == formGroup.roleNames)?.name]
     };
     const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME]);
     return this._http.post<IFleksbitResponse<IResponseUserPanel>>(url.toString(), request);
@@ -78,7 +78,7 @@ export class UserPanelService {
       email: formGroup.email,
       username: formGroup.userName,
       firmId: formGroup.company,
-      roleNames: [this.roles.find(x => x.id === formGroup.role)?.name]
+      roleNames: [this.roles.find(x => x.id.toString() == formGroup.roleNames)?.name]
     };
     const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME, formGroup.id.toString()]);
     return this._http.put<IFleksbitResponse<IResponseUserPanel>>(url.toString(), request);
