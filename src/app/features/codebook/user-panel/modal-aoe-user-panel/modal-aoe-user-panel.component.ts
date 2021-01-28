@@ -32,7 +32,7 @@ export class ModalAoeUserPanelComponent implements OnInit {
     confirmMail: ['', [Validators.required]],
     company: ['', Validators.required],
     userName: ['', [Validators.required, Validators.minLength(4), Validators.pattern("^[a-zA-Z0-9\S._@+-]{4,}$")]],
-    role: ['']
+    roleNames: ['', Validators.required]
   }, { validator: this.checkEmail }
   );
 
@@ -72,7 +72,7 @@ export class ModalAoeUserPanelComponent implements OnInit {
         email: this.user.email,
         company: this.user.company,
         userName: this.user.userName,
-        role: this.user.role
+        roleNames: this.user.role
       });
     }
     this.getDropdownCompanies();
@@ -124,9 +124,9 @@ export class ModalAoeUserPanelComponent implements OnInit {
 
   get id(): AbstractControl | null { return this.userPanelForm.get('id'); }
   get email(): AbstractControl | null { return this.userPanelForm.get('email'); }
-  get confirmMail(): AbstractControl | null { return this.userPanelForm.get('confirmMail'); }
+  get confirmMail(): AbstractControl | null { return this.userPanelForm.get('confirmMail');}
   get userName(): AbstractControl | null { return this.userPanelForm.get('userName'); }
-  get role(): AbstractControl | null { return this.userPanelForm.get('role'); }
+  get roleNames(): AbstractControl | null { return this.userPanelForm.get('roleNames'); }
   get company(): AbstractControl | null { return this.userPanelForm.get('company'); }
 
 }
