@@ -1,4 +1,5 @@
-export interface IRequestRole{
-    id:number,
-    name:string
+export interface IRequestRole {
+  id: number,
+  name: string,
+  baseName: string
 }
