@@ -3,14 +3,17 @@ import { IRequestRole } from "./role-request";
 export const ROLES: IRequestRole[] = [
   {
     id: 1,
-    name: "admin"
+    name: 'Admin',
+    baseName: "admin"
   },
   {
     id: 2,
-    name: "firm-manager"
+    name: 'Menadžer firme',
+    baseName: "firm-manager"
   },
   {
     id: 3,
-    name: "group-manager"
+    name: 'Menadžer grupe',
+    baseName: "group-manager"
   }
 ];
