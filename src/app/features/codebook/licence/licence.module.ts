@@ -6,6 +6,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LicenceOverviewComponent } from './licence-overview/licence-overview.component';
 import { ModalAoeLicenceComponent } from './modal-aoe-licence/modal-aoe-licence.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
   declarations: [LicenceOverviewComponent, ModalAoeLicenceComponent],
@@ -23,6 +24,7 @@ import { ModalAoeLicenceComponent } from './modal-aoe-licence/modal-aoe-licence.
         component: LicenceOverviewComponent,
       },
     ]),
+    FileUploadModule
   ],
 })
-export class LicenceModule {}
+export class LicenceModule { }

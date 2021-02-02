@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { map, take } from 'rxjs/operators';
 import { IFleksbitResponse } from '../models/fleksbit-response';
 import { INotificationLicenceResponse } from '../models/notification-licence-response';
+import { NotificationService } from '../services/swal-notification/notification.service';
 import { NotificationMessageService } from './notification-message.service';
 
 @Component({
@@ -15,7 +17,9 @@ export class NotificationMessageComponent implements OnInit {
   isDisplayed: boolean = true;
 
   constructor(
-    private _notificationMessage: NotificationMessageService
+    private _notificationMessage: NotificationMessageService,
+    private _router: Router,
+    private _notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
@@ -35,10 +39,14 @@ export class NotificationMessageComponent implements OnInit {
       )
       .subscribe((res: INotificationLicenceResponse) => {
         this.licence = res;
+        if (!this.licence.isValid) {
+          this._router.navigate(['/codebook/licence']);
+          this._notificationService.fireErrorNotification("Došlo je do pogreške. Kontaktirajte administratora.")
+        }
       })
   }
 
-  showComponent(): void{
+  showComponent(): void {
     this.isDisplayed = false;
   }
 }

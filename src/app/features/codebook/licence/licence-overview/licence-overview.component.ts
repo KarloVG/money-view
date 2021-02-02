@@ -11,6 +11,7 @@ import { NotificationService } from 'src/app/shared/services/swal-notification/n
 import { ModalAoeLicenceComponent } from '../modal-aoe-licence/modal-aoe-licence.component';
 import { IResponseLicence } from '../models/response/response-licence';
 import { LicenceService } from '../services/licence.service';
+import { FileLikeObject, FileUploader } from 'ng2-file-upload';
 
 @Component({
   selector: 'mv-licence-overview',
@@ -28,6 +29,11 @@ export class LicenceOverviewComponent implements OnInit {
   singleRow!: IResponseLicence;
   isActiveRow: boolean = true;
   activeLicence!: IResponseLicence | null;
+  uploader!: FileUploader;
+  allowedMimeTypes: string[] = ['text/plain'];
+  URL = 'https://file.io/';
+  maxFileSize: number = 50 * 1024; // 50kB
+  hasDropZoneOver: boolean = false;
   /* #endregion */
 
   /* #region  Constructor */
@@ -36,13 +42,14 @@ export class LicenceOverviewComponent implements OnInit {
     private _notificationService: NotificationService,
     private _modal: NgbModal,
     private _spinner: NgxSpinnerService
-  ) {}
+  ) { }
   /* #endregion */
 
   /* #region  Methods */
 
   ngOnInit(): void {
     this.getLicences();
+    this.setUploader();
   }
 
   public setPage(pageInfo: PageInfo): void {
@@ -138,6 +145,45 @@ export class LicenceOverviewComponent implements OnInit {
   // Ngb modal dismiss event
   handleModalDismiss(message: string): void {
     this._notificationService.fireWarningMessage(message);
+  }
+
+  fileOverDropzone(e: boolean): void {
+    console.log(e)
+    this.hasDropZoneOver = e;
+  }
+
+  setUploader(): void {
+    this.uploader = new FileUploader({
+      url: this.URL,
+      isHTML5: true,
+      maxFileSize: this.maxFileSize,
+      allowedMimeType: this.allowedMimeTypes,
+      queueLimit: 1
+    });
+    this.uploader.onWhenAddingFileFailed = (item, filter) => this.onWhenAddingFileFailed(item, filter);
+    this.uploader.onAfterAddingFile = () => this.onSuccessItem();
+    this.uploader.onBeforeUploadItem = (item) => { item.withCredentials = false; }
+  }
+
+  onWhenAddingFileFailed(item: FileLikeObject, filter: any): void {
+    switch (filter.name) {
+      case 'queueLimit':
+        this._notificationService.fireErrorNotification("Moguće je poslati samo 1 datoteku");
+        break;
+      case 'fileSize':
+        this._notificationService.fireErrorNotification(`Datatoteka je premašila maksimalnu veličinu (${item.size} od dopuštenih ${this.maxFileSize})`);
+        break;
+      case 'mimeType':
+        this._notificationService.fireErrorNotification(`Tip datoteke "${item.type}" nije dopušten. Moguće je poslati samo .txt datoteku`);
+        break;
+      default:
+        this._notificationService.fireErrorNotification('Dogodila se nepoznata greška. Kontaktirajte administratora');
+    }
+  }
+
+  onSuccessItem() {
+    this.uploader.queue[0].remove();
+    this.handleSuccesResponse('Licenca je uspješno dodana.');
   }
 
   // Get latest active licence
