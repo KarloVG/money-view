@@ -47,6 +47,18 @@ export class UserPanelService {
       );
   }
 
+  getById(id: number | undefined): Observable<IFleksbitResponse<IResponseUserPanel>> {
+    if (typeof(id) === "undefined") {
+      throw new Error('Invalid User ID');
+    }
+    const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME, id.toString()]);
+    return this._http
+      .get<IFleksbitResponse<IResponseUserPanel>>(url.toString())
+      .pipe(
+        tap((data) => console.log('Get user', data))
+      );
+  }
+
   delete(id: number): Observable<IFleksbitResponse<IResponseUserPanel>> {
     const url = this._appRoute.createAppRouteURL([
       this.CONTROLLER_NAME,

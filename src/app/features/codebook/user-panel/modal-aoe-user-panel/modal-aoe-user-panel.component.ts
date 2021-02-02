@@ -11,6 +11,7 @@ import { CompanyService } from '../../group-and-company/company/services/company
 import { IRequestUserPanel } from '../models/request/request-user-panel';
 import { IRequestRole } from '../models/request/role-request';
 import { IResponseUserPanel } from '../models/response/response-user-panel';
+import { UserPanelService } from '../services/user-panel.service';
 
 @Component({
   selector: 'mv-user-user-overview',
@@ -29,7 +30,7 @@ export class ModalAoeUserPanelComponent implements OnInit {
     id: [null],
     email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
     confirmMail: ['', [Validators.required]],
-    company: ['', Validators.required],
+    company: [''],
     userName: ['', [Validators.required, Validators.minLength(4), Validators.pattern("^[a-zA-Z0-9\S._@+-]{4,}$")]],
     roleNames: ['', Validators.required]
   }, { validator: this.checkEmail }
@@ -59,30 +60,53 @@ export class ModalAoeUserPanelComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     public _modal: NgbActiveModal,
-    private _companyService: CompanyService
+    private _companyService: CompanyService,
+    private _userPanelService: UserPanelService
   ) { }
 
   ngOnInit(): void {
-    this.company$ = forkJoin([
-      this._companyService.getDropdown().pipe(
-        take(1),
-        map((response: IFleksbitResponse<BasicPaginatedResponse<IResponseCompany>>) => response.response.data),
-      )
-    ]).subscribe((result) => {
-      this.dropDownCompanies = result[0];
-      if (this.user) {
-        this.userPanelForm.patchValue({
-          id: this.user.id,
-          email: this.user.email,
-          confirmMail: this.user.email,
-          company: this.user.company,
-          userName: this.user.userName,
-          roleNames: this.user.role
-        });
-      }
-    });
+    this.getModalData();
   }
 
+  // Get all modal data
+  getModalData(): void {
+    if (this.user) {
+      this.company$ = forkJoin([
+        this._companyService.getDropdown().pipe(
+          take(1),
+          map((response: IFleksbitResponse<BasicPaginatedResponse<IResponseCompany>>) => response.response.data)
+        ),
+        this._userPanelService.getById(this.user.id).pipe(
+          take(1),
+          map((response: IFleksbitResponse<IResponseUserPanel>) => response.response)
+        )
+      ]).subscribe((result) => {
+        this.dropDownCompanies = result[0];
+        // patch userData
+        this.userPanelForm.patchValue({
+          id: result[1].id,
+          email: result[1].email,
+          confirmMail: result[1].email,
+          userName: result[1].userName,
+          roleNames: this.roles.find(x => x.name == result[1].roleNames[0])?.id ?? 1
+        });
+        if (result[1].roleNames[0] == "firm-manager") {
+          this.company?.setValidators([Validators.required]);
+          this.company?.patchValue(result[1].firmId);
+          this.company?.updateValueAndValidity();
+        }
+      });
+    } else {
+      this._companyService.getDropdown().pipe(
+        take(1),
+        map((response: IFleksbitResponse<BasicPaginatedResponse<IResponseCompany>>) => response.response.data)
+      ).subscribe((result) => {
+        this.dropDownCompanies = result;
+      });
+    }
+  }
+
+  // If user is "firm-manager" field Firm must be required
   changeUserRole(event: Event) {
     const selectedValue = (event.target as HTMLOptionElement).value;
     if (selectedValue === "2") {
