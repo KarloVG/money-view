@@ -7,6 +7,7 @@ import { ConfirmationModalModule } from 'src/app/shared/components/confirmation-
 import { BankOverviewComponent } from './bank-overview/bank-overview.component';
 import { ModalAoeBankComponent } from './modal-aoe-bank/modal-aoe-bank.component';
 import { RouterModule } from '@angular/router';
+import { JoyrideModule } from 'ngx-joyride';
 
 @NgModule({
   declarations: [BankOverviewComponent, ModalAoeBankComponent],
@@ -17,6 +18,7 @@ import { RouterModule } from '@angular/router';
     FormsModule,
     ReactiveFormsModule,
     ConfirmationModalModule,
+    JoyrideModule.forRoot(),
     // Malo ruta pa nema potrebe za novim file-om
     RouterModule.forChild([
       {
@@ -27,4 +29,4 @@ import { RouterModule } from '@angular/router';
   ],
   entryComponents: [ModalAoeBankComponent],
 })
-export class BankModule {}
+export class BankModule { }

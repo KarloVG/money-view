@@ -1,2 +1,23 @@
-<mv-group-overview></mv-group-overview>
-<mv-company-overview></mv-company-overview>
+<div class="group col-lg-6 col-md-8 col-sm-10" joyrideStep="step1" title="Kreiranje grupe"
+  text="Kao prvi korak ovdje dodajte grupu (preduvjet za dodavanje firmi).">
+  <mv-group-overview></mv-group-overview>
+</div>
+<div joyrideStep="step2" title="Dodavanje firmi" text="Nakon što ste kreirali grupu ovdje dodajte firme unutar grupe."
+  [nextTemplate]="next" [prevTemplate]="prev" [doneTemplate]="done">
+  <mv-company-overview></mv-company-overview>
+</div>
+<ng-template #next>
+  <button type="button" class="btn btn-outline-info d-flex justify-content-between">
+    Dalje
+  </button>
+</ng-template>
+<ng-template #prev>
+  <button type="button" class="btn btn-outline-info d-flex justify-content-between">
+    Nazad
+  </button>
+</ng-template>
+<ng-template #done>
+  <button (click)="showTour()" type="button" class="btn btn-outline-info d-flex justify-content-between">
+    U redu
+  </button>
+</ng-template>

@@ -6,6 +6,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LicenceOverviewComponent } from './licence-overview/licence-overview.component';
 import { ModalAoeLicenceComponent } from './modal-aoe-licence/modal-aoe-licence.component';
+import { JoyrideModule } from 'ngx-joyride';
 
 @NgModule({
   declarations: [LicenceOverviewComponent, ModalAoeLicenceComponent],
@@ -16,6 +17,7 @@ import { ModalAoeLicenceComponent } from './modal-aoe-licence/modal-aoe-licence.
     NgxDatatableModule,
     FormsModule,
     ReactiveFormsModule,
+    JoyrideModule.forRoot(),
     // Malo ruta pa nema potrebe za novim file-om
     RouterModule.forChild([
       {
