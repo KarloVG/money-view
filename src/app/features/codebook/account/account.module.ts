@@ -7,6 +7,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationModalModule } from 'src/app/shared/components/confirmation-modal/confirmation-modal.module';
 import { RouterModule } from '@angular/router';
+import { JoyrideModule } from 'ngx-joyride';
 
 @NgModule({
   declarations: [AccountOverviewComponent, ModalAoeAccountComponent],
@@ -17,6 +18,7 @@ import { RouterModule } from '@angular/router';
     FormsModule,
     ReactiveFormsModule,
     ConfirmationModalModule,
+    JoyrideModule.forRoot(),
     RouterModule.forChild([
       {
         path: '',

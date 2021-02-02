@@ -19,6 +19,7 @@ import { FileLikeObject, FileUploader } from 'ng2-file-upload';
   styleUrls: ['./licence-overview.component.scss'],
 })
 export class LicenceOverviewComponent implements OnInit {
+
   /* #region  Variables */
   rows: IResponseLicence[] = [];
   loadingIndicator: boolean = true;
@@ -34,6 +35,7 @@ export class LicenceOverviewComponent implements OnInit {
   URL = 'https://file.io/';
   maxFileSize: number = 50 * 1024; // 50kB
   hasDropZoneOver: boolean = false;
+  tourLicence: boolean = true;
   /* #endregion */
 
   /* #region  Constructor */
@@ -48,8 +50,29 @@ export class LicenceOverviewComponent implements OnInit {
   /* #region  Methods */
 
   ngOnInit(): void {
+    //APP TOUR
+    // const token = localStorage.getItem('tour-licence');
+    // if (token) {
+    //   this.tourLicence = JSON.parse(token);
+    // }
+    // if (this.tourLicence) {
+    //   this.joyrideService.startTour(
+    //     {
+    //       steps: ['step1'],
+    //       waitingTime: 1500,
+    //       showCounter: false,
+    //       themeColor: "#288ab5"
+    //     }
+    //   );
+    // }
     this.getLicences();
     this.setUploader();
+  }
+
+  //APP TOUR
+  showTour(): void {
+    this.tourLicence = false;
+    localStorage.setItem('tour-licence', JSON.stringify(this.tourLicence));
   }
 
   public setPage(pageInfo: PageInfo): void {

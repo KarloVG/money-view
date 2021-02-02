@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
+import { JoyrideService } from 'ngx-joyride';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { map, take } from 'rxjs/operators';
 import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
@@ -25,14 +26,14 @@ export class UserPanelOverviewComponent implements OnInit {
   desiredPageSize: number = 5;
   desiredPageOffset: number = 0;
   ColumnMode: ColumnMode = ColumnMode.force;
-
-
+  tourUser: boolean = true;
 
   constructor(
     private _notificationService: NotificationService,
     private _modal: NgbModal,
     private _userPanelService: UserPanelService,
-    private _spinner: NgxSpinnerService
+    private _spinner: NgxSpinnerService,
+    private joyrideService: JoyrideService
   ) { }
 
   public setPage(pageInfo: PageInfo): void {
@@ -42,8 +43,30 @@ export class UserPanelOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //APP TOUR
+    const token = localStorage.getItem('tour-user');
+    if (token) {
+      this.tourUser = JSON.parse(token);
+    }
+    if (this.tourUser) {
+      this.joyrideService.startTour(
+        {
+          steps: ['step1'],
+          waitingTime: 1500,
+          showCounter: false,
+          themeColor: "#288ab5"
+        }
+      );
+    }
     this.getUsers();
   }
+
+  //APPTOUR
+  showTour(): void {
+    this.tourUser = false;
+    localStorage.setItem('tour-user', JSON.stringify(this.tourUser));
+  }
+
 
   getUsers(): void {
     this._userPanelService

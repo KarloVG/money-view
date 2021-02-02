@@ -7,6 +7,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ModalAoeUserPanelComponent } from './modal-aoe-user-panel/modal-aoe-user-panel.component';
 import { ConfirmationModalModule } from 'src/app/shared/components/confirmation-modal/confirmation-modal.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { JoyrideModule } from 'ngx-joyride';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ConfirmationModalModule,
     NgxDatatableModule,
     ReactiveFormsModule,
+    JoyrideModule.forRoot(),
     RouterModule.forChild([
       {
         path: '',
