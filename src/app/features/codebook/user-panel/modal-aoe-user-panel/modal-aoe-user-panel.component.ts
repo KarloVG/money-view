@@ -10,6 +10,7 @@ import { IPaginatedResponseCompany, IResponseCompany } from '../../group-and-com
 import { CompanyService } from '../../group-and-company/company/services/company.service';
 import { IRequestUserPanel } from '../models/request/request-user-panel';
 import { IRequestRole } from '../models/request/role-request';
+import { ROLES } from '../models/request/roles';
 import { IResponseUserPanel } from '../models/response/response-user-panel';
 import { UserPanelService } from '../services/user-panel.service';
 
@@ -42,23 +43,7 @@ export class ModalAoeUserPanelComponent implements OnInit {
     return pass === confirmEmail ? group.get('confirmMail')?.setErrors(null) : group.get('confirmMail')?.setErrors({ 'notSame': true });
   }
 
-  roles: IRequestRole[] = [
-    {
-      id: 1,
-      name: 'Admin',
-      baseName: "admin"
-    },
-    {
-      id: 2,
-      name: 'Menadžer firme',
-      baseName: "firm-manager"
-    },
-    {
-      id: 3,
-      name: 'Menadžer grupe',
-      baseName: "group-manager"
-    }
-  ]
+  roles: IRequestRole[] = ROLES;
 
   constructor(
     private _formBuilder: FormBuilder,
