@@ -57,7 +57,7 @@ export class BankOverviewComponent implements OnInit {
       this.joyrideService.startTour(
         {
           steps: ['step1'],
-          waitingTime: 2000,
+          waitingTime: 1500,
           showCounter: false,
           themeColor: "#288ab5"
         }
