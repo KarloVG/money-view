@@ -45,15 +45,18 @@ export class ModalAoeUserPanelComponent implements OnInit {
   roles: IRequestRole[] = [
     {
       id: 1,
-      name: 'Admin'
+      name: 'Admin',
+      baseName: "admin"
     },
     {
       id: 2,
-      name: 'Menadžer firme'
+      name: 'Menadžer firme',
+      baseName: "firm-manager"
     },
     {
       id: 3,
-      name: 'Menadžer grupe'
+      name: 'Menadžer grupe',
+      baseName: "group-manager"
     }
   ]
 
@@ -88,7 +91,7 @@ export class ModalAoeUserPanelComponent implements OnInit {
           email: result[1].email,
           confirmMail: result[1].email,
           userName: result[1].userName,
-          roleNames: this.roles.find(x => x.name == result[1].roleNames[0])?.id ?? 1
+          roleNames: this.roles.find(x => x.baseName == result[1].roleNames[0])?.id ?? 1
         });
         if (result[1].roleNames[0] == "firm-manager") {
           this.company?.setValidators([Validators.required]);
