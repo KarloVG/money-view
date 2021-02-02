@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
+import { JoyrideService } from 'ngx-joyride';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { map, take } from 'rxjs/operators';
 import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
@@ -28,6 +29,7 @@ export class LicenceOverviewComponent implements OnInit {
   singleRow!: IResponseLicence;
   isActiveRow: boolean = true;
   activeLicence!: IResponseLicence | null;
+  tourLicence: boolean = true;
   /* #endregion */
 
   /* #region  Constructor */
@@ -35,14 +37,36 @@ export class LicenceOverviewComponent implements OnInit {
     private _licenceService: LicenceService,
     private _notificationService: NotificationService,
     private _modal: NgbModal,
-    private _spinner: NgxSpinnerService
-  ) {}
+    private _spinner: NgxSpinnerService,
+    private joyrideService: JoyrideService
+  ) { }
   /* #endregion */
 
   /* #region  Methods */
 
   ngOnInit(): void {
+    //APP TOUR
+    const token = localStorage.getItem('tour-licence');
+    if (token) {
+      this.tourLicence = JSON.parse(token);
+    }
+    if (this.tourLicence) {
+      this.joyrideService.startTour(
+        {
+          steps: ['step1'],
+          waitingTime: 1500,
+          showCounter: false,
+          themeColor: "#288ab5"
+        }
+      );
+    }
     this.getLicences();
+  }
+
+  //APP TOUR
+  showTour(): void {
+    this.tourLicence = false;
+    localStorage.setItem('tour-licence', JSON.stringify(this.tourLicence));
   }
 
   public setPage(pageInfo: PageInfo): void {

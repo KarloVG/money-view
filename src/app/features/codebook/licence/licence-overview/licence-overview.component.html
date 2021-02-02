@@ -1,162 +1,87 @@
-<div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 p-0 mt-5">
-  <div class="card card-absolute">
+<div joyrideStep="step1" title="Pregled licenci" text="Ovdje možete pregledavati i uređivati svoje licence"
+  [doneTemplate]="done">
+  <div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 p-0 mt-5">
+    <div class="card card-absolute">
+      <div class="card-header">
+        <h5 class="f-20 f-w-600">Aktivna licenca</h5>
+      </div>
+      <div class="card-body d-flex pb-3">
+        <div class="circle-icon">
+          <i class="material-icons md-48"> receipt_long </i>
+        </div>
+        <div class="d-flex flex-column justify-content-center ml-5" *ngIf="activeLicence; else noActiveLicence">
+          <p class="mb-0 f-18 f-w-600">Ključ aktivne licence:</p>
+          <p class="mb-0">
+            {{ activeLicence?.identifier }}
+          </p>
+        </div>
+        <ng-template #noActiveLicence>
+          <div class="d-flex flex-column justify-content-center ml-5"></div>
+          <p class="f-16 f-w-600 mb-0 d-flex align-items-center">
+            Ne postoji aktivna licenca. Molimo unesite ključ licence kojeg ste
+            dobili kupnjom licence.
+          </p>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="card card-absolute mt-5">
     <div class="card-header">
-      <h5 class="f-20 f-w-600">Aktivna licenca</h5>
+      <h5 class="f-20 f-w-600">Licence</h5>
     </div>
-    <div class="card-body d-flex pb-3">
-      <div class="circle-icon">
-        <i class="material-icons md-48"> receipt_long </i>
-      </div>
-      <div
-        class="d-flex flex-column justify-content-center ml-5"
-        *ngIf="activeLicence; else noActiveLicence"
-      >
-        <p class="mb-0 f-18 f-w-600">Ključ aktivne licence:</p>
-        <p class="mb-0">
-          {{ activeLicence?.identifier }}
-        </p>
-      </div>
-      <ng-template #noActiveLicence>
-        <div class="d-flex flex-column justify-content-center ml-5"></div>
-        <p class="f-16 f-w-600 mb-0 d-flex align-items-center">
-          Ne postoji aktivna licenca. Molimo unesite ključ licence kojeg ste
-          dobili kupnjom licence.
-        </p>
-      </ng-template>
+    <div class="card-body pb-1">
+      <ngx-datatable #table class="datatable bootstrap" [columnMode]="ColumnMode" [rows]="rows" [headerHeight]="36"
+        [loadingIndicator]="loadingIndicator" [footerHeight]="36" [rowHeight]="'auto'" [count]="entryCount"
+        [limit]="desiredPageSize" [offset]="desiredPageOffset" [externalPaging]="true" (page)="setPage($event)">
+        <ngx-datatable-column name="Ključ licence" prop="identifier" [width]="600">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+            {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Datum izrade" prop="creationDateTime" [width]="300">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+            {{ value | date: "dd.MM.yyyy" }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Datum isteka" prop="expirationDateTime" [width]="300">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+            {{ value | date: "dd.MM.yyyy" }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Datum unosa" prop="insertionDateTime" [width]="300">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+            {{ value | date: "dd.MM.yyyy" }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Akcije" [width]="100" [resizeable]="false" [canAutoResize]="false">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+            <button class="btn-empty">
+              <span class="material-icons md-24 text-warning" title="Uredi" (click)="addOrEditLicence(row)">edit</span>
+            </button>
+            <button class="btn-empty ml-2">
+              <span class="material-icons md-24 text-danger" title="Obriši" (click)="deleteLicence(row)">delete</span>
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-footer>
+          <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize"
+            let-curPage="curPage">
+            <div>
+              <span>Ukupno: </span><span>{{ rowCount }}</span>
+            </div>
+            <datatable-pager class="mv-pager" [pagerLeftArrowIcon]="'datatable-icon-left'"
+              [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+              [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize" [count]="rowCount"
+              [hidden]="!(rowCount / pageSize > 1)" (change)="table.onFooterPage($event)">
+            </datatable-pager>
+          </ng-template>
+        </ngx-datatable-footer>
+      </ngx-datatable>
     </div>
   </div>
 </div>
-<div class="card card-absolute mt-5">
-  <div class="card-header">
-    <h5 class="f-20 f-w-600">Licence</h5>
-  </div>
-  <div class="card-body pb-1">
-    <ngx-datatable
-      #table
-      class="datatable bootstrap"
-      [columnMode]="ColumnMode"
-      [rows]="rows"
-      [headerHeight]="36"
-      [loadingIndicator]="loadingIndicator"
-      [footerHeight]="36"
-      [rowHeight]="'auto'"
-      [count]="entryCount"
-      [limit]="desiredPageSize"
-      [offset]="desiredPageOffset"
-      [externalPaging]="true"
-      (page)="setPage($event)"
-    >
-      <ngx-datatable-column
-        name="Ključ licence"
-        prop="identifier"
-        [width]="600"
-      >
-        <ng-template
-          ngx-datatable-cell-template
-          let-rowIndex="rowIndex"
-          let-value="value"
-          let-row="row"
-        >
-          {{ value }}
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column
-        name="Datum izrade"
-        prop="creationDateTime"
-        [width]="300"
-      >
-        <ng-template
-          ngx-datatable-cell-template
-          let-rowIndex="rowIndex"
-          let-value="value"
-          let-row="row"
-        >
-          {{ value | date: "dd.MM.yyyy" }}
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column
-        name="Datum isteka"
-        prop="expirationDateTime"
-        [width]="300"
-      >
-        <ng-template
-          ngx-datatable-cell-template
-          let-rowIndex="rowIndex"
-          let-value="value"
-          let-row="row"
-        >
-          {{ value | date: "dd.MM.yyyy" }}
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column
-        name="Datum unosa"
-        prop="insertionDateTime"
-        [width]="300"
-      >
-        <ng-template
-          ngx-datatable-cell-template
-          let-rowIndex="rowIndex"
-          let-value="value"
-          let-row="row"
-        >
-          {{ value | date: "dd.MM.yyyy" }}
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column
-        name="Akcije"
-        [width]="100"
-        [resizeable]="false"
-        [canAutoResize]="false"
-      >
-        <ng-template
-          ngx-datatable-cell-template
-          let-rowIndex="rowIndex"
-          let-row="row"
-          let-value="value"
-        >
-          <button class="btn-empty">
-            <span
-              class="material-icons md-24 text-warning"
-              title="Uredi"
-              (click)="addOrEditLicence(row)"
-              >edit</span
-            >
-          </button>
-          <button class="btn-empty ml-2">
-            <span
-              class="material-icons md-24 text-danger"
-              title="Obriši"
-              (click)="deleteLicence(row)"
-              >delete</span
-            >
-          </button>
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-footer>
-        <ng-template
-          ngx-datatable-footer-template
-          let-rowCount="rowCount"
-          let-pageSize="pageSize"
-          let-curPage="curPage"
-        >
-          <div>
-            <span>Ukupno: </span><span>{{ rowCount }}</span>
-          </div>
-          <datatable-pager
-            class="mv-pager"
-            [pagerLeftArrowIcon]="'datatable-icon-left'"
-            [pagerRightArrowIcon]="'datatable-icon-right'"
-            [pagerPreviousIcon]="'datatable-icon-prev'"
-            [pagerNextIcon]="'datatable-icon-skip'"
-            [page]="curPage"
-            [size]="pageSize"
-            [count]="rowCount"
-            [hidden]="!(rowCount / pageSize > 1)"
-            (change)="table.onFooterPage($event)"
-          >
-          </datatable-pager>
-        </ng-template>
-      </ngx-datatable-footer>
-    </ngx-datatable>
-  </div>
-</div>
+<ng-template #done>
+  <button (click)="showTour()" type="button" class="btn btn-outline-info d-flex justify-content-between">
+    U redu
+  </button>
+</ng-template>

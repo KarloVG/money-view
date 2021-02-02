@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
+import { JoyrideService } from 'ngx-joyride';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EMPTY, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -26,6 +27,7 @@ export class AccountOverviewComponent implements OnInit {
   desiredPageSize: number = 5;
   desiredPageOffset: number = 0;
   ColumnMode: ColumnMode = ColumnMode.force;
+  tourAccount: boolean = true;
   /* #endregion */
 
   /* #region  Constructor */
@@ -33,7 +35,8 @@ export class AccountOverviewComponent implements OnInit {
     private _modal: NgbModal,
     private _accountService: AccountService,
     private _notificationService: NotificationService,
-    private _spinner: NgxSpinnerService
+    private _spinner: NgxSpinnerService,
+    private joyrideService: JoyrideService
   ) { }
   /* #endregion */
 
@@ -45,7 +48,28 @@ export class AccountOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //APP TOUR
+    const token = localStorage.getItem("tour-account");
+    if (token) {
+      this.tourAccount = JSON.parse(token);
+    }
+    if (this.tourAccount) {
+      this.joyrideService.startTour(
+        {
+          steps: ['step1'],
+          waitingTime: 1500,
+          showCounter: false,
+          themeColor: "#288ab5"
+        }
+      );
+    }
     this.getAccounts();
+  }
+
+  //APP TOUR
+  showTour(): void {
+    this.tourAccount = false;
+    localStorage.setItem('tour-account', JSON.stringify(this.tourAccount));
   }
 
   // Get all

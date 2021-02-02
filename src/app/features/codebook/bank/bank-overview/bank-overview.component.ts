@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
+import { JoyrideService } from 'ngx-joyride';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EMPTY, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -26,6 +27,7 @@ export class BankOverviewComponent implements OnInit {
   desiredPageSize: number = 5;
   desiredPageOffset: number = 0;
   ColumnMode: ColumnMode = ColumnMode.force;
+  tourBank: boolean = true;
   /* #endregion */
 
   /* #region  Constructor */
@@ -33,8 +35,9 @@ export class BankOverviewComponent implements OnInit {
     private _modal: NgbModal,
     private _bankService: BankService,
     private _notificationService: NotificationService,
-    private _spinner: NgxSpinnerService
-  ) {}
+    private _spinner: NgxSpinnerService,
+    private joyrideService: JoyrideService
+  ) { }
   /* #endregion */
 
   /* #region  Methods */
@@ -45,7 +48,28 @@ export class BankOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //APP TOUR
+    const token = localStorage.getItem("tour-bank");
+    if (token) {
+      this.tourBank = JSON.parse(token);
+    }
+    if (this.tourBank) {
+      this.joyrideService.startTour(
+        {
+          steps: ['step1'],
+          waitingTime: 2000,
+          showCounter: false,
+          themeColor: "#288ab5"
+        }
+      );
+    }
     this.getBanks();
+  }
+
+  //APP TOUR
+  showTour(): void {
+    this.tourBank = false;
+    localStorage.setItem('tour-bank', JSON.stringify(this.tourBank));
   }
 
   // Get all

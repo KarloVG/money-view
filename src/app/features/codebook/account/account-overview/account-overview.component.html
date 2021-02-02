@@ -1,3 +1,5 @@
+<div joyrideStep="step1" title="Dodavanje računa" text="Ovdje dodajte račune u bankama."
+[doneTemplate]="done">
 <div class="col-lg-12 p-0 mt-3">
   <div class="d-flex justify-content-end">
     <button
@@ -118,3 +120,9 @@
     </div>
   </div>
 </div>
+</div>
+<ng-template #done>
+  <button (click)="showTour()" type="button" class="btn btn-outline-info d-flex justify-content-between">
+    U redu
+  </button>
+</ng-template>
