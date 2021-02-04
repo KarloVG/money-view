@@ -12,6 +12,7 @@ import { ModalAoeLicenceComponent } from '../modal-aoe-licence/modal-aoe-licence
 import { IResponseLicence } from '../models/response/response-licence';
 import { LicenceService } from '../services/licence.service';
 import { FileLikeObject, FileUploader } from 'ng2-file-upload';
+import { IResponseActiveLicence } from '../models/response/response-active-licence';
 
 @Component({
   selector: 'mv-licence-overview',
@@ -27,9 +28,8 @@ export class LicenceOverviewComponent implements OnInit {
   desiredPageSize: number = 10;
   desiredPageOffset: number = 0;
   ColumnMode: ColumnMode = ColumnMode.force;
-  singleRow!: IResponseLicence;
   isActiveRow: boolean = true;
-  activeLicence!: IResponseLicence | null;
+  activeLicence!: IResponseActiveLicence;
   uploader!: FileUploader;
   allowedMimeTypes: string[] = ['text/plain'];
   URL = 'https://file.io/';
@@ -50,21 +50,7 @@ export class LicenceOverviewComponent implements OnInit {
   /* #region  Methods */
 
   ngOnInit(): void {
-    //APP TOUR
-    // const token = localStorage.getItem('tour-licence');
-    // if (token) {
-    //   this.tourLicence = JSON.parse(token);
-    // }
-    // if (this.tourLicence) {
-    //   this.joyrideService.startTour(
-    //     {
-    //       steps: ['step1'],
-    //       waitingTime: 1500,
-    //       showCounter: false,
-    //       themeColor: "#288ab5"
-    //     }
-    //   );
-    // }
+    this.getLatestLicenceActive();
     this.getLicences();
     this.setUploader();
   }
@@ -99,9 +85,21 @@ export class LicenceOverviewComponent implements OnInit {
         this.rows = res.data;
         this.loadingIndicator = false;
         this.currentEntryCount = res.pagination.count;
-        this.getLastestActive(res.data);
       });
   }
+
+  // Get latest active
+  getLatestLicenceActive() {
+    this._licenceService.getLatest().pipe(
+      take(1),
+      map((res: IFleksbitResponse<IResponseActiveLicence>) => res.response)
+    ).subscribe(
+      data => {
+        this.activeLicence = data;
+      }
+    )
+  }
+
   // Add or Edit
   addOrEditLicence(singleLicence?: IResponseLicence): void {
     const modal = this._modal.open(ModalAoeLicenceComponent, {
@@ -207,24 +205,6 @@ export class LicenceOverviewComponent implements OnInit {
   onSuccessItem() {
     this.uploader.queue[0].remove();
     this.handleSuccesResponse('Licenca je uspješno dodana.');
-  }
-
-  // Get latest active licence
-  getLastestActive(data: IResponseLicence[]): void {
-    if (data && data.length) {
-      const latest = data.sort((a, b) => {
-        console.log(new Date(b.expirationDateTime).getTime());
-        return (
-          <any>new Date(b.expirationDateTime).getTime() -
-          <any>new Date(a.expirationDateTime).getTime()
-        );
-      });
-      if (new Date(latest[0].expirationDateTime) > new Date()) {
-        this.activeLicence = latest[0];
-      }
-    } else {
-      this.activeLicence = null;
-    }
   }
 
   /* #endregion */

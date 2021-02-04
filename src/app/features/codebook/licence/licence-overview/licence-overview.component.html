@@ -7,7 +7,8 @@
       <div class="circle-icon">
         <i class="material-icons md-48"> receipt_long </i>
       </div>
-      <div class="d-flex flex-column justify-content-center ml-5" *ngIf="activeLicence; else noActiveLicence">
+      <div class="d-flex flex-column justify-content-center ml-5"
+        *ngIf="activeLicence.expirationDays !== 0; else noActiveLicence">
         <p class="mb-0 f-18 f-w-600">Ključ aktivne licence:</p>
         <p class="mb-0">
           {{ activeLicence?.identifier }}

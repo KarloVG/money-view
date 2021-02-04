@@ -11,6 +11,7 @@ import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { AppRouteService } from 'src/app/shared/services/route/app-route.service';
 import { environment } from 'src/environments/environment';
 import { IRequestLicence } from '../models/request/request-licence';
+import { IResponseActiveLicence } from '../models/response/response-active-licence';
 import { IResponseLicence } from '../models/response/response-licence';
 
 @Injectable({
@@ -27,7 +28,7 @@ export class LicenceService {
   constructor(
     private readonly _http: HttpClient,
     private readonly _appRoute: AppRouteService
-  ) {}
+  ) { }
   /* #endregion */
 
   /* #region  Methods */
@@ -89,5 +90,12 @@ export class LicenceService {
       tap((data) => console.log('Delete Licence', JSON.stringify(data)))
     );
   }
+
+  // Get latest active
+  getLatest(): Observable<IFleksbitResponse<IResponseActiveLicence>> {
+    const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME, 'active']);
+    return this._http.get<IFleksbitResponse<IResponseActiveLicence>>(url.toString());
+  }
+
   /* #endregion */
 }
