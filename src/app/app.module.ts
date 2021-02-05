@@ -18,6 +18,7 @@ import { NotificationModule } from './shared/notification-message/notification-m
 import { AuthorizationGuardService } from './shared/services/authentication/authorization.guard';
 import { AppTogglerModule } from './shared/components/app-toggler/app-toggler.module';
 import { httpInterceptorProviders } from './shared/interceptors';
+import { LicenceGuard } from './shared/services/authentication/licence.guard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -38,6 +39,7 @@ import { httpInterceptorProviders } from './shared/interceptors';
   ],
   providers: [
     AuthorizationGuardService,
+    LicenceGuard,
     localeId,
     baseHref,
     defaultDateParserFormatter,
