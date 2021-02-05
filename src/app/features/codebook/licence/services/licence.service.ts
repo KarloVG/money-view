@@ -94,7 +94,7 @@ export class LicenceService {
   // Get latest active
   getLatest(): Observable<IFleksbitResponse<IResponseActiveLicence>> {
     const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME, 'active']);
-    return this._http.get<IFleksbitResponse<IResponseActiveLicence>>(url.toString().replace('/app',''));
+    return this._http.get<IFleksbitResponse<IResponseActiveLicence>>(url.toString());
   }
 
   /* #endregion */

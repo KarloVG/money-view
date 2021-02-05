@@ -23,7 +23,7 @@ export class NotificationMessageService {
 
   get(): Observable<IFleksbitResponse<INotificationLicenceResponse>> {
     const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME]);
-    return this._http.get<IFleksbitResponse<INotificationLicenceResponse>>(url.toString().replace('/app', ''))
+    return this._http.get<IFleksbitResponse<INotificationLicenceResponse>>(url.toString())
       .pipe(
         tap(data => console.log('Get Licence Notification', data))
       );
