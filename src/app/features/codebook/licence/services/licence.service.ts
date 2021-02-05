@@ -4,8 +4,8 @@ import {
   HttpParams,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { AppRouteService } from 'src/app/shared/services/route/app-route.service';
@@ -94,7 +94,19 @@ export class LicenceService {
   // Get latest active
   getLatest(): Observable<IFleksbitResponse<IResponseActiveLicence>> {
     const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME, 'active']);
-    return this._http.get<IFleksbitResponse<IResponseActiveLicence>>(url.toString());
+    return this._http.get<IFleksbitResponse<IResponseActiveLicence>>(url.toString()).pipe(
+      catchError(err =>
+        of({
+          code: 200, error: null, response: {
+            isActive: false,
+            expirationDate: '',
+            expirationDays: 0,
+            isValid: false,
+            licenseIdentifier: ''
+          }
+        })
+      )
+    );
   }
 
   /* #endregion */

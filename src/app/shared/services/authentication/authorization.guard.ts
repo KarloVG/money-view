@@ -31,8 +31,7 @@ export class AuthorizationGuardService implements CanActivateChild {
           take(1)
         ),
         this._licenceService.getLatest().pipe(
-          take(1),
-          catchError(err => of({ response: { isValid: false } }))
+          take(1)
         )
       ]).pipe(map(result => {
         if (result[0]?.role === 'admin') {
