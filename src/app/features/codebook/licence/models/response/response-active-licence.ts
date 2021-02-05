@@ -3,5 +3,5 @@ export interface IResponseActiveLicence {
   expirationDate: string;
   expirationDays: number;
   isValid: boolean;
-  identifier: string;
+  licenseIdentifier: string;
 }

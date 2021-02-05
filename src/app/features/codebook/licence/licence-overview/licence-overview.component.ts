@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { map, take } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
 import { ConfirmationModalComponent } from 'src/app/shared/components/confirmation-modal/confirmation-modal.component';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
@@ -92,9 +92,11 @@ export class LicenceOverviewComponent implements OnInit {
   getLatestLicenceActive() {
     this._licenceService.getLatest().pipe(
       take(1),
+      tap(data => console.log('before', data)),
       map((res: IFleksbitResponse<IResponseActiveLicence>) => res.response)
     ).subscribe(
       data => {
+        console.log('after', data);
         this.activeLicence = data;
       }
     )

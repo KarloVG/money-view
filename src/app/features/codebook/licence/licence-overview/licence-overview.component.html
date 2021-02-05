@@ -11,7 +11,7 @@
         *ngIf="activeLicence.expirationDays !== 0; else noActiveLicence">
         <p class="mb-0 f-18 f-w-600">Ključ aktivne licence:</p>
         <p class="mb-0">
-          {{ activeLicence?.identifier }}
+          {{ activeLicence?.licenseIdentifier }}
         </p>
       </div>
       <ng-template #noActiveLicence>
