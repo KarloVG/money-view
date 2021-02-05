@@ -35,15 +35,16 @@ export class AuthorizationGuardService implements CanActivateChild {
         )
       ]).pipe(map(result => {
         if (result[0]?.role === 'admin') {
-          this._navService.publishNavigationChange(true);
           // admin
           if (result[1].response.isValid) {
+            this._navService.publishNavigationChange(true);
             if (state.url === '/') {
               this._router.navigate(['/codebook/user-panel']);
               return false;
             }
             return true;
           } else {
+            this._navService.publishNavigationChange(false);
             this._router.navigate(['/codebook/licence']);
             return false;
           }

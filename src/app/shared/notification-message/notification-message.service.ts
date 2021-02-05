@@ -19,13 +19,13 @@ export class NotificationMessageService {
   constructor(
     private readonly _http: HttpClient,
     private readonly _appRoute: AppRouteService
-  ) {}
+  ) { }
 
-  get(): Observable<IFleksbitResponse<INotificationLicenceResponse>>{
+  get(): Observable<IFleksbitResponse<INotificationLicenceResponse>> {
     const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME]);
-    return this._http.get<IFleksbitResponse<INotificationLicenceResponse>>(url.toString())
-    .pipe(
-      tap(data => console.log('Get Licence Notification', data))
-    );
+    return this._http.get<IFleksbitResponse<INotificationLicenceResponse>>(url.toString().replace('/app', ''))
+      .pipe(
+        tap(data => console.log('Get Licence Notification', data))
+      );
   }
 }
