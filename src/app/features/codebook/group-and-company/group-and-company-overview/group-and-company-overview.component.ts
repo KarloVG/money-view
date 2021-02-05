@@ -1,39 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { JoyrideService } from 'ngx-joyride';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AppTourService } from 'src/app/shared/services/app-tour/app-tour.service';
 
 @Component({
   selector: 'mv-group-and-company-overview',
   templateUrl: './group-and-company-overview.component.html',
-  styleUrls: ['./group-and-company-overview.component.scss']
+  styleUrls: ['./group-and-company-overview.component.scss'],
+  providers: [AppTourService]
 })
-export class GroupAndCompanyOverviewComponent implements OnInit {
+export class GroupAndCompanyOverviewComponent implements OnInit, AfterViewInit {
 
-  tourGroupCompany: boolean = true;
+  tourName: string = 'group-company-tour';
 
-  constructor(private joyrideService: JoyrideService) { }
+  constructor(private appTour: AppTourService) { }
 
   ngOnInit(): void {
-    //APP TOUR
-    const token = localStorage.getItem('tour-group-company');
-    if (token) {
-      this.tourGroupCompany = JSON.parse(token);
-    }
-    if (this.tourGroupCompany) {
-      setTimeout(() => {
-        this.joyrideService.startTour(
-          {
-            steps: ['step1', 'step2'],
-            themeColor: "#288ab5"
-          }
-        );
-      }, 1500);
-    }
   }
 
-  //APP TOUR
-  showTour(): void {
-    this.tourGroupCompany = false;
-    localStorage.setItem('tour-group-company', JSON.stringify(this.tourGroupCompany));
+  ngAfterViewInit(): void {
+    //APP TOUR
+    this.appTour.isTourActive(this.tourName, true)
+  }
+  //APPTOUR
+  tour() {
+    this.appTour.showTour(this.tourName)
   }
 
 }

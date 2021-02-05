@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -12,13 +12,15 @@ import { ModalAoeLicenceComponent } from '../modal-aoe-licence/modal-aoe-licence
 import { IResponseLicence } from '../models/response/response-licence';
 import { LicenceService } from '../services/licence.service';
 import { FileLikeObject, FileUploader } from 'ng2-file-upload';
+import { AppTourService } from 'src/app/shared/services/app-tour/app-tour.service';
 
 @Component({
   selector: 'mv-licence-overview',
   templateUrl: './licence-overview.component.html',
   styleUrls: ['./licence-overview.component.scss'],
+  providers: [AppTourService]
 })
-export class LicenceOverviewComponent implements OnInit {
+export class LicenceOverviewComponent implements OnInit, AfterViewInit {
 
   /* #region  Variables */
   rows: IResponseLicence[] = [];
@@ -35,7 +37,7 @@ export class LicenceOverviewComponent implements OnInit {
   URL = 'https://file.io/';
   maxFileSize: number = 50 * 1024; // 50kB
   hasDropZoneOver: boolean = false;
-  tourLicence: boolean = true;
+  tourName: string = 'licence-tour';
   /* #endregion */
 
   /* #region  Constructor */
@@ -43,36 +45,25 @@ export class LicenceOverviewComponent implements OnInit {
     private _licenceService: LicenceService,
     private _notificationService: NotificationService,
     private _modal: NgbModal,
-    private _spinner: NgxSpinnerService
+    private _spinner: NgxSpinnerService,
+    private appTour: AppTourService
   ) { }
   /* #endregion */
 
   /* #region  Methods */
 
   ngOnInit(): void {
-    //APP TOUR
-    // const token = localStorage.getItem('tour-licence');
-    // if (token) {
-    //   this.tourLicence = JSON.parse(token);
-    // }
-    // if (this.tourLicence) {
-    //   this.joyrideService.startTour(
-    //     {
-    //       steps: ['step1'],
-    //       waitingTime: 1500,
-    //       showCounter: false,
-    //       themeColor: "#288ab5"
-    //     }
-    //   );
-    // }
     this.getLicences();
     this.setUploader();
   }
 
-  //APP TOUR
-  showTour(): void {
-    this.tourLicence = false;
-    localStorage.setItem('tour-licence', JSON.stringify(this.tourLicence));
+  ngAfterViewInit(): void {
+    //APP TOUR
+    this.appTour.isTourActive(this.tourName, false, true)
+  }
+  //APPTOUR
+  tour() {
+    this.appTour.showTour(this.tourName)
   }
 
   public setPage(pageInfo: PageInfo): void {

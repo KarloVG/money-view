@@ -1,13 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
-import { JoyrideService } from 'ngx-joyride';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { map, take } from 'rxjs/operators';
 import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
 import { ConfirmationModalComponent } from 'src/app/shared/components/confirmation-modal/confirmation-modal.component';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { PageInfo } from 'src/app/shared/page-info';
+import { AppTourService } from 'src/app/shared/services/app-tour/app-tour.service';
 import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
 import { ModalAoeUserPanelComponent } from '../modal-aoe-user-panel/modal-aoe-user-panel.component';
 import { IResponseUserPanel } from '../models/response/response-user-panel';
@@ -16,9 +16,10 @@ import { UserPanelService } from '../services/user-panel.service';
 @Component({
   selector: 'mv-user-panel-overview',
   templateUrl: './user-panel-overview.component.html',
-  styleUrls: ['./user-panel-overview.component.scss']
+  styleUrls: ['./user-panel-overview.component.scss'],
+  providers: [AppTourService]
 })
-export class UserPanelOverviewComponent implements OnInit {
+export class UserPanelOverviewComponent implements OnInit, AfterViewInit {
 
   rows: IResponseUserPanel[] = [];
   loadingIndicator: boolean = true;
@@ -26,14 +27,14 @@ export class UserPanelOverviewComponent implements OnInit {
   desiredPageSize: number = 5;
   desiredPageOffset: number = 0;
   ColumnMode: ColumnMode = ColumnMode.force;
-  tourUser: boolean = true;
+  tourName: string = 'user-panel-tour'
 
   constructor(
     private _notificationService: NotificationService,
     private _modal: NgbModal,
     private _userPanelService: UserPanelService,
     private _spinner: NgxSpinnerService,
-    private joyrideService: JoyrideService
+    private appTour: AppTourService
   ) { }
 
   public setPage(pageInfo: PageInfo): void {
@@ -43,28 +44,16 @@ export class UserPanelOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //APP TOUR
-    const token = localStorage.getItem('tour-user');
-    if (token) {
-      this.tourUser = JSON.parse(token);
-    }
-    if (this.tourUser) {
-      this.joyrideService.startTour(
-        {
-          steps: ['step1'],
-          waitingTime: 1500,
-          showCounter: false,
-          themeColor: "#288ab5"
-        }
-      );
-    }
     this.getUsers();
   }
 
+  ngAfterViewInit(): void {
+    //APP TOUR
+    this.appTour.isTourActive(this.tourName, false)
+  }
   //APPTOUR
-  showTour(): void {
-    this.tourUser = false;
-    localStorage.setItem('tour-user', JSON.stringify(this.tourUser));
+  tour() {
+    this.appTour.showTour(this.tourName)
   }
 
 

@@ -18,6 +18,7 @@ import { NotificationModule } from './shared/notification-message/notification-m
 import { AuthorizationGuardService } from './shared/services/authentication/authorization.guard';
 import { AppTogglerModule } from './shared/components/app-toggler/app-toggler.module';
 import { httpInterceptorProviders } from './shared/interceptors';
+import { JoyrideModule } from 'ngx-joyride';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,6 +33,7 @@ import { httpInterceptorProviders } from './shared/interceptors';
     AppTogglerModule,
     UserInfoModule,
     NotificationModule,
+    JoyrideModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
