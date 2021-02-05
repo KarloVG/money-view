@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateChild } from '@angular/router';
-import { forkJoin, Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { forkJoin, Observable, of } from 'rxjs';
+import { catchError, map, take } from 'rxjs/operators';
 import { LicenceService } from 'src/app/features/codebook/licence/services/licence.service';
 import { NavigationService } from 'src/app/layout/sidenav/services/navigation.service';
 import { ApiClientService } from '../api-client/api-client.service';
@@ -31,11 +31,13 @@ export class AuthorizationGuardService implements CanActivateChild {
           take(1)
         ),
         this._licenceService.getLatest().pipe(
-          take(1)
+          take(1),
+          catchError(err => of({ response: { isValid: false } }))
         )
       ]).pipe(map(result => {
         if (result[0]?.role === 'admin') {
           // admin
+          console.log(result[1])
           if (result[1].response.isValid) {
             this._navService.publishNavigationChange(true);
             if (state.url === '/') {

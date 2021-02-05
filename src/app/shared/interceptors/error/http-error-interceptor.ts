@@ -26,7 +26,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   ) {
     this.urlWithoutErrInterceptor = [
       'company',
-      'accounts'
+      'accounts',
+      'licenses/active'
     ];
   }
 
@@ -40,12 +41,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           if (error.status === 401) {
             this._authenticationService.login();
           }
-          console.log('err', error)
           const fleksbitError = error.error as FleksbitError;
           // Don't fire notification service
           if (this.isValidRequestForInterceptor(request.url, request.method)) {
             const errorMsg = error.error instanceof Blob ? 'Nema podataka za prikaz za navedeni datum.' : fleksbitError?.error?.message ?? 'Došlo je do pogreške. Molimo kontaktirajte administratora.';
-            console.log(error.error.text().message)
             this._notificationService.fireErrorNotification(errorMsg);
           }
           return throwError(fleksbitError?.error?.message ?? error.message);
