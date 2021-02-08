@@ -15,6 +15,7 @@ import { FileLikeObject, FileUploader } from 'ng2-file-upload';
 import { IResponseActiveLicence } from '../models/response/response-active-licence';
 import { environment } from 'src/environments/environment';
 import { ModalAoeKeyComponent } from '../modal-aoe-key/modal-aoe-key.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'mv-licence-overview',
@@ -45,8 +46,11 @@ export class LicenceOverviewComponent implements OnInit {
     private _licenceService: LicenceService,
     private _notificationService: NotificationService,
     private _modal: NgbModal,
-    private _spinner: NgxSpinnerService
-  ) { }
+    private _spinner: NgxSpinnerService,
+    private _router: Router
+  ) {
+    this._router.routeReuseStrategy.shouldReuseRoute = () => false;
+  }
   /* #endregion */
 
   /* #region  Methods */
@@ -223,7 +227,7 @@ export class LicenceOverviewComponent implements OnInit {
               this.uploader.clearQueue();
               this.inputVariable.nativeElement.value = "";
               this.handleSuccesResponse('Licenca je uspješno dodana.');
-              this.getLicences();
+              this._router.navigate(['/codebook/licence']);
             },
             err => {
               this._notificationService.fireErrorNotification(err);
@@ -238,8 +242,6 @@ export class LicenceOverviewComponent implements OnInit {
         this.uploader.clearQueue();
         this.inputVariable.nativeElement.value = "";
       });
-    // this.uploader.uploadItem;
-    // this.uploader.queue[0].remove();
   }
 
   /* #endregion */
