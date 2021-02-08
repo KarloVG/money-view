@@ -4,7 +4,8 @@ import {
   HttpParams,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { FileItem } from 'ng2-file-upload';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
@@ -13,6 +14,7 @@ import { environment } from 'src/environments/environment';
 import { IRequestLicence } from '../models/request/request-licence';
 import { IResponseActiveLicence } from '../models/response/response-active-licence';
 import { IResponseLicence } from '../models/response/response-licence';
+import { IResponseLicenceUpload } from '../models/response/response-licence-upload';
 
 @Injectable({
   providedIn: 'root',
@@ -107,6 +109,34 @@ export class LicenceService {
         })
       )
     );
+  }
+
+  uploadLicence(file: FileItem, key: string): Observable<IFleksbitResponse<IResponseLicenceUpload>> {
+    const url = this._appRoute.createAppRouteURL([this.CONTROLLER_NAME]);
+    const formData = new FormData();
+    formData.append('LicenseFile', file.file.rawFile);
+    formData.append('Key', key);
+    // file to small for this logic...
+    // file.inProgress = true;
+    return this._http.post<IFleksbitResponse<IResponseLicenceUpload>>(url.toString(), formData
+      // {
+      //   reportProgress: true,
+      //   observe: 'events'
+      // }
+    ).pipe(
+      // map(event => {
+      //   switch (event.type) {
+      //     case HttpEventType.UploadProgress:
+      //       file.progress = Math.round(event.loaded * 100 / event.total);
+      //       break;
+      //     case HttpEventType.Response:
+      //       return event;
+      //   }
+      // }),
+      catchError((error: HttpErrorResponse) => {
+        // file.inProgress = false;
+        return throwError('Slanje nije uspjelo');
+      }));
   }
 
   /* #endregion */

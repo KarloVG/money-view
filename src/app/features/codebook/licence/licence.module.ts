@@ -8,9 +8,10 @@ import { LicenceOverviewComponent } from './licence-overview/licence-overview.co
 import { ModalAoeLicenceComponent } from './modal-aoe-licence/modal-aoe-licence.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { JoyrideModule } from 'ngx-joyride';
+import { ModalAoeKeyComponent } from './modal-aoe-key/modal-aoe-key.component';
 
 @NgModule({
-  declarations: [LicenceOverviewComponent, ModalAoeLicenceComponent],
+  declarations: [LicenceOverviewComponent, ModalAoeLicenceComponent, ModalAoeKeyComponent],
   entryComponents: [ModalAoeLicenceComponent],
   imports: [
     CommonModule,

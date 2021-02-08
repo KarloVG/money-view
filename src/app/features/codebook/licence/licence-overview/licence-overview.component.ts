@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -13,6 +13,8 @@ import { IResponseLicence } from '../models/response/response-licence';
 import { LicenceService } from '../services/licence.service';
 import { FileLikeObject, FileUploader } from 'ng2-file-upload';
 import { IResponseActiveLicence } from '../models/response/response-active-licence';
+import { environment } from 'src/environments/environment';
+import { ModalAoeKeyComponent } from '../modal-aoe-key/modal-aoe-key.component';
 
 @Component({
   selector: 'mv-licence-overview',
@@ -22,6 +24,7 @@ import { IResponseActiveLicence } from '../models/response/response-active-licen
 export class LicenceOverviewComponent implements OnInit {
 
   /* #region  Variables */
+  @ViewChild("inputFile", { static: false }) inputVariable!: ElementRef;
   rows: IResponseLicence[] = [];
   loadingIndicator: boolean = true;
   currentEntryCount!: number;
@@ -31,9 +34,8 @@ export class LicenceOverviewComponent implements OnInit {
   isActiveRow: boolean = true;
   activeLicence!: IResponseActiveLicence;
   uploader!: FileUploader;
-  allowedMimeTypes: string[] = ['text/plain'];
-  URL = 'https://file.io/';
-  maxFileSize: number = 50 * 1024; // 50kB
+  allowedMimeTypes: string[] = [''];
+  maxFileSize: number = 8 * 1024; // 8 kB
   hasDropZoneOver: boolean = false;
   tourLicence: boolean = true;
   /* #endregion */
@@ -177,7 +179,6 @@ export class LicenceOverviewComponent implements OnInit {
 
   setUploader(): void {
     this.uploader = new FileUploader({
-      url: this.URL,
       isHTML5: true,
       maxFileSize: this.maxFileSize,
       allowedMimeType: this.allowedMimeTypes,
@@ -192,21 +193,53 @@ export class LicenceOverviewComponent implements OnInit {
     switch (filter.name) {
       case 'queueLimit':
         this._notificationService.fireErrorNotification("Moguće je poslati samo 1 datoteku");
+        this.inputVariable.nativeElement.value = "";
         break;
       case 'fileSize':
         this._notificationService.fireErrorNotification(`Datatoteka je premašila maksimalnu veličinu (${item.size} od dopuštenih ${this.maxFileSize})`);
+        this.inputVariable.nativeElement.value = "";
         break;
       case 'mimeType':
         this._notificationService.fireErrorNotification(`Tip datoteke "${item.type}" nije dopušten. Moguće je poslati samo .txt datoteku`);
+        this.inputVariable.nativeElement.value = "";
         break;
       default:
+        this.inputVariable.nativeElement.value = "";
         this._notificationService.fireErrorNotification('Dogodila se nepoznata greška. Kontaktirajte administratora');
     }
   }
 
   onSuccessItem() {
-    this.uploader.queue[0].remove();
-    this.handleSuccesResponse('Licenca je uspješno dodana.');
+    const modalRef = this._modal.open(ModalAoeKeyComponent, {
+      backdrop: 'static',
+      keyboard: false,
+      centered: true,
+    });
+    modalRef.result
+      .then((result: string) => {
+        if (result) {
+          this._licenceService.uploadLicence(this.uploader.queue[0], result).subscribe(
+            data => {
+              this.uploader.clearQueue();
+              this.inputVariable.nativeElement.value = "";
+              this.handleSuccesResponse('Licenca je uspješno dodana.');
+              this.getLicences();
+            },
+            err => {
+              this._notificationService.fireErrorNotification(err);
+              this.uploader.clearQueue();
+              this.inputVariable.nativeElement.value = "";
+            }
+          );
+        }
+      })
+      .catch((reason) => {
+        this.handleModalDismiss('Licenca nije dodana.');
+        this.uploader.clearQueue();
+        this.inputVariable.nativeElement.value = "";
+      });
+    // this.uploader.uploadItem;
+    // this.uploader.queue[0].remove();
   }
 
   /* #endregion */
