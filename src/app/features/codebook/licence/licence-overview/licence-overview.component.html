@@ -5,20 +5,25 @@
       <div class="card-header">
         <h5 class="f-20 f-w-600">Aktivna licenca</h5>
       </div>
-      <div class="d-flex flex-column justify-content-center ml-5"
-        *ngIf="activeLicence?.expirationDays !== 0; else noActiveLicence">
-        <p class="mb-0 f-18 f-w-600">Ključ aktivne licence:</p>
-        <p class="mb-0">
-          {{ activeLicence?.licenseIdentifier }}
-        </p>
+      <div class="card-body d-flex pb-3">
+        <div class="circle-icon">
+          <i class="material-icons md-48"> receipt_long </i>
+        </div>
+        <div class="d-flex flex-column justify-content-center ml-5"
+          *ngIf="activeLicence?.expirationDays !== 0; else noActiveLicence">
+          <p class="mb-0 f-18 f-w-600">Ključ aktivne licence:</p>
+          <p class="mb-0">
+            {{ activeLicence?.licenseIdentifier }}
+          </p>
+        </div>
+        <ng-template #noActiveLicence>
+          <div class="d-flex flex-column justify-content-center ml-5"></div>
+          <p class="f-16 f-w-600 mb-0 d-flex align-items-center">
+            Ne postoji aktivna licenca. Molimo unesite ključ licence kojeg ste
+            dobili kupnjom licence.
+          </p>
+        </ng-template>
       </div>
-      <ng-template #noActiveLicence>
-        <div class="d-flex flex-column justify-content-center ml-5"></div>
-        <p class="f-16 f-w-600 mb-0 d-flex align-items-center">
-          Ne postoji aktivna licenca. Molimo unesite ključ licence kojeg ste
-          dobili kupnjom licence.
-        </p>
-      </ng-template>
     </div>
   </div>
   <div class="col-lg-12 p-0 mt-5">

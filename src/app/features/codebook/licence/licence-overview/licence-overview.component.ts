@@ -49,11 +49,8 @@ export class LicenceOverviewComponent implements OnInit, AfterViewInit {
     private _notificationService: NotificationService,
     private _modal: NgbModal,
     private _spinner: NgxSpinnerService,
-    private appTour: AppTourService,
-    private _router: Router
-  ) {
-    this._router.routeReuseStrategy.shouldReuseRoute = () => false;
-  }
+    private appTour: AppTourService
+  ) { }
   /* #endregion */
 
   /* #region  Methods */
@@ -233,7 +230,7 @@ export class LicenceOverviewComponent implements OnInit, AfterViewInit {
               this.uploader.clearQueue();
               this.inputVariable.nativeElement.value = "";
               this.handleSuccesResponse('Licenca je uspješno dodana.');
-              this._router.navigate(['/codebook/licence']);
+              window.location.reload();
             },
             err => {
               this._notificationService.fireErrorNotification(err);
