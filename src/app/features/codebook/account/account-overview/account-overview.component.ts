@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
-import { JoyrideService } from 'ngx-joyride';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { EMPTY, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
 import { ConfirmationModalComponent } from 'src/app/shared/components/confirmation-modal/confirmation-modal.component';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { PageInfo } from 'src/app/shared/page-info';
+import { AppTourService } from 'src/app/shared/services/app-tour/app-tour.service';
 import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
 import { ModalAoeAccountComponent } from '../modal-aoe-account/modal-aoe-account.component';
 import { IResponseAccount } from '../models/response/response-account';
@@ -18,8 +17,9 @@ import { AccountService } from '../services/account.service';
   selector: 'mv-account-overview',
   templateUrl: './account-overview.component.html',
   styleUrls: ['./account-overview.component.scss'],
+  providers: [AppTourService]
 })
-export class AccountOverviewComponent implements OnInit {
+export class AccountOverviewComponent implements OnInit, AfterViewInit {
   /* #region  Variables */
   rows: IResponseAccount[] = [];
   loadingIndicator: boolean = true;
@@ -27,7 +27,7 @@ export class AccountOverviewComponent implements OnInit {
   desiredPageSize: number = 5;
   desiredPageOffset: number = 0;
   ColumnMode: ColumnMode = ColumnMode.force;
-  tourAccount: boolean = true;
+  tourName: string = 'account-tour'
   /* #endregion */
 
   /* #region  Constructor */
@@ -36,7 +36,7 @@ export class AccountOverviewComponent implements OnInit {
     private _accountService: AccountService,
     private _notificationService: NotificationService,
     private _spinner: NgxSpinnerService,
-    private joyrideService: JoyrideService
+    private appTour: AppTourService
   ) { }
   /* #endregion */
 
@@ -48,28 +48,16 @@ export class AccountOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //APP TOUR
-    const token = localStorage.getItem("tour-account");
-    if (token) {
-      this.tourAccount = JSON.parse(token);
-    }
-    if (this.tourAccount) {
-      this.joyrideService.startTour(
-        {
-          steps: ['step1'],
-          waitingTime: 1500,
-          showCounter: false,
-          themeColor: "#288ab5"
-        }
-      );
-    }
     this.getAccounts();
   }
 
-  //APP TOUR
-  showTour(): void {
-    this.tourAccount = false;
-    localStorage.setItem('tour-account', JSON.stringify(this.tourAccount));
+  ngAfterViewInit(): void {
+    //APP TOUR
+    this.appTour.isTourActive(this.tourName, false)
+  }
+  //APPTOUR
+  tour() {
+    this.appTour.showTour(this.tourName)
   }
 
   // Get all

@@ -19,6 +19,7 @@ import { AuthorizationGuardService } from './shared/services/authentication/auth
 import { AppTogglerModule } from './shared/components/app-toggler/app-toggler.module';
 import { httpInterceptorProviders } from './shared/interceptors';
 import { LicenceGuard } from './shared/services/authentication/licence.guard';
+import { JoyrideModule } from 'ngx-joyride';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,6 +34,7 @@ import { LicenceGuard } from './shared/services/authentication/licence.guard';
     AppTogglerModule,
     UserInfoModule,
     NotificationModule,
+    JoyrideModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),

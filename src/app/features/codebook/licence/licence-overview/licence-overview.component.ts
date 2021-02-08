@@ -1,4 +1,5 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+
+import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -13,16 +14,17 @@ import { IResponseLicence } from '../models/response/response-licence';
 import { LicenceService } from '../services/licence.service';
 import { FileLikeObject, FileUploader } from 'ng2-file-upload';
 import { IResponseActiveLicence } from '../models/response/response-active-licence';
-import { environment } from 'src/environments/environment';
 import { ModalAoeKeyComponent } from '../modal-aoe-key/modal-aoe-key.component';
 import { Router } from '@angular/router';
+import { AppTourService } from 'src/app/shared/services/app-tour/app-tour.service';
 
 @Component({
   selector: 'mv-licence-overview',
   templateUrl: './licence-overview.component.html',
   styleUrls: ['./licence-overview.component.scss'],
+  providers: [AppTourService]
 })
-export class LicenceOverviewComponent implements OnInit {
+export class LicenceOverviewComponent implements OnInit, AfterViewInit {
 
   /* #region  Variables */
   @ViewChild("inputFile", { static: false }) inputVariable!: ElementRef;
@@ -38,7 +40,7 @@ export class LicenceOverviewComponent implements OnInit {
   allowedMimeTypes: string[] = [''];
   maxFileSize: number = 8 * 1024; // 8 kB
   hasDropZoneOver: boolean = false;
-  tourLicence: boolean = true;
+  tourName: string = 'licence-tour';
   /* #endregion */
 
   /* #region  Constructor */
@@ -47,6 +49,7 @@ export class LicenceOverviewComponent implements OnInit {
     private _notificationService: NotificationService,
     private _modal: NgbModal,
     private _spinner: NgxSpinnerService,
+    private appTour: AppTourService,
     private _router: Router
   ) {
     this._router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -61,10 +64,13 @@ export class LicenceOverviewComponent implements OnInit {
     this.setUploader();
   }
 
-  //APP TOUR
-  showTour(): void {
-    this.tourLicence = false;
-    localStorage.setItem('tour-licence', JSON.stringify(this.tourLicence));
+  ngAfterViewInit(): void {
+    this.appTour.isTourActive(this.tourName, false, true)
+  }
+
+  // Show tour
+  tour() {
+    this.appTour.showTour(this.tourName)
   }
 
   public setPage(pageInfo: PageInfo): void {

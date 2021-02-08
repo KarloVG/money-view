@@ -1,5 +1,5 @@
 <div joyrideStep="step1" title="Dodavanje banki" text="Ovdje dodajte banke u kojima grupa ima otvorene račune."
-[doneTemplate]="done">
+  [doneTemplate]="done">
   <div class="col-lg-12 p-0 mt-3">
     <div class="d-flex justify-content-end">
       <button class="btn btn-outline-info d-flex align-items-center pr-1" (click)="addOrEditBank()" title="Dodaj banku">
@@ -59,7 +59,7 @@
   </div>
 </div>
 <ng-template #done>
-  <button (click)="showTour()" type="button" class="btn btn-outline-info d-flex justify-content-between">
+  <button (click)="tour()" type="button" class="btn btn-outline-info d-flex justify-content-between">
     U redu
   </button>
 </ng-template>

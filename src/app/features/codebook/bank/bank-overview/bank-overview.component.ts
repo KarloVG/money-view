@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode } from '@swimlane/ngx-datatable';
-import { JoyrideService } from 'ngx-joyride';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { EMPTY, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { BasicPaginatedResponse } from 'src/app/shared/basic-paginated-response';
 import { ConfirmationModalComponent } from 'src/app/shared/components/confirmation-modal/confirmation-modal.component';
 import { IFleksbitResponse } from 'src/app/shared/models/fleksbit-response';
 import { PageInfo } from 'src/app/shared/page-info';
+import { AppTourService } from 'src/app/shared/services/app-tour/app-tour.service';
 import { NotificationService } from 'src/app/shared/services/swal-notification/notification.service';
 import { ModalAoeBankComponent } from '../modal-aoe-bank/modal-aoe-bank.component';
 import { IResponseBank } from '../models/response/response-bank';
@@ -18,6 +17,7 @@ import { BankService } from '../services/bank.service';
   selector: 'mv-bank-overview',
   templateUrl: './bank-overview.component.html',
   styleUrls: ['./bank-overview.component.scss'],
+  providers: [AppTourService]
 })
 export class BankOverviewComponent implements OnInit {
   /* #region  Variables */
@@ -27,7 +27,7 @@ export class BankOverviewComponent implements OnInit {
   desiredPageSize: number = 5;
   desiredPageOffset: number = 0;
   ColumnMode: ColumnMode = ColumnMode.force;
-  tourBank: boolean = true;
+  tourName: string = 'bank-tour'
   /* #endregion */
 
   /* #region  Constructor */
@@ -36,7 +36,7 @@ export class BankOverviewComponent implements OnInit {
     private _bankService: BankService,
     private _notificationService: NotificationService,
     private _spinner: NgxSpinnerService,
-    private joyrideService: JoyrideService
+    private appTour: AppTourService
   ) { }
   /* #endregion */
 
@@ -48,28 +48,17 @@ export class BankOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //APP TOUR
-    const token = localStorage.getItem("tour-bank");
-    if (token) {
-      this.tourBank = JSON.parse(token);
-    }
-    if (this.tourBank) {
-      this.joyrideService.startTour(
-        {
-          steps: ['step1'],
-          waitingTime: 1500,
-          showCounter: false,
-          themeColor: "#288ab5"
-        }
-      );
-    }
     this.getBanks();
   }
 
+  ngAfterViewInit(): void {
+    //APP TOUR
+    this.appTour.isTourActive(this.tourName, false)
+  }
+
   //APP TOUR
-  showTour(): void {
-    this.tourBank = false;
-    localStorage.setItem('tour-bank', JSON.stringify(this.tourBank));
+  tour() {
+    this.appTour.showTour(this.tourName)
   }
 
   // Get all

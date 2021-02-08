@@ -1,9 +1,10 @@
-import {transition, trigger, useAnimation} from '@angular/animations';
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/router';
-import {fadeIn} from 'ng-animate';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {Subscription} from 'rxjs';
+import { transition, trigger, useAnimation } from '@angular/animations';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { fadeIn } from 'ng-animate';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Subscription } from 'rxjs';
+import { AppTourService } from './shared/services/app-tour/app-tour.service';
 
 @Component({
   selector: 'mv-root',
@@ -25,11 +26,13 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private appTour: AppTourService
   ) {
   }
 
   ngOnInit(): void {
+    this.appTour.tourActivity();
     this.subscriptions.add(
       this.router.events
         .subscribe(event => {
