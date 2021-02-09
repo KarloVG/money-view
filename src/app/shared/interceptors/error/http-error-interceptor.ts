@@ -58,6 +58,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     if (position > 0 && (method === 'POST' || method === 'PUT')) {
       let destination: string = requestUrl.substr(position + positionIndicator.length);
       for (let address of this.urlWithoutErrInterceptor) {
+        console.log('url', address, destination)
         if (new RegExp(address).test(destination)) {
           return false;
         }
