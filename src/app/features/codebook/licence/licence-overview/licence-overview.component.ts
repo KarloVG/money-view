@@ -157,6 +157,7 @@ export class LicenceOverviewComponent implements OnInit, AfterViewInit {
             )
             .subscribe((data) => {
               this.handleSuccesResponse('Licenca je obrisana');
+              this.reloadPageIncludingGuards();
             });
         }
       })
@@ -232,10 +233,7 @@ export class LicenceOverviewComponent implements OnInit, AfterViewInit {
               this.uploader.clearQueue();
               this.inputVariable.nativeElement.value = "";
               this.handleSuccesResponse('Licenca je uspješno dodana.');
-              // reload page with running guards
-              const queryParams = { reload: 1 };
-              this._router.navigate(this._aRoute.snapshot.url, { queryParams });
-              setTimeout(() => this._router.navigate(this._aRoute.snapshot.url), 200);
+              this.reloadPageIncludingGuards();
             }
           );
         }
@@ -245,6 +243,13 @@ export class LicenceOverviewComponent implements OnInit, AfterViewInit {
         this.uploader.clearQueue();
         this.inputVariable.nativeElement.value = "";
       });
+  }
+
+  // reload page with running guards
+  reloadPageIncludingGuards(): void {
+    const queryParams = { reload: 1 };
+    this._router.navigate(this._aRoute.snapshot.url, { queryParams });
+    setTimeout(() => this._router.navigate(this._aRoute.snapshot.url), 200);
   }
 
   /* #endregion */
