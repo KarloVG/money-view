@@ -30,6 +30,7 @@ export const codebookRoutes: Routes = [
   {
     path: 'licence',
     canActivate: [LicenceGuard],
+    runGuardsAndResolvers: 'always',
     loadChildren: () =>
       import('./licence/licence.module').then((m) => m.LicenceModule),
   },

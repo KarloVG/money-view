@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
-import { NavigationService } from 'src/app/layout/sidenav/services/navigation.service';
 import { ApiClientService } from '../api-client/api-client.service';
 import { NotificationService } from '../swal-notification/notification.service';
 
@@ -12,8 +11,7 @@ export class AuthorizationGuardService implements CanActivate {
   constructor(
     private _router: Router,
     private _apiClient: ApiClientService,
-    private _notificationService: NotificationService,
-    private _navService: NavigationService
+    private _notificationService: NotificationService
   ) { }
 
   canActivate(
@@ -27,7 +25,6 @@ export class AuthorizationGuardService implements CanActivate {
       return this._apiClient.userInfo().pipe(map(
         response => {
           if (response?.role === 'admin') {
-            this._navService.publishNavigationChange(true);
             // admin
             if (state.url === '/') {
               this._router.navigate(['/codebook/user-panel']);
@@ -35,7 +32,6 @@ export class AuthorizationGuardService implements CanActivate {
             }
             return true;
           } else if (response?.role === 'group-manager' || response?.role === 'firm-manager') {
-            this._navService.publishNavigationChange(false);
             //manager groupe ili firme
             if (state.url !== '/' && state.url !== '/user/login' && state.url !== '/user/logout') {
               this._router.navigate(['/']);
@@ -43,7 +39,6 @@ export class AuthorizationGuardService implements CanActivate {
             }
             return true;
           } else {
-            this._navService.publishNavigationChange(false);
             this._notificationService.fireErrorNotification("Ne možete pristupiti navedenoj stranici");
             return false;
           }

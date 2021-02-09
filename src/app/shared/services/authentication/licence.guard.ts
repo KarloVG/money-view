@@ -32,6 +32,7 @@ export class LicenceGuard implements CanActivate {
               return false;
             }
           } else {
+            this._navService.publishNavigationChange(true);
             return true;
           }
         }

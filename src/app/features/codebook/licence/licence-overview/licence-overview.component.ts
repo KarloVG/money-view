@@ -15,7 +15,7 @@ import { LicenceService } from '../services/licence.service';
 import { FileLikeObject, FileUploader } from 'ng2-file-upload';
 import { IResponseActiveLicence } from '../models/response/response-active-licence';
 import { ModalAoeKeyComponent } from '../modal-aoe-key/modal-aoe-key.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppTourService } from 'src/app/shared/services/app-tour/app-tour.service';
 
 @Component({
@@ -49,7 +49,9 @@ export class LicenceOverviewComponent implements OnInit, AfterViewInit {
     private _notificationService: NotificationService,
     private _modal: NgbModal,
     private _spinner: NgxSpinnerService,
-    private appTour: AppTourService
+    private appTour: AppTourService,
+    private _router: Router,
+    private _aRoute: ActivatedRoute
   ) { }
   /* #endregion */
 
@@ -230,12 +232,10 @@ export class LicenceOverviewComponent implements OnInit, AfterViewInit {
               this.uploader.clearQueue();
               this.inputVariable.nativeElement.value = "";
               this.handleSuccesResponse('Licenca je uspješno dodana.');
-              window.location.reload();
-            },
-            err => {
-              this._notificationService.fireErrorNotification(err);
-              this.uploader.clearQueue();
-              this.inputVariable.nativeElement.value = "";
+              // reload page with running guards
+              const queryParams = { reload: 1 };
+              this._router.navigate(this._aRoute.snapshot.url, { queryParams });
+              setTimeout(() => this._router.navigate(this._aRoute.snapshot.url), 200);
             }
           );
         }
