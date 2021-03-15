@@ -45,7 +45,7 @@ import { JoyrideModule } from 'ngx-joyride';
     localeId,
     baseHref,
     defaultDateParserFormatter,
-    httpInterceptorProviders
+    // httpInterceptorProviders
   ],
   bootstrap: [AppComponent],
 })
